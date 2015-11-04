@@ -1,0 +1,177 @@
+// -------------------------------------
+//
+//   Helpers -
+//   Extends, Functions, and Mixins
+//
+// -------------------------------------
+
+.form-control {
+    max-width: 100%;
+  }
+
+
+
+// -------------------------------------
+//   Extends
+// -------------------------------------
+.shad {
+  .box-shadow(0 2px 6px #999999);
+}
+
+.text-bold {
+  font-weight: bold;
+}
+.prim-link {
+  color: @brand-primary;
+  a, .title {
+    color: @brand-primary;
+  }
+  .title {
+    a {
+      color: @brand-primary;
+    }
+  }
+}
+
+
+.list-faq {
+  .list-item {
+    margin-bottom: 1.5em;
+  
+    [class^="icon-"], [class*=" icon-"] {
+      color: @brand-warning;
+    }
+  }
+}
+.list-item {
+  [class^="icon-"], [class*=" icon-"] {
+    font-size: 1.3em;
+    vertical-align: top;
+  }
+}
+
+.list-sm {
+  [class^="col-sm-"], [class*=" col-sm-"] {
+    //min-height: 160px;
+  }
+}
+
+.coret-right, .coret-bottom {
+  .psevdo;
+  background-image: url(../images/icons.png);
+  width: 6px;
+  height: 8px;
+  right: 6px;
+  top: 13px;
+}
+.coret-right { background-position: -57px -48px; }
+.coret-bottom { background-position: -67px -34px; width: 8px; }
+
+.text-dashed {
+  text-decoration: none;
+  border-bottom: 1px dashed;
+  &:hover, &:focus, a, a:hover, a:focus {
+    text-decoration: none;
+  }
+}
+.text-solid {
+    text-decoration: none;
+    border-bottom: 1px solid;
+    &:hover, &:focus, a, a:hover, a:focus {
+        text-decoration: none;
+    }
+}
+.link-dashed {
+  a, & { 
+    text-decoration: none;
+    border-bottom: 1px dashed;
+    &:hover, &:focus {
+      text-decoration: none;
+    }
+  }  
+}
+.link-muted {
+  a, a:hover, a:focus {
+    .text-muted;
+  }
+}
+.block-muted {
+  background-color: #e5e5e5;
+  h3{
+    margin-bottom: 17px;
+  }
+  h4{
+    font-size: 14px;
+  }
+}
+
+.ico-sprite {
+  .psevdo;
+  background-image: url(../images/icons.png);
+}
+
+.block-main {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+	hr {
+		color:  #ccc;
+	}
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+.block-gl {
+  padding: 15px;
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  
+  h3 {
+    margin-top: 0;
+    color: @black;
+  }
+}
+
+.hr-btm {
+  border-bottom: 1px solid #ccc;
+  margin: 0 15px 0 15px;
+}
+.brdr-left {
+  border-left: 3px solid #ccc;
+  padding-left: 15px;
+}
+.text-muted {
+  a, a:focus, a:hover { color: @gray-light; }
+}
+
+.bg-success {
+  background-image: url(../images/bg-success.png);
+}
+// -------------------------------------
+//   Functions
+// -------------------------------------
+.psevdo {
+  content: "";
+  position: absolute;
+  display: block;
+}
+.psevdo-absolute {
+  content: "";
+  position: absolute;
+  display: block;
+}
+.psevdo-relative {
+  content: "";
+  position: relative;
+  display: block;
+}
+
+// -------------------------------------
+//   Mixins
+// -------------------------------------
+// Border Radius
+.border-radius(@radius) {
+  -webkit-border-radius: @radius;
+     -moz-border-radius: @radius;
+          border-radius: @radius;
+}

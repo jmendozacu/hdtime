@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Komplizierte_CustomerCallbacks>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Komplizierte_CustomerCallbacks>
+    </modules>
+</config>

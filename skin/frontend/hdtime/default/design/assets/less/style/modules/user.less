@@ -1,0 +1,60 @@
+.user-login {
+  a {
+    color: @gray-light;
+    font-size: @font-size-base;
+  }
+}
+.user-nav {
+  li {
+    > a {
+      border-bottom: none;
+      padding: 6px 27px 5px 20px;
+      margin: 0;
+      &:hover, &:focus {
+        border-bottom: none;
+      }
+      span{
+        display: block;line-height: 1.1;
+        border-bottom: 1px solid #000;
+      }
+    }
+    &.active {
+      a { 
+        text-decoration: none !important;
+        padding: 6px 27px 6px 20px;
+        span{
+          border:none;
+        }
+      }
+    }
+  }
+  &.nav-tabs {
+    > li {
+      > a, a:hover, a:focus { 
+        border-bottom: none;
+        .sub {
+          right: 17px;
+          top:4px;
+          border:none;
+        }
+      }
+    }
+  }
+}
+td.cast {  
+  font-size: @font-size-base + 6;
+  .rub {
+    font-size: @font-size-base + 1;
+  }
+}
+th.cast, td.cast { text-align: right; white-space: nowrap; }
+.kol {
+  text-align: center;
+}
+.proc {
+  a {
+    .text-dashed;
+    .text-muted;
+  }
+}
+

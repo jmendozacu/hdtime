@@ -1,0 +1,58 @@
+// -------------------------------------
+//
+//   Typography -
+//   Fonts and Colors
+//
+// -------------------------------------
+
+@font-family-sans-serif:  Tahoma, "Helvetica Neue", Helvetica, Arial, sans-serif;
+@font-family-base:        @font-family-sans-serif;
+
+// -------------------------------------
+//   Headings
+// -------------------------------------
+
+h1 {
+  color: @text-color;
+  font-size: 20px;
+  font-weight: normal;
+  margin-bottom: 16px;
+}
+h2 {
+  color: @text-color;
+  font-weight: normal;
+  font-size: 16px;
+}
+h3, .h3 {
+    color: #555555;
+    font-size: 18px;
+    font-weight: normal;
+    margin-bottom: 15px;
+    margin-top: 20px;
+	a {
+	  text-decoration: underline;
+	}
+}
+h4 {
+  font-size: 15px;
+  &.title {
+	margin-bottom: 3px;
+	margin-top: 0;
+  }
+}
+h5 {
+  font-size: @font-size-base;
+  .text-muted;
+  font-weight: normal;
+}
+h6 {
+  border-bottom: 1px dotted #219AC7;
+  color: #219AC7;
+  cursor: pointer;
+  display: inline;
+  font-size: 16px;
+  font-weight: normal;
+}
+// -------------------------------------
+//   Utilities
+// -------------------------------------

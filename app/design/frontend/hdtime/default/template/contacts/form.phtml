@@ -1,0 +1,113 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div class="page-title">
+    <h1><?php echo Mage::helper('contacts')->__('Contact Us') ?></h1>
+</div>
+<div class="contacts-block">
+    <div class="shop-info">
+        <h2>Магазин на &laquo;Горбушке&raquo;</h2>
+        +7 (495) 662-49-47, <a href="mailto:shop_gorbushka@hdtime.ru">shop_gorbushka@hdtime.ru</a></div>
+    <div class="row contacts-row">
+        <div class="col-sm-5">
+            <div class="column-info">Адрес</div>
+            <p>ТВЦ &laquo;Горбушкин двор&raquo;, H1-026Москва, Багратионовский проезд, 7</p>
+        </div>
+        <div class="col-sm-5">
+            <div class="column-info">Время работы</div>
+            <p>Ежедневно с 10:00 до 21:00</p>
+        </div>
+    </div>
+    <div class="blue-ribbon">
+        <div class="row">В этом магазине вы можете посмотреть и послушать понравившуюся технику</div>
+    </div>
+    <div id="contacts_map" class="contacts_map">
+        <script charset="utf-8" type="text/javascript" src="//api-maps.yandex.ru/services/constructor/1.0/js/?sid=YktqQceiruwwRxhE82zIrAMudBIpMfLW&amp;height=690">// <![CDATA[
+            &nbsp;
+            // ]]></script>
+    </div>
+    <div class="white-stripe">
+        <div class="stripe-content">
+            <div class="shop-info">
+                <h2>Центральный офис</h2>
+                +7 (495) 662-49-47, <a href="mailto:info@hdtime.ru">info@hdtime.ru</a></div>
+            <div class="row contacts-row">
+                <div class="col-sm-5">
+                    <div class="column-info">Адрес</div>
+                    <p>Москва, Астафьевская улица, 12, корпус 1</p>
+                </div>
+                <div class="col-sm-5">
+                    <div class="column-info">Время работы</div>
+                    <p>Понедельник - пятница с 10:00 до 19:00</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<form action="<?php echo $this->getFormAction(); ?>" id="contactForm" method="post">
+    <div class="fieldset">
+        <h2 class="legend"><?php echo Mage::helper('contacts')->__('Contact Information') ?></h2>
+        <ul class="form-list">
+            <li class="fields">
+                <div class="field">
+                    <label for="name" class="required"><em>*</em><?php echo Mage::helper('contacts')->__('Name') ?></label>
+                    <div class="input-box">
+                        <input name="name" id="name" title="<?php echo Mage::helper('contacts')->__('Name') ?>" value="<?php echo $this->escapeHtml($this->helper('contacts')->getUserName()) ?>" class="input-text required-entry" type="text" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="email" class="required"><em>*</em><?php echo Mage::helper('contacts')->__('Email') ?></label>
+                    <div class="input-box">
+                        <input name="email" id="email" title="<?php echo Mage::helper('contacts')->__('Email') ?>" value="<?php echo $this->escapeHtml($this->helper('contacts')->getUserEmail()) ?>" class="input-text required-entry validate-email" type="text" />
+                    </div>
+                </div>
+            </li>
+            <li>
+                <label for="telephone"><?php echo Mage::helper('contacts')->__('Telephone') ?></label>
+                <div class="input-box">
+                    <input name="telephone" id="telephone" title="<?php echo Mage::helper('contacts')->__('Telephone') ?>" value="" class="input-text" type="text" />
+                </div>
+            </li>
+            <li class="wide">
+                <label for="comment" class="required"><em>*</em><?php echo Mage::helper('contacts')->__('Comment') ?></label>
+                <div class="input-box">
+                    <textarea name="comment" id="comment" title="<?php echo Mage::helper('contacts')->__('Comment') ?>" class="required-entry input-text" cols="5" rows="3"></textarea>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="buttons-set">
+        <p class="required"><?php echo Mage::helper('contacts')->__('* Required Fields') ?></p>
+        <input type="text" name="hideit" id="hideit" value="" style="display:none !important;" />
+        <button type="submit" title="<?php echo Mage::helper('contacts')->__('Submit') ?>" class="button"><span><span><?php echo Mage::helper('contacts')->__('Submit') ?></span></span></button>
+    </div>
+</form>
+<script type="text/javascript">
+//<![CDATA[
+    var contactForm = new VarienForm('contactForm', true);
+//]]>
+</script>

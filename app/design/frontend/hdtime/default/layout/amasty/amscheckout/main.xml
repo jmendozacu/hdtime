@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<layout>
+    <checkout_onepage_index translate="label">
+        <label>Singe Step Checkout</label>
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        
+        <reference name="head">
+            <action method="addItem"><type>js</type><name>prototype/window.js</name></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+            <!--<action method="addCss"><stylesheet>kmplzt/bootstrap/css/bootstrap.min.css</stylesheet></action>-->
+            <action method="addCss"><stylesheet>css/amasty/amscheckout/main.css</stylesheet></action>
+            <action method="addCss"><stylesheet>css/amasty/amscheckout/popup.css</stylesheet></action>
+            <action method="addCss"><stylesheet>css/amasty/amscheckout/cart.css</stylesheet></action>
+        </reference>
+         
+        <reference name="content">
+            <reference name="checkout.onepage">
+                
+                <block type="checkout/cart" name="checkout.cart" as="cart">
+                    <action method="setCartTemplate"><value>amasty/amscheckout/cart.phtml</value></action>
+                    <action method="setEmptyTemplate"><value>checkout/cart/noItems.phtml</value></action>
+                    <action method="chooseTemplate"/>
+                    <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>amasty/amscheckout/cart/item/default.phtml</template></action>
+                    <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>amasty/amscheckout/cart/item/default.phtml</template></action>
+                    <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>amasty/amscheckout/cart/item/default.phtml</template></action>
+                </block>
+
+                <action method="setTemplate"><template>amasty/amscheckout/onepage.phtml</template></action>
+                <reference name="checkout.onepage.login">
+                    <action method="setTemplate"><template>amasty/amscheckout/onepage/login.phtml</template></action>
+                </reference>
+                <reference name="checkout.onepage.billing">
+                    <action method="setTemplate"><template>amasty/amscheckout/onepage/billing.phtml</template></action>
+                </reference>
+                <reference name="checkout.onepage.shipping">
+                    <action method="setTemplate"><template>amasty/amscheckout/onepage/shipping.phtml</template></action>
+                </reference>
+                <reference name="checkout.onepage.shipping_method">
+                    <action method="setTemplate"><template>amasty/amscheckout/onepage/shipping_method.phtml</template></action>
+                    <reference name="checkout.onepage.shipping_method.available">
+                        <action method="setTemplate"><template>amasty/amscheckout/onepage/shipping_method/available.phtml</template></action>
+                    </reference>
+                </reference>
+                <reference name="checkout.onepage.payment">
+                    <action method="setTemplate"><template>amasty/amscheckout/onepage/payment.phtml</template></action>
+                    <reference name="checkout.payment.methods">
+                        <action method="setTemplate"><template>amasty/amscheckout/onepage/payment/info.phtml</template></action>
+                        
+                        <block type="checkout/onepage_payment_methods" name="amscheckout.payment.methods" as="methods" template="amasty/amscheckout/onepage/payment/methods.phtml">
+                        </block>
+                    </reference>
+                </reference>
+                
+                <reference name="checkout.onepage.review">
+                    <action method="setTemplate"><template>amasty/amscheckout/onepage/review.phtml</template></action>
+                    <block type="checkout/onepage_review_info" name="checkout.onepage.review.info" as="info" template="amasty/amscheckout/onepage/review/info.phtml" >
+                        <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>amasty/amscheckout/onepage/review/item.phtml</template></action>
+                        <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>amasty/amscheckout/onepage/review/item.phtml</template></action>
+                        <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>amasty/amscheckout/onepage/review/item.phtml</template></action>
+                        <block type="checkout/cart_totals" name="checkout.onepage.review.info.totals" as="totals" template="checkout/onepage/review/totals.phtml"/>
+                        <block type="core/text_list" name="checkout.onepage.review.info.items.before" as="items_before" translate="label">
+                            <label>Items Before</label>
+                        </block>
+                        <block type="core/text_list" name="checkout.onepage.review.info.items.after" as="items_after" translate="label">
+                            <label>Items After</label>
+                        </block>
+                        <block type="checkout/agreements" name="checkout.onepage.agreements" as="agreements" template="checkout/onepage/agreements.phtml"/>
+                        
+                    </block>
+
+                </reference>    
+                <block type="checkout/cart_coupon" name="checkout.cart.coupon" as="coupon" template="amasty/amscheckout/cart/coupon.phtml"/>
+            </reference>
+        </reference>                
+    </checkout_onepage_index>
+    
+    
+    <checkout_onepage_shippingmethod>
+        <reference name="root">
+            <action method="setTemplate"><template>amasty/amscheckout/onepage/shipping_method/available.phtml</template></action>
+        </reference>
+    </checkout_onepage_shippingmethod>
+    
+    <checkout_onepage_paymentmethod>
+        <reference name="root">
+            
+            <action method="setTemplate"><template>amasty/amscheckout/onepage/payment/methods.phtml</template></action>
+        </reference>
+    </checkout_onepage_paymentmethod>
+    
+    <checkout_onepage_review translate="label">
+        <reference name="root">
+            <action method="setTemplate"><template>amasty/amscheckout/onepage/review/info.phtml</template></action>
+            
+            <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>amasty/amscheckout/onepage/review/item.phtml</template></action>
+            <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>amasty/amscheckout/onepage/review/item.phtml</template></action>
+            <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>amasty/amscheckout/onepage/review/item.phtml</template></action>
+            
+            
+<block type="checkout/agreements" name="checkout.onepage.agreements" as="agreements" template="checkout/onepage/agreements.phtml"/>
+            <remove name="checkout.onepage.review.button"/>
+        </reference>
+    </checkout_onepage_review>
+    
+    <amscheckout_onepage_coupon translate="label">
+        <!-- Mage_Checkout -->
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <block type="checkout/cart_coupon" name="root" output="toHtml" template="amasty/amscheckout/cart/coupon.phtml">
+        </block>
+    </amscheckout_onepage_coupon>
+    
+    
+    <amscheckout_cart translate="label">
+        <block type="checkout/cart" name="root" output="toHtml" >
+            <action method="setCartTemplate"><value>amasty/amscheckout/cart.phtml</value></action>
+            <action method="setEmptyTemplate"><value>checkout/cart/noItems.phtml</value></action>
+            <action method="chooseTemplate"/>
+            <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>amasty/amscheckout/cart/item/default.phtml</template></action>
+            <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>amasty/amscheckout/cart/item/default.phtml</template></action>
+            <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>amasty/amscheckout/cart/item/default.phtml</template></action>
+        </block>
+    </amscheckout_cart>
+</layout>

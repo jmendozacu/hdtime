@@ -1,0 +1,582 @@
+<?php
+    $hlr = $this->helper("amscheckout");
+    
+    $_areas = $hlr->getAreas();
+    
+?>
+<script type="text/javascript" src="<?php echo $this->getJsUrl('varien/accordion.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/opcheckout.js') ?>"></script>
+<script>
+    var amContentWin = null
+    var billingForm = new VarienForm('amscheckout-onepage');
+    var amQtyClick = []
+    var amQtyClickTimeout = 2000;
+
+    function updateReview(){
+        ajaxUpdate('<?php print $hlr->getCartUrl();?>');
+    }
+
+    function reviewEvents(){
+
+        $$('[id="review-qty"]').each(function(input){
+
+            function inputQtyHandler(){
+                for(var ind in amQtyClick){
+                    var t = amQtyClick[ind];
+                    if (typeof(t) != 'function'){
+                        clearTimeout(t);
+                    }
+                }
+
+                if (this.getAttribute('prev_val') != this.value){
+                    updateReview();
+                    this.setAttribute('prev_val', this.value);
+                }
+            }
+
+            input.observe("blur", inputQtyHandler);
+
+            input.observe("keyup", function(){
+                amQtyClick.push(setTimeout(inputQtyHandler.bind(this), amQtyClickTimeout))
+            })
+        });
+    }
+
+    function cartEvents(){
+        $$('#update_cart_qty').each(function(input){
+            input.observe("click", function(){
+                $('update_cart_action').value = 'update_qty';
+                ajaxUpdate('<?php print $hlr->getCartUrl();?>', null);
+                return false;
+            })
+        })
+
+        $$('#empty_cart_button').each(function(input){
+            input.observe("click", function(){
+                $('update_cart_action').value = 'empty_cart';
+                ajaxUpdate('<?php print $hlr->getCartUrl();?>', null);
+                return false;
+            })
+        })
+
+        $$('[id="amcheckout-delete"]').each(function(input){
+            input.observe("click", function(){
+                $('delete_cart_id').value = this.getAttribute('data-id');
+                ajaxUpdate('<?php print $hlr->getDeleteUrl();?>', null);
+                return false;
+            })
+        })
+
+
+
+    }
+
+    function ajaxUpdate(url, after){
+
+        showLoading();
+
+        new Ajax.Request(url, {
+            method: 'post',
+            parameters: $('amscheckout-onepage').serialize(true),
+            onSuccess: function(response) {
+                var config = response.responseText.evalJSON();
+
+                if (config.html){
+                    if (config.html.shipping_method)
+                        $('checkout-shipping-method-load').update(config.html.shipping_method);
+
+                    if (config.html.payment_method)
+                        $('co-payment-form').update(config.html.payment_method);
+
+                    if (config.html.review){
+                        $('checkout-review-load').update(config.html.review);
+                        reviewEvents();
+                    }
+
+                    if (config.html.cart){
+                        $('amscheckout-cart').update(config.html.cart);
+                        cartEvents();
+                    }
+                }
+
+                if (typeof(after) == 'function'){
+                    after(config)
+                }
+
+                hideLoading(); 
+            },
+            on403: function(){
+                document.location.reload();
+            } 
+        });
+    }
+
+    function updateCheckout(){
+        ajaxUpdate('<?php print $hlr->getUpdateUrl();?>');
+    }
+
+    function createAccountClick(){
+        var ch = $('billing:create_account');
+        var hidden = $('billing:method');
+        $$(".amscheckout-password").each(function(div){
+            if (ch.checked) { 
+                div.show()
+                hidden.value = 'register';
+            }
+            else {
+                div.hide();
+                hidden.value = 'guest';
+            } 
+        });
+    }
+
+    function amShowDialog(){
+          if (!amContentWin){
+            amContentWin = new Window({
+                draggable: true,
+                resizable: true,
+                closable: true,
+                className: "amschekcout",
+                windowClassName: "popup-window",
+                title: '<?php print $this->__("Log in")?>',
+                width: 320,
+                height: 185,
+                zIndex: 5000,
+                recenterAuto: true,
+                hideEffect: Element.hide,
+                showEffect: Element.show,
+                id: 'viewDialog'
+            });
+            amContentWin.setContent('amscheckout-login');
+
+        }
+        amContentWin.showCenter(true);
+        loginForm = new VarienForm('login-form', true);
+    }
+
+    function showLoading(){
+        $("amscheckout-processing").show();
+        $("amscheckout-loading").show();
+        $$("#shopping-cart-table input,#shopping-cart-table button").each(function(input){
+            input.setAttribute("readonly", "readonly");
+        })
+
+        $$("#shopping-cart-table button").each(function(input){
+            input.setAttribute("disabled", "disabled");
+        })
+
+    }
+
+    function hideLoading(){
+        $("amscheckout-processing").hide();
+        $("amscheckout-loading").hide();
+
+
+        $$("#shopping-cart-table input,#shopping-cart-table button").each(function(input){
+            input.removeAttribute("readonly");
+            input.removeAttribute("disabled");
+        })
+    }
+
+    function initUpdatableFieldEvent(field){
+            $$("[id='" + field + "']").each(function(input){
+                var event = input.tagName.toLowerCase() == 'select' ? 'change' : 'blur';
+
+                input.observe(event, function(){
+                    if (this.tagName.toLowerCase() == 'input'){
+                          if (this.getAttribute('prev_val') != this.value){
+                              updateCheckout();
+                              this.setAttribute('prev_val', this.value);
+                          }
+
+                    } else {
+                        updateCheckout();
+                    }
+                });
+
+
+                $('billing:use_for_shipping_yes').observe("click", updateCheckout);
+                $('billing:use_for_shipping_no').observe("click", updateCheckout);
+
+                if (input.tagName.toLowerCase() == 'input'){
+                    input.setAttribute('prev_val', input.value);
+                }
+            })
+            
+        }
+</script>
+<?php
+    if (!$this->isCustomerLoggedIn()){
+?>
+    <div style="display: none;">
+        <?php echo $this->getChildHtml("login") ?>
+    </div>
+<?php } ?>
+
+<form method="post" id="amscheckout-onepage">
+    <?php if ($hlr->isShoppingCartOnCheckout() && !$hlr->isMergeShoppingCartCheckout()) {?>
+    <div id="amscheckout-cart">
+        <?php echo $this->getChildHtml("cart") ?>
+    </div>
+    <?php }?>
+
+    <div class="amscheckout-main">
+        <div id="amscheckout-processing" class="amscheckout-processing" style="display: none;">&nbsp;</div>
+        <div id="amscheckout-loading" class="amscheckout-loading" style="display: none;">&nbsp;</div>
+
+        <div class="amscheckout-header">
+            <div class="lane"><?php echo $this->__("Express checkout lane")?></div>
+            <div class="lane2"><?php echo $this->__("Please enter your details below to complete your purchase")?></div>
+            <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+            <?php
+                if (!$this->isCustomerLoggedIn()){
+            ?>
+            <div>
+                <a class="am_login_link"  href="#" onclick="amShowDialog(); return false;"><?php echo $this->__('Already registered? Click here to login.');?></a>
+            </div>
+            <?php
+                }
+            ?>
+        </div>
+
+        <div class="separator">
+            <div></div>
+            <div></div>
+        </div>
+
+        <input type="hidden" name="form_key" value="<?php print Mage::getSingleton('core/session')->getFormKey();?>"/>
+
+        <?php if (!$this->isCustomerLoggedIn()): ?>
+            <div class="form-inline" style="padding: 20px 15px;">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">Email</div>
+                        <input class="form-control" type="text" name="billing[email]" id="billing:email" placeholder="Enter email">
+                    </div>
+                </div>
+                <div class="form-group" style="display: none;" id="password-field-set">
+                    <label class="sr-only" for="billing:password">Password</label>
+                    <input type="password" class="form-control" id="billing:password" placeholder="Password">
+                </div>
+                <button type="submit" id="email-check-btn" class="btn btn-default"><?php echo $this->__('Далее') ?></button>
+            </div>
+
+            <div class="form-inline" style="padding: 0 0 20px 15px;">
+                <a class="btn btn-default" style="display: none;" id="forgot-password-btn" href="<?php echo Mage::getUrl('customer/account/forgotpassword') ?>">Забыл пароль</a>
+                <a class="btn btn-default" style="display: none;" id="dont-want-put-password-btn" href="#">Не хочу вводить пароль</a>
+            </div>
+        <?php endif; ?>
+
+        <div class="amscheckout" id="amscheckout-all-fields" style="<?php if (!$this->isCustomerLoggedIn()): ?>display: none;<?php endif; ?>">
+
+        <?php
+            switch($hlr->getLayoutType()){
+                case "three_columns":
+        ?>
+        <table class="three-columns">
+            <tr>
+                <td class="first-column">
+                    <div>
+                        <div class="area-header"><div class="amscheckout-img billing-img">&nbsp;</div><?php echo $this->htmlEscape($_areas['billing']['area_label'])?></div>
+                        <div class="billing">
+                            <?php echo $this->getChildHtml("billing") ?>
+                        </div>
+                    </div><br/>
+                    <div id="shipping_area">
+                        <div class="area-header"><div class="amscheckout-img shipping-img">&nbsp;</div><?php echo $this->htmlEscape($_areas['shipping']['area_label'])?></div>
+                        <div class="shipping">
+                            <?php echo $this->getChildHtml("shipping") ?>
+                        </div>
+                    </div>
+                </td>
+                <td class="second-column">
+                    <div>
+                        <div class="area-header"><div class="amscheckout-img shipping-method-img">&nbsp;</div><?php echo $this->htmlEscape($_areas['shipping_method']['area_label'])?></div>
+                        <div class="shipping-method">
+                            <?php echo $this->getChildHtml("shipping_method") ?>
+                        </div>
+                    </div><br/>
+                    <div>
+                        <div class="area-header"><div class="amscheckout-img payment-method-img">&nbsp;</div><?php echo $this->htmlEscape($_areas['payment']['area_label'])?></div>
+                        <div class="payment-method">
+                            <?php echo $this->getChildHtml("payment") ?>
+                        </div>
+
+                    </div><br/>
+                    <div>
+                        <div class="area-header"><div class="amscheckout-img coupon-img">&nbsp;</div><?php echo $this->__("Discount Codes")?></div>
+                        <div class="coupon"  id="checkout-coupon">
+                            <?php echo $this->getChildHtml("coupon") ?>
+                        </div>
+                    </div>
+                </td>
+                <td class="third-column">
+                    <div>
+                        <div class="area-header"><div class="amscheckout-img review-img">&nbsp;</div><?php echo $this->htmlEscape($_areas['review']['area_label'])?></div>
+                        <?php echo $this->getChildHtml("review") ?>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <?php
+        
+                break;
+                case "two_columns":
+        ?>
+        <table class="two-columns">
+            <tr>
+                <td class="first-column">
+                    <div>
+                        <div class="area-header"><div class="amscheckout-img billing-img">&nbsp;</div><?php echo $this->htmlEscape($_areas['billing']['area_label'])?></div>
+                        <div class="billing">
+                            <?php echo $this->getChildHtml("billing") ?>
+                        </div>
+                    </div><br/>
+                    <div id="shipping_area">
+                        <div class="area-header"><div class="amscheckout-img shipping-img">&nbsp;</div><?php echo $this->htmlEscape($_areas['shipping']['area_label'])?></div>
+                        <div class="shipping">
+                            <?php echo $this->getChildHtml("shipping") ?>
+                        </div>
+                    </div>
+                </td>
+                <td class="second-column">
+                    <div>
+                        <div class="area-header"><div class="amscheckout-img shipping-method-img">&nbsp;</div><?php echo $this->htmlEscape($_areas['shipping_method']['area_label'])?></div>
+                        <div class="shipping-method">
+                            <?php echo $this->getChildHtml("shipping_method") ?>
+                        </div>
+                    </div><br/>
+                    <div>
+                        <div class="area-header"><div class="amscheckout-img payment-method-img">&nbsp;</div><?php echo $this->htmlEscape($_areas['payment']['area_label'])?></div>
+                        <div class="payment-method">
+                            <?php echo $this->getChildHtml("payment") ?>
+                        </div>
+
+                    </div><br/>
+                    <div>
+                        <div class="area-header"><div class="amscheckout-img coupon-img">&nbsp;</div><?php echo $this->__("Discount Codes")?></div>
+                        <div class="coupon"  id="checkout-coupon">
+                            <?php echo $this->getChildHtml("coupon") ?>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="area-header"><div class="amscheckout-img review-img">&nbsp;</div><?php echo $this->htmlEscape($_areas['review']['area_label'])?></div>
+                        <?php echo $this->getChildHtml("review") ?>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <?php
+                break;
+                case "one_column":
+        ?>
+        <table class="one-columns">
+            <tr>
+                <td class="first-column">
+                    <div>
+                        <div class="area-header"><div class="amscheckout-img billing-img">&nbsp;</div><?php echo $this->htmlEscape($_areas['billing']['area_label'])?></div>
+                        <div class="billing">
+                            <?php echo $this->getChildHtml("billing") ?>
+                        </div>
+                    </div><br/>
+                    <div id="shipping_area">
+                        <div class="area-header"><div class="amscheckout-img shipping-img">&nbsp;</div><?php echo $this->htmlEscape($_areas['shipping']['area_label'])?></div>
+                        <div class="shipping">
+                            <?php echo $this->getChildHtml("shipping") ?>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="area-header"><div class="amscheckout-img shipping-method-img">&nbsp;</div><?php echo $this->htmlEscape($_areas['shipping_method']['area_label'])?></div>
+                        <div class="shipping-method">
+                            <?php echo $this->getChildHtml("shipping_method") ?>
+                        </div>
+                    </div><br/>
+                    <div>
+                        <div class="area-header"><div class="amscheckout-img payment-method-img">&nbsp;</div><?php echo $this->htmlEscape($_areas['payment']['area_label'])?></div>
+                        <div class="payment-method">
+                            <?php echo $this->getChildHtml("payment") ?>
+                        </div>
+
+                    </div><br/>
+                    <div>
+                        <div class="area-header"><div class="amscheckout-img coupon-img">&nbsp;</div><?php echo $this->__("Discount Codes")?></div>
+                        <div class="coupon"  id="checkout-coupon">
+                            <?php echo $this->getChildHtml("coupon") ?>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="area-header"><div class="amscheckout-img review-img">&nbsp;</div><?php echo $this->htmlEscape($_areas['review']['area_label'])?></div>
+                        <?php echo $this->getChildHtml("review") ?>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <?php
+                break;
+            }
+        ?>
+        </div>
+
+    </div>
+</form>
+<script>  
+        var amscheckoutForm = new VarienForm('amscheckout-onepage');
+        
+        $('billing:use_for_shipping_yes').observe("click", function(){
+            $('shipping_area').hide();
+        });
+
+        $('billing:use_for_shipping_no').observe("click", function(){
+            $('shipping_area').show();
+        });
+
+        $('shipping:same_as_billing').observe("click", function(){
+            $('billing:use_for_shipping_yes').click();
+        });
+
+        discountForm.submit = function (isRemove) {
+            if (isRemove) {
+                 $('coupon_code').removeClassName('required-entry');
+                 $('remove-coupone').value = "1";
+             } else {
+                 $('coupon_code').addClassName('required-entry');
+                 $('remove-coupone').value = "0";
+             }
+             
+            ajaxUpdate('<?php print $hlr->getCouponUrl();?>', function(config){
+                if (config.html && config.html.coupon){
+                    if (config.html.coupon.success){
+                        $('checkout-coupon').update(config.html.coupon.output);
+                        alert(config.html.coupon.success);
+                    } else if (config.html.coupon.error){
+                        alert(config.html.coupon.error);
+                    }
+                }
+            });
+        }
+        
+        function completeCheckout(){
+            if (amscheckoutForm.validator.validate()){
+                showLoading();
+                new Ajax.Request('<?php print $hlr->getCheckoutUrl();?>', {
+                    method: 'post',
+                    parameters: $('amscheckout-onepage').serialize(true),
+                    onSuccess: function(response) {
+
+                        var config = response.responseText.evalJSON();
+
+                        if (config.redirect_url){
+                            document.location.href = config.redirect_url;
+                        }
+                        else if (config.status == "ok"){
+                            document.location.href = '<?php print $hlr->getSuccessUrl();?>'
+                        } else {
+                            alert(config.errors);
+                        }
+
+                        hideLoading(); 
+
+                    },
+                    on403: function(){
+                        document.location.reload();
+                    }
+                })
+            }
+
+        }
+
+        <?php
+        if ($hlr->useBilling4Shipping()){
+        ?>
+            $('shipping_area').hide();
+        <?php
+            } else {
+        ?>
+            $('shipping_area').show();
+        <?php
+            }
+        ?>
+            
+        <?php
+            if (!$hlr->isAllowGuestCheckout()){
+        ?>
+            $('billing:create_account').click();
+            
+            $('billing:create_account').up('.amscheckout-row').hide();
+            
+            
+        <?php
+            }
+        ?>
+        if (payment.initWhatIsCvvListeners)
+            payment.initWhatIsCvvListeners();
+        
+        
+        if ($('billing:create_account')){
+            $('billing:create_account').observe('click', createAccountClick);
+            createAccountClick();
+        }
+        
+        
+        
+        <?php 
+        foreach($hlr->getBillingUpdatable() as $id){
+        ?>
+            initUpdatableFieldEvent('<?php print $id;?>')
+        <?php
+        }
+        ?>
+            
+        <?php 
+        foreach($hlr->getShippingUpdatable() as $id){
+        ?>
+            initUpdatableFieldEvent('<?php print $id;?>')
+        <?php
+        }
+        ?>
+        
+        reviewEvents();
+        cartEvents();
+
+
+
+        $('email-check-btn').observe('click', function(event) {
+            event.preventDefault();
+            showLoading();
+
+            if ($('billing:password').value !== "") {
+                $('login-email').value = $('billing:email').value;
+                $('login-password').value = $('billing:password').value;
+                loginForm.submit();
+            } else {
+                new Ajax.Request('<?php echo Mage::getUrl('amscheckout/onepage/checkpassword') ?>', {
+                    method: 'post',
+                    parameters: {email: $('billing:email').value},
+                    onSuccess: function(response) {
+                        var data = response.responseText.evalJSON();
+                        hideLoading();
+                        if (data.success) {
+                            $('amscheckout-all-fields').hide();
+                            $('password-field-set').show();
+                            $('forgot-password-btn').show();
+                            $('dont-want-put-password-btn').show();
+                        } else {
+                            $('password-field-set').hide();
+                            $('forgot-password-btn').hide();
+                            $('dont-want-put-password-btn').hide();
+                            $('amscheckout-all-fields').show();
+                        }
+                    }
+                });
+            }
+        });
+
+        $('dont-want-put-password-btn').observe('click', function(event) {
+            event.preventDefault();
+            $('password-field-set').hide();
+            $('amscheckout-all-fields').show();
+        });
+
+        
+</script>
+

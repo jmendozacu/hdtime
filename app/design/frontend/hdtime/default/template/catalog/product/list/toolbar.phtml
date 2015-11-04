@@ -1,0 +1,74 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Product list toolbar
+ *
+ * @see Mage_Catalog_Block_Product_List_Toolbar
+ */
+?>
+<?php if($this->getCollection()->getSize()): ?>
+    <div class="exposed-filters exp-top">
+        <div class="row">
+
+            <div class="col-md-7 col-sm-12">
+                <div class="row">
+                    <?php if( $this->isExpanded() ): ?>
+                    <div class="col-sm-3">
+                        <?php if( $this->isEnabledViewSwitcher() ): ?>
+                        <div class="exp-filtr">
+                            <?php $_modes = $this->getModes(); ?>
+                            <?php if($_modes && count($_modes)>1): ?>
+                            <span class="exp-title">Вид</span>
+                            <?php $i = 0; ?>
+                            <?php foreach ($this->getModes() as $_code=>$_label): ?>
+                                <a class="exposed-link <?php if($this->isModeActive($_code)): ?> active <?php endif; ?>" href="<?php echo $this->getModeUrl($_code) ?>">
+                                    <span class="glyphicon <?php echo ($i != 0) ? 'glyphicon-th-list' : 'glyphicon-th' ?>"></span>
+                                </a>
+                                <?php $i++; ?>
+                            <?php endforeach; ?>
+                            <?php endif; ?>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                    <?php endif; ?>
+                    <div class="col-sm-9">
+                        <div class="sorted exp-filtr">
+                            Сортировать по
+                            <?php foreach($this->getAvailableOrders() as $_key=>$_order): ?>
+                                <a class="sorted-link <?php if($this->isOrderCurrent($_key)): ?> active<?php endif; ?>" href="<?php echo $this->getOrderUrl($_key, 'asc') ?>"><?php echo $this->__($_order) ?></a>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 col-sm-12">
+                <?php echo $this->getPagerHtml() ?>
+            </div>
+        </div>
+    </div>
+<?php endif ?>

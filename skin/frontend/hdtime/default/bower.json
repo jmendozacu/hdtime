@@ -1,0 +1,21 @@
+{
+  "name": "hdtime",
+  "version": "0.0.0",
+  "authors": [
+    "Webcomm <contact@webcomm.com.au>",
+    "Komplizierte Ltd.",
+    "Dmitry Schegolihin <d.shegolihin@gmail.com>"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3",
+    "font-awesome": "~4"
+  }
+}

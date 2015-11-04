@@ -1,0 +1,28 @@
+<div class="callback">
+    <div class="fieldset">
+        <ul class="form-list">
+            <li class="fields">
+                <div class="field">
+                    <label for="name" class="required"><?php echo Mage::helper('contacts')->__('Name') ?></label>
+                    <div class="input-box">
+                        <input name="name" id="name" title="<?php echo Mage::helper('contacts')->__('Name') ?>" value="<?php echo $this->escapeHtml($this->helper('contacts')->getUserName()) ?>" class="input-text" type="text" />
+                    </div>
+                </div>
+            </li>
+            <li>
+                <label for="telephone" class="required"><?php echo Mage::helper('contacts')->__('Telephone') ?></label>
+                <div class="input-box">
+                    <input name="telephone" id="telephone" title="<?php echo Mage::helper('contacts')->__('Telephone') ?>" value="" class="input-text" type="text" />
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="buttons-set">
+        <button type="button" title="<?php echo Mage::helper('contacts')->__('Submit') ?>" class="btn btn-info"><?php echo Mage::helper('contacts')->__('Позвонить') ?></button>
+    </div>
+</div>
+<script type="text/javascript">
+    //<![CDATA[
+    var contactForm = new VarienForm('callbacktForm', true);
+    //]]>
+</script>

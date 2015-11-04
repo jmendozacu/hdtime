@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Sea Lab LLC.
+ * Yandex Market Language Export package Pro version
+ *
+ * @category   Mygento
+ * @package    Mygento_ExportYMLPro
+ * @copyright  Copyright © 2012 Sea Lab Ltd.
+ */
+-->
+<config>
+    <modules>
+        <Mygento_ExportYMLPro>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Mygento_ExportYMLPro>
+    </modules>
+</config>

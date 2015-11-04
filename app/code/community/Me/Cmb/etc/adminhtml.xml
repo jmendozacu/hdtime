@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Me
+ * @package   Me_Cmb
+ * @author    Attila Sági <sagi.attila@aion.hu>
+ * @copyright 2015 Magevolve Ltd. (http://magevolve.com)
+ * @license   http://magevolve.com/terms-and-conditions Magevolve License
+ * @link      http://magevolve.com
+ */
+-->
+<config>
+    <menu>
+        <customer>
+            <children>
+                <cmb translate="title" module="me_cmb">
+                    <title>Заказ в один клик</title>
+                    <action>adminhtml/cmb</action>
+                    <sort_order>200</sort_order>
+                </cmb>
+            </children>
+        </customer>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <customer>
+                        <children>
+                            <cmb translate="title">
+                                <title>Manage Callbacks</title>
+                                <sort_order>200</sort_order>
+                                <children>
+                                    <save translate="title">
+                                        <title>Save Callback</title>
+                                        <sort_order>0</sort_order>
+                                    </save>
+                                    <delete translate="title">
+                                        <title>Delete Callback</title>
+                                        <sort_order>10</sort_order>
+                                    </delete>
+                                </children>
+                            </cmb>
+                        </children>
+                    </customer>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <cmb translate="title" module="me_cmb">
+                                        <title>Magevolve Request Callback Extension</title>
+                                    </cmb>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

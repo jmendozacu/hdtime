@@ -1,0 +1,82 @@
+<?xml version="1.0"?>   
+<layout version="1.0.1">  
+    <customer_account_login>
+        <reference name="customer_form_login">
+            <action method="setTemplate">
+                <template>occheckout/customer/form/login.phtml</template>
+            </action>
+            <block type="persistent/form_remember" name="persistent.remember.me" template="persistent/remember_me.phtml" />
+            <block type="core/template" name="persistent.remember.me.tooltip" template="persistent/remember_me_tooltip.phtml" />
+        </reference>
+    </customer_account_login>
+    <catalog_product_view>
+        <reference name="product.info.addtocart">         
+            <action method="setTemplate">
+                <template>occheckout/catalog/product/view/addtocart.phtml</template>
+            </action>      
+        </reference>
+    </catalog_product_view>
+    <default translate="label" module="page">
+        <reference type="page/html_head" name="head" as="head"> 
+            <!--action method="addJs">
+                <script>jquery/jquery.colorbox-min.js</script>
+            </action-->
+            <action method="addCss">
+                <stylesheet>css/colorbox.css</stylesheet>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <script>css/occheckout.css</script>
+            </action> 
+        </reference>
+    </default>
+    <occheckout_index_occheckout>   
+        <reference name="root">   
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>  
+        </reference> 
+        <reference type="page/html_head" name="head" as="head"> 
+            <action method="addItem">
+                <type>skin_js</type>
+                <script>js/occheckout.js</script>
+            </action> 
+        </reference>
+        <remove name="header"/>
+        <remove name="footer"/>
+        <reference name="content"> 
+            <block type="occheckout/checkout_onepage_billing" name='opceckout_billing' template="occheckout/index.phtml">
+                <block type="occheckout/updatecart" name="updatecart" as="updatecartajax" output="toHtml" template="occheckout/updatecart.phtml"/>
+                <block type="checkout/onepage_billing" name="checkout.onepage.billing" as="billing" template="occheckout/onepage/billing.phtml"/>
+                <block type="checkout/onepage_shipping" name="checkout.onepage.shipping" as="shipping" template="occheckout/onepage/shipping.phtml"/>
+                             
+                <block type="checkout/onepage_shipping_method" name="checkout.onepage.shipping_method" as="shipping_method" template="occheckout/onepage/shipping_method.phtml">
+                    <block type="checkout/onepage_shipping_method_available" name="checkout.onepage.shipping_method.available" as="available" template="occheckout/onepage/shipping_method/available.phtml"/>
+                    <block type="checkout/onepage_shipping_method_additional" name="checkout.onepage.shipping_method.additional" as="additional" template="occheckout/onepage/shipping_method/additional.phtml"/>
+                </block>
+                <block type="checkout/onepage_payment" name="checkout.onepage.payment" as="payment" template="occheckout/onepage/payment.phtml">
+                    <block type="checkout/cart_totals" name="checkout.cart.totals" as="totals" template="checkout/cart/totals.phtml"/>
+                    <block type="checkout/onepage_payment_methods" name="checkout.payment.methods" as="methods" template="occheckout/onepage/payment/methods.phtml">
+                        <action method="setMethodFormTemplate">
+                            <method>purchaseorder</method>
+                            <template>payment/form/purchaseorder.phtml</template>
+                        </action>
+                    </block>
+                </block>           
+            </block>
+        </reference>   
+    </occheckout_index_occheckout>
+    
+    <occheckout_oneclick_success translate="label">
+        <label>One Page Checkout Success</label>
+        <reference name="root">   
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>   
+        </reference> 
+        <reference name="content">
+            <block type="checkout/onepage_success" name="checkout.success" template="occheckout/success.phtml"/>
+        </reference>
+    </occheckout_oneclick_success>
+</layout>   
+	

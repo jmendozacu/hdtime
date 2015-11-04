@@ -1,0 +1,121 @@
+<?php
+/**
+ * Class Me_Cmb_Block_Request
+ *
+ * @category  Me
+ * @package   Me_Cmb
+ * @author    Attila Sági <sagi.attila@aion.hu>
+ * @copyright 2015 Magevolve Ltd. (http://magevolve.com)
+ * @license   http://magevolve.com/terms-and-conditions Magevolve License
+ * @link      http://magevolve.com
+ */
+?>
+<?php
+/**
+ * @see $this Me_Cmb_Block_Request
+ */
+?>
+<?php $cmbHelper = Mage::helper('me_cmb'); ?>
+<?php if ($cmbHelper->isEnabled()) : ?>
+
+
+        <?php if ($messsage = $cmbHelper->getBlockMessage()) : ?>
+            <div id="me-cmb-subtitle" class="block-subtitle callbacks_message">
+                <span><?php echo $messsage ?></span>
+            </div>
+        <?php endif; ?>
+        <form action="#" id="cmb-validate-detail">
+            <div id="me-cmb-content" class="block-content">
+                <p id="me-cmb-response" class="success-msg callbacks_message" style="display: none;"></p>
+                <input type="hidden" name="form_key" value="<?php echo $this->getFormKey() ?>"/>
+                <ul class="form-list">
+                    <li class="fields">
+                        <label for="cmb_full_name" class="required"><em>*</em><?php echo $cmbHelper->__('Full Name:') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="cmb_full_name" id="cmb_full_name" title="<?php echo $this->__('Full Name') ?>" class="input-text required-entry" value="<?php echo $this->getCustomerName() ?>" />
+                        </div>
+                    </li>
+                    <li class="fields">
+                        <label for="cmb_telephone" class="required"><em>*</em><?php echo $cmbHelper->__('Telephone:') ?></label>
+                        <div class="input-box">
+                            <input type="text" name="cmb_telephone" id="cmb_telephone" title="<?php echo $this->__('Telephone') ?>" class="input-text required-entry"/>
+                        </div>
+                    </li>
+                    <?php if ($cmbHelper->getShowDate()) : ?>
+					
+					<input type="hidden" name="cmb_call_date" id="cmb_call_date" value="" />
+                    <!--li class="fields">
+                        <label for="cmb_call_date" <?php if ($cmbHelper->getDateIsMandatory()) : ?>class="required"<?php endif; ?>><?php if ($cmbHelper->getDateIsMandatory()) : ?><em>*</em><?php endif; ?><?php echo $cmbHelper->__('Select Date:') ?></label>
+                        <div class="input-box">
+                            <img title="<?php echo $cmbHelper->__('Select Date') ?>" id="cmb_call_date_trig" class="v-middle" alt="<?php echo $cmbHelper->__('Select Date') ?>" src="<?php echo $this->getSkinUrl("images/calendar.gif"); ?> "/>
+                            <input type="text" class="input-text datetime-picker <?php if ($cmbHelper->getDateIsMandatory()) : ?>required-entry<?php endif; ?>" value="" id="cmb_call_date" name="cmb_call_date" />
+                        </div>
+                    </li-->
+                    <?php endif; ?>
+                    <?php if ($cmbHelper->getShowPredefinedTimes()) : ?>
+                        <?php $predefinedTimes = $this->getPredefinedTimes(); ?>
+                        <?php if (count($predefinedTimes)) : ?>
+                            <li class="fields">
+                                <label for="cmb_predefined"><?php echo $cmbHelper->__('Time:') ?></label>
+                                <div class="input-box">
+                                    <select id="cmb_predefined" class="validate-select" name="cmb_predefined">
+                                        <?php foreach($predefinedTimes as $predefined) : ?>
+                                            <?php $value = $this->htmlEscape($predefined['predefined']); ?>
+                                            <option value="<?php echo $value ?>"><?php echo $value ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </li>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </ul>
+                <div class="actions">
+                    <button type="submit" title="<?php echo $cmbHelper->__('Request Callback') ?>" class="button">
+                        <span><span><?php echo $this->__('Request Callback') ?></span></span></button>
+                </div>
+            </div>
+        </form>
+        <script type="text/javascript">
+            //<![CDATA[
+            var cmbFormDetail = new VarienForm('cmb-validate-detail');
+            var options = {
+                blockId: 'me-cmb',
+                blockSubtitleId: 'me-cmb-subtitle',
+                blockResponseId: 'me-cmb-response',
+                ajaxUrl: '<?php echo $this->getAjaxUrl() ?>',
+                delayTime: <?php echo $cmbHelper->getSuccessDelay(); ?>
+            };
+            var CmbRequest = new CmbRequest('cmb-validate-detail', cmbFormDetail, options);
+
+            <?php if ($cmbHelper->getShowDate()) : ?>
+                var calendarSetupObject = {
+                    inputField: "cmb_call_date",
+                    ifFormat: "<?php echo $this->getDateFormat() ?>",
+                    showsTime: false,
+                    button: "cmb_call_date_trig",
+                    align: "Br",
+                    singleClick: true,
+                    disableFunc: function (date) {
+                        var now = new Date();
+                        if (date.getFullYear() < now.getFullYear()) {
+                            return true;
+                        }
+                        if (date.getFullYear() == now.getFullYear()) {
+                            if (date.getMonth() < now.getMonth()) {
+                                return true;
+                            }
+                        }
+                        if (date.getMonth() == now.getMonth()) {
+                            if (date.getDate() < now.getDate() && date.getFullYear() <= now.getFullYear()) {
+                                return true;
+                            }
+                        }
+                    }
+                };
+                calendarSetupObject.range = [<?php echo date('Y'); ?>, <?php echo date('Y', strtotime('+1 year')); ?>];
+                Calendar.setup(calendarSetupObject);
+            <?php endif; ?>
+            //]]>
+        </script>
+
+<?php endif; ?>

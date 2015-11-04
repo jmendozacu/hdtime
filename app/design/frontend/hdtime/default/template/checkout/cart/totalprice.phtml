@@ -1,0 +1,9 @@
+
+                                    <a href="<?php echo Mage::getUrl('checkout/onepage') ?>" class="link-bin">
+                                        <span class="link-kol"><?php echo Mage::helper('checkout/cart')->getItemsCount() ?></span>
+                                    </a>
+
+<div class="bin-summ">
+    <?php echo Mage::helper('checkout')->formatPrice($this->getSubtotal()) ?>
+    <!-- <span class="rub">i</span> -->
+</div>

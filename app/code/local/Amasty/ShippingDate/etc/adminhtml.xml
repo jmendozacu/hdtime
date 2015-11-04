@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Amasty_ShippingDate extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category   	Amasty
+ * @package		Amasty_ShippingDate
+ * @copyright  	Copyright (c) 2014
+ * @license		http://opensource.org/licenses/mit-license.php MIT License
+ */
+-->
+<config>
+	<acl>
+		<resources>
+			<admin>
+				<children>
+					<system>
+						<children>
+                            <amscheckout_adminsetting>
+                                <children>
+                                    <weekend translate="title" module="shippingdate">
+                                        <title>Weekends</title>
+                                    </weekend>
+                                </children>
+                            </amscheckout_adminsetting>
+						</children>
+					</system>
+				</children>
+			</admin>
+		</resources>
+	</acl>
+    <menu>
+        <system>
+            <children>
+                <amscheckout_adminsetting>
+                    <children>
+                        <weekend translate="title" module="shippingdate">
+                            <title>Weekends</title>
+                            <action>adminhtml/shippingdate_weekend</action>
+                            <sort_order>0</sort_order>
+                        </weekend>
+                    </children>
+                </amscheckout_adminsetting>
+            </children>
+        </system>
+    </menu>
+</config>

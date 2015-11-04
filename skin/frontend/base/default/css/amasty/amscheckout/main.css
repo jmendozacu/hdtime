@@ -1,0 +1,429 @@
+.amscheckout-main{
+    border: 2px solid #48C27C;
+    border-radius: 2px;
+    background-color: #FFF;
+    overflow: hidden;
+    position: relative;
+}
+
+.amscheckout table{
+    width: 100%;
+    /*background-color: greenyellow;*/
+    table-layout: fixed;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.amscheckout-row{
+    display: inline-table;
+    padding-top: 10px;
+}
+
+.amscheckout .three-columns .first-column,
+.amscheckout .three-columns .second-column,
+.amscheckout .three-columns .third-column
+{
+    width: 33%;
+}
+
+.amscheckout .two-columns .first-column,
+.amscheckout .two-columns .second-column{
+    width: 50%;
+}
+
+.amscheckout .one-columns .first-column{
+    width: 100%;
+}
+
+.amscheckout-row>div{
+    padding: 0px 3px;
+}
+
+.amscheckout .billing,
+.amscheckout .shipping,
+.amscheckout .shipping-method,
+.amscheckout .payment-method,
+.amscheckout .coupon
+{
+    padding: 0px 10px;
+}
+
+.amscheckout .form-list label,
+.amscheckout .amscheckout-label{
+    /*font-size: 11px;*/
+    color: #000;
+    font-weight: normal;
+}
+
+.amscheckout .amscheckout-label-radio{
+    font-size: 12px;
+}
+
+
+.amscheckout .form-list label.required em,
+.amscheckout .amscheckout-label em{
+    color: #48C27C;
+}
+
+.amscheckout .amscheckout-label em{
+    padding-left: 3px;
+}
+
+.amscheckout-login input.input-text,
+.amscheckout input.input-text,
+.amscheckout select{
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.amscheckout-login input.input-text,
+.amscheckout input.input-text{
+    padding: 0;
+    width: 100%;
+    height: 25px;
+    border-radius: 4px;
+    text-indent: 3px;
+}
+
+.amscheckout select{
+    padding: 0;
+    width: 100%;
+    height: 27px;
+    border-radius: 4px;    
+}
+
+.amscheckout-control-checkbox,
+.amscheckout-control-radio{
+    display: inline;
+    float: left;
+}
+
+.amscheckout-control-checkbox{
+    padding-right: 3px;
+}
+
+.amscheckout .input-address{
+    margin-top: 3px;
+}
+
+.amscheckout .area-header{
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.amscheckout .second-column{
+    border: 0px;
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+    border-style: dashed;
+}
+
+.amscheckout{
+    padding: 20px 0px;
+}
+
+.amscheckout .shipping-method dt{
+    font-weight: bold;
+}
+
+.amscheckout .shipping-method dd,
+.amscheckout .shipping-method dt,
+.amscheckout .payment-method dt{
+    padding-top: 7px;
+}
+
+.amscheckout .btn-checkout{
+    width: 100%;
+}
+
+
+.amscheckout-header{
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 20px 15px;
+}
+
+.amscheckout-header .lane{
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.amscheckout-header .lane2{
+    font-size: 12px;
+}
+
+.amscheckout-main a,
+.amscheckout-main a:active,
+.amscheckout-main a:hover,
+.amscheckout-login a,
+.amscheckout-login a:active,
+.amscheckout-login a:hover{
+    color: #48c27c;
+}
+
+.separator{
+    padding: 0px 15px;
+    margin-left: -1px;
+}
+
+.separator div{
+    border: 0px;
+    border-top: 1px solid grey;
+    padding-top: 1px;
+    border-style: dashed;
+}
+
+.amscheckout-img{
+    height: 34px;
+    width: 51px;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.billing-img{
+    background-image: url('../../../images/amasty/amscheckout/billing.png');
+}
+
+.shipping-img{
+    background-image: url('../../../images/amasty/amscheckout/shipping.png');
+}
+
+.shipping-method-img{
+    background-image: url('../../../images/amasty/amscheckout/shipping_method.png');
+}
+
+.payment-method-img{
+    background-image: url('../../../images/amasty/amscheckout/payment_method.png');
+}
+
+.review-img{
+    background-image: url('../../../images/amasty/amscheckout/review.png');
+}
+
+.coupon-img{
+    background-image: url('../../../images/amasty/amscheckout/coupon.png');
+}
+
+.amscheckout select:focus,
+.amscheckout-login input[type="text"]:focus,
+.amscheckout input[type="text"]:focus{
+    outline: none;
+    box-shadow: 0px 0px 5px #48C27C;
+    border:1px solid #48C27C;
+    background: #FFF;
+}
+
+
+.amscheckout select:hover,
+.amscheckout-login input[type="text"]:hover,
+.amscheckout input[type="text"]:hover{
+    border: 1px solid #999;
+    background: #FFF;
+}
+
+.amscheckout select:focus:hover,
+.amscheckout-login input[type="text"]:focus:hover,
+.amscheckout input[type="text"]:focus:hover{
+    outline: none;
+    box-shadow: 0px 0px 5px #48C27C;
+    border:1px solid #48C27C;
+    background: #FFF;
+}
+
+.amscheckout-dologin,
+.amscheckout-submit,
+.amscheckout-apply{
+    overflow: visible;
+    width: auto;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    background: rgba(0, 0, 0, 0);
+    cursor: pointer;
+}
+
+.amscheckout-dologin span,
+.amscheckout-submit span,
+.amscheckout-apply span{
+    
+    text-align: center;
+    white-space: nowrap;
+    display: block;
+}
+
+.amscheckout-dologin:active span,
+.amscheckout-submit:active span,
+.amscheckout-apply:active span
+{
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #f26222;
+    -webkit-box-shadow: 0 3px 3px rgba(255,255,255,.8), inset 0 3px 4px rgba(193,66,29,.6);
+    -moz-box-shadow: 0 3px 3px rgba(255,255,255,.8), inset 0 3px 4px rgba(193,66,29,.6);
+    box-shadow: 0 3px 3px rgba(255,255,255,.8), inset 0 3px 4px rgba(193,66,29,.6);
+    border: solid 1px #d2604d;
+    background-image: -webkit-linear-gradient(top, #c24f1b, #f26222);
+    background-image: -moz-linear-gradient(top, #c24f1b, #f26222);
+    background-image: -o-linear-gradient(top, #c24f1b, #f26222);
+    background-image: linear-gradient(to bottom, #c24f1b, #f26222);
+}
+
+							
+
+.amscheckout-dologin:hover span,
+.amscheckout-submit:hover span,
+.amscheckout-apply:hover span
+{
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #f26222;
+    -webkit-box-shadow: 0 3px 3px rgba(0,0,0,.25), inset 0 0 3px rgba(255,255,255,.89);
+    -moz-box-shadow: 0 3px 3px rgba(0,0,0,.25), inset 0 0 3px rgba(255,255,255,.89);
+    box-shadow: 0 3px 3px rgba(0,0,0,.25), inset 0 0 3px rgba(255,255,255,.89);
+    border: solid 1px #d0541d;
+    background-image: -webkit-linear-gradient(bottom, rgba(194,79,27,.25), rgba(242,98,34,.25));
+    background-image: -moz-linear-gradient(bottom, rgba(194,79,27,.25), rgba(242,98,34,.25));
+    background-image: -o-linear-gradient(bottom, rgba(194,79,27,.25), rgba(242,98,34,.25));
+    background-image: linear-gradient(to top, rgba(194,79,27,.25), rgba(242,98,34,.25));
+}
+
+							
+
+.amscheckout-dologin span,
+.amscheckout-submit span,
+.amscheckout-apply span
+{
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #f26222;
+    -webkit-box-shadow: 0 3px 3px rgba(0,0,0,.25), inset 0 0 3px rgba(255,255,255,.89);
+    -moz-box-shadow: 0 3px 3px rgba(0,0,0,.25), inset 0 0 3px rgba(255,255,255,.89);
+    box-shadow: 0 3px 3px rgba(0,0,0,.25), inset 0 0 3px rgba(255,255,255,.89);
+    border: solid 1px #d0541d;
+    background-image: -webkit-linear-gradient(bottom, #c24f1b, #f26222);
+    background-image: -moz-linear-gradient(bottom, #c24f1b, #f26222);
+    background-image: -o-linear-gradient(bottom, #c24f1b, #f26222);
+    background-image: linear-gradient(to top, #c24f1b, #f26222);
+}
+
+.amscheckout-dologin span span,
+.amscheckout-submit span span,
+.amscheckout-apply span span {
+    font-weight: bold;
+    color: #FFF;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
+
+.amscheckout-dologin span,
+.amscheckout-submit span{
+    line-height: 30px;
+}
+
+.amscheckout-dologin{
+    width: 100%;
+    
+}
+
+.amscheckout-apply span{
+    line-height: 20px;
+}
+
+.order-review-button{
+    clear: both;
+    padding: 0px 10px;
+}
+
+.order-review-button button{
+    width: 100%;
+    
+}
+
+.coupon-buttons{
+    padding-top: 10px;
+    text-align: right;
+}
+
+.coupon-buttons button{
+    width: 70px;
+}
+
+.coupon-code{
+    padding: 5px 0px;
+    display: block;
+}
+
+.amscheckout-processing{
+    background-image: url('../../../images/amasty/amscheckout/processing.gif');
+    width: 66px;
+    height: 66px;
+    
+    margin: 0 auto;
+    position: relative;
+    margin-bottom: -76px;
+    float: right;
+    top: 10px;
+    right: 10px;
+}
+
+.amscheckout-loading{
+    background-color: #E9E9EC;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    
+    -moz-opacity: 0.4;
+    -khtml-opacity: 0.4;
+    opacity: 0.4;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha"(Opacity=40);
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=40);
+    filter:alpha(opacity=40);
+}
+
+.amscheckout-data-table{
+    width: 100%;
+}
+
+.amscheckout .order-review{
+    padding: 0px 10px;
+}
+
+
+.amscheckout-data-table tr td,
+.amscheckout-data-table tr th{
+    border: 0px;
+    border-bottom: 1px solid grey;
+    border-style: dashed;
+    padding: 7px 0px;
+    vertical-align: middle;
+    
+}
+
+.amscheckout-data-table tr th{
+    font-weight: bold;
+    padding: 0px 3px;
+}
+
+.amscheckout-submit-button{
+    padding-top: 20px;
+}
+
+.amscheckout-item{
+    line-height: 30px;
+}
+
+.amscheckout .amscheckout-item .input-qty{
+    margin: 0 3px;
+    width: 35px;
+}
+
+.amscheckout .product-name{
+    line-height: 16px;
+}
+
+.amscheckout-data-table tfoot td:first-child{
+    padding-right: 3px;
+}

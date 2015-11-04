@@ -1,0 +1,4 @@
+<?php echo $this->getChildHtml('shipping.date')?>
+<?php if (!$this->getQuote()->isVirtual()): ?>
+    <?php echo $this->helper('giftmessage/message')->getInline('onepage_checkout', $this->getQuote(), $this->getDontDisplayContainer()) ?>
+<?php endif; ?>

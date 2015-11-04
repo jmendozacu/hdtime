@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Unicode Systems
+ * @category   Uni
+ * @package    Uni_Occheckout
+ * @copyright  Copyright (c) 2010-2011 Unicode Systems. (http://www.unicodesystems.in)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<config>
+    <tabs>
+        <unicode_extensionsv translate="label" module="occheckout">
+            <label>Unicode Systems Extensions</label>
+            <sort_order>102</sort_order>
+        </unicode_extensionsv>
+    </tabs>
+    <sections>
+        <occheckout  translate="label" module="occheckout">                    
+            <label>One click checkout </label>
+            <tab>unicode_extensionsv</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>0</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>            
+            <groups>
+                <configuration translate="label"> 
+                    <label>Configuration</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>0</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <occheckout_status translate="label">
+                            <label>Enable one click checkout</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </occheckout_status>
+                    </fields>
+                </configuration>
+            </groups>
+        </occheckout>
+    </sections>
+</config>

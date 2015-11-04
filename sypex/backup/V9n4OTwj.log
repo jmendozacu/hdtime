@@ -1,0 +1,48 @@
+2015.09.23 19:40:57	1	Начало импорта БД `hd_sypex_2`
+2015.09.23 19:40:57	1	Файл: hd_17.09.2015.sql
+2015.09.23 19:40:57	1	Установлена кодировка соединения: `utf8`
+2015.09.23 19:40:57	1	Импорт таблицы `admin_assert`
+2015.09.23 19:40:57	1	Импорт таблицы `admin_role`
+2015.09.23 19:40:57	1	Импорт таблицы `admin_rule`
+2015.09.23 19:40:57	1	Импорт таблицы `admin_user`
+2015.09.23 19:40:57	1	Импорт таблицы `adminnotification_inbox`
+2015.09.23 19:40:57	1	Импорт таблицы `am_scheckout_area`
+2015.09.23 19:40:57	1	Импорт таблицы `am_scheckout_area_store`
+2015.09.23 19:40:57	1	Импорт таблицы `am_scheckout_block`
+2015.09.23 19:40:57	1	Импорт таблицы `am_scheckout_config`
+2015.09.23 19:40:57	1	Импорт таблицы `am_scheckout_country`
+2015.09.23 19:40:57	1	Импорт таблицы `am_scheckout_field`
+2015.09.23 19:40:57	1	Импорт таблицы `am_scheckout_field_store`
+2015.09.23 19:40:57	1	Импорт таблицы `am_scheckout_location`
+2015.09.23 19:40:57	1	Импорт таблицы `amasty_amconf_attribute`
+2015.09.23 19:40:57	1	Импорт таблицы `amasty_amconf_product_attribute`
+2015.09.23 19:40:57	1	Импорт таблицы `api2_acl_attribute`
+2015.09.23 19:40:57	1	Импорт таблицы `api2_acl_role`
+2015.09.23 19:40:58	1	Импорт таблицы `api2_acl_rule`
+2015.09.23 19:40:58	1	Импорт таблицы `api2_acl_user`
+2015.09.23 19:40:58	1	Импорт таблицы `api_assert`
+2015.09.23 19:40:58	1	Импорт таблицы `api_role`
+2015.09.23 19:40:58	1	Импорт таблицы `api_rule`
+2015.09.23 19:40:58	1	Импорт таблицы `api_session`
+2015.09.23 19:40:58	1	Импорт таблицы `api_user`
+2015.09.23 19:40:58	1	Импорт таблицы `authorlogin_customer`
+2015.09.23 19:40:58	1	Импорт таблицы `aw_blog`
+2015.09.23 19:40:58	1	Импорт таблицы `aw_blog_cat`
+2015.09.23 19:40:58	1	Импорт таблицы `aw_blog_cat_store`
+2015.09.23 19:40:58	1	Импорт таблицы `aw_blog_comment`
+2015.09.23 19:40:58	1	Импорт таблицы `aw_blog_post_cat`
+2015.09.23 19:40:58	1	Импорт таблицы `aw_blog_store`
+2015.09.23 19:40:58	1	Импорт таблицы `aw_blog_tags`
+2015.09.23 19:40:58	1	Импорт таблицы `bannerpro`
+2015.09.23 19:40:58	1	Импорт таблицы `bannerpro_store`
+2015.09.23 19:40:58	1	Импорт таблицы `captcha_log`
+2015.09.23 19:40:58	1	Импорт таблицы `catalog_category_anc_categs_index_idx`
+2015.09.23 19:40:58	1	Импорт таблицы `catalog_category_anc_categs_index_tmp`
+2015.09.23 19:40:58	1	Импорт таблицы `catalog_category_anc_products_index_idx`
+2015.09.23 19:40:58	1	Импорт таблицы `catalog_category_anc_products_index_tmp`
+2015.09.23 19:40:58	1	Импорт таблицы `catalog_category_entity`
+2015.09.23 19:40:58	1	Импорт таблицы `catalog_category_entity_datetime`
+2015.09.23 19:40:58	1	Импорт таблицы `catalog_category_entity_decimal`
+2015.09.23 19:40:58	1	Импорт таблицы `catalog_category_entity_int`
+2015.09.23 19:40:58	1	Импорт таблицы `catalog_category_entity_text`
+2015.09.23 19:40:58	4	MySQL Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'\' at line 14 (/var/www/html/sypex/index.php:1587)

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_retailrocket_index>
+        <reference name="head">
+
+        </reference>
+        <reference name="content">
+            <block type="komplizierte_retailrocket/adminhtml_retailrocket" name="retailrocket.grid_container"/>
+        </reference>
+    </adminhtml_retailrocket_index>
+
+
+</layout>

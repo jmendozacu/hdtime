@@ -1,0 +1,54 @@
+<?php
+$_product    = $this->getProduct();
+$_attributes = Mage::helper('core')->decorateArray($this->getAllowAttributes());
+?>
+<?php if ($_product->isSaleable() && count($_attributes)):?>
+    <dl>
+    <?php foreach($_attributes as $_attribute): ?>
+        <dt><label class="required"><em>*</em><?php echo $_attribute->getLabel() ?></label></dt>
+
+            <div class="input-box">
+				<?php $configs = $this->getRegularConfig()?>
+				<?php foreach($configs['attributes'] as $config):?>
+					<?php foreach($config['options'] as $value):?>
+                        <dd<?php if ($_attribute->decoratedIsLast){?> class="last"<?php }?>>
+                        <label class="label-radio-configurable" id="<?php echo (float)$value['price'] + (float) $_product->getPrice();?>">
+						<input type="radio" name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]"
+								id="attribute<?php echo $_attribute->getAttributeId() ?>"
+								class="validate-custom-configurable"
+								value="<?php echo $value['id']?>"/>
+							<?php echo $value['label']?> (+ $<?php printf("%.2f", $value['price'])?>)
+						</label>
+					<?php endforeach;?>
+				<?php endforeach;?>
+                 </dd>
+              </div>
+
+    <?php endforeach; ?>
+    </dl>
+<?php endif;?>
+    <script type="text/javascript">
+        var spConfig = new Product.Config(<?php echo $this->getJsonConfig() ?>);
+		document.observe("dom:loaded", function() {
+			var customValidation = false;
+			var priceFormat = <?php echo $this->helper('tax')->getPriceFormat(); ?>;
+			$$('.validate-custom-configurable').each(function(el){
+				el.observe('click',function(event){
+					//console.log(el.parentNode);
+					$$('span .price').each(function(elmn){
+						elmn.update(formatCurrency(parseFloat(el.parentNode.id), priceFormat)).innerHTML;
+					});
+				});
+			});
+			Validation.addAllThese([
+				['validate-custom-configurable', 'This is a required field.', function(v) {
+					$$('.validate-custom-configurable').each(function(el){
+						if (el.checked) {
+							customValidation = true;
+						}
+					});
+					return customValidation;
+				}]
+			]);
+		});
+    </script>

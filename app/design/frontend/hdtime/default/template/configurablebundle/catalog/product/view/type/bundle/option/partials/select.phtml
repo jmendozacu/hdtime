@@ -1,0 +1,21 @@
+<?php $data = $this->getData(); ?>
+
+ <?php $tierPriceHtml = ''; ?>
+
+<dt class="option-<?php echo $data['option_id'] ?>-attribute-<?php echo $data['attribute']['attribute_id'] ?>">
+    <div class="required title"><?php echo $data['attribute']['label'] ?></div>
+</dt>
+<dd class="option-<?php echo $data['option_id'] ?>-attribute-<?php echo $data['attribute']['attribute_id'] ?>">
+    <span id="bundle-option-<?php echo $data['option_id'] ?>-tier-prices"> <?php echo $tierPriceHtml; ?></span>
+    <div class="input-box">
+        <select name="select_super_attribute[<?php echo $data['option_id'] ?>][<?php echo $data['attribute']['attribute_id'] ?>]" onChange="fillNextAttribute(this, <?php echo $data['option_id'] ?>, <?php echo $data['attribute']['attribute_id'] ?>)" class="super-attribute-select">
+            <option><?php echo $this->__('Choose an Option...') ?></option>
+
+            <?php if($data['attribute_order'] === 0) : ?>
+                <?php foreach($data['attribute']['values'] as $key => $attributeValue) : ?>
+                    <option value="<?php echo $attributeValue['value_index'] ?>"><?php echo $attributeValue['store_label'] ?></option>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </select>
+    </div>
+</dd>

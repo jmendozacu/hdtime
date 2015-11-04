@@ -1,0 +1,54 @@
+<?php
+$var = Mage::registry('license_msg');
+if($var==null){
+
+?>	
+<h4 class="icon-head head-edit-form fieldset-legend">Upload File</h4>
+<div id="messages">
+    <ul class="messages">
+        <li class="notice-msg">
+            <ul>
+                <li><?php echo $this->__('Your server PHP settings not allow you to run script more than %s sec. at a time.', $this->getMaxExecutionTime())?></li>
+                <li><?php echo $this->__('Your server PHP settings allow you to upload files not more than %s at a time. Please modify post_max_size (currently is %s) and upload_max_filesize (currently is %s) values in php.ini if you want to upload larger files.', $this->getDataMaxSize(), $this->getPostMaxSize(), $this->getUploadMaxSize())?></li>
+            </ul>
+        </li>
+        <li class="notice-msg">
+            <ul>
+                <li><?php echo $this->__('Make sure that data encoding in the file is consistent and saved in CSV (comma separated only) with supported encodings (UTF-8 or ANSI).')?></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<form action="<?php echo  Mage::helper("adminhtml")->getUrl("importproduct/adminhtml_Importproducts/uploadProfile/");?>" method="post" enctype="multipart/form-data">
+
+		<legend>Upload File</legend>
+		<fieldset>
+			<table height="80">
+			<tr><td><label for="file_1">Select your CSV(Comma delimited) file :</label></td>
+			<td>
+			<input type="file" class="required-entry required-entry" id="file_1" name="file_1"  />
+			<input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey(); ?>"  />
+			</td></tr>
+			<tr><td></td>
+			<td>							
+			<button style="" onclick="return valid(true)" class="scalable save" type="submit" title="Run Profile in Popup" ><span>Upload File</span></button>
+			</td></tr>
+			</table>							
+		</fieldset>
+</form>
+
+<script>
+
+		function valid()
+		{
+			var name=document.getElementById('file_1').value;
+			if(name==""){
+				alert("Please upload the file first.");
+				return false;
+			}
+		}
+</script>		
+<?php 
+}else{
+}
+ //echo $this->getRunButtonHtml() ?><br/>

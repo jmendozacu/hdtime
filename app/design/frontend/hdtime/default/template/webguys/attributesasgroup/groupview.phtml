@@ -1,0 +1,137 @@
+<?php
+$_helper = $this->helper('catalog/output');
+$_product = $this->getProduct()
+?>
+<?php if ($_additionalgroup = $this->getAdditionalData()): ?>
+    <div class="row">
+        <div class="col-sm-12">
+            <!--h2><?php echo $this->__('Additional Information') ?></h2-->
+
+            <div class="row">
+                <?php if ($_product->isConfigurable()||$_product->getTypeId() === 'bundle') { ?>
+                    <div class="col-sm-12">
+                    <?php $i = 0;
+                    foreach ($_additionalgroup as $_additional): $i++; ?>
+                        <div class="attributes_group">
+                            <h4><?php echo $this->__($_additional['title']) ?></h4>
+                            <?php foreach ($_additional['items'] as $_data): ?>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="prod-label">
+                                            <span><?php echo $this->htmlEscape($this->__($_data['label'])) ?></span></div>
+                                    </div>
+                                    <div class="col-xs-6">
+
+                                        <?php $_value = ($_data['code'] == 'weight') ? (int)$_data['value'] : $_data['value'] ?>
+                                        <?php echo $_helper->productAttribute($_product, $_value, $_data['code']) ?>
+                                    </div>
+
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endforeach; ?>
+					<?php   /*if ($i == floor(count($_additionalgroup) / 2)) {
+                        //we have reached the mid-point, let's close the first DIV
+                        echo "</div><div class='col-sm-6'>";
+                    }*/?>
+                    </div>
+                    <?php } else { ?>
+					
+					<?php /*
+					$_additionalLeft = array();
+					$_additionalRight = array();
+					$k = 0; foreach ($_additionalgroup as $_additional):
+						if ($k%2 == 0) {
+							$_additionalLeft = $_additional; 
+						} else {
+							$_additionalRight = $_additional; 
+						}
+					$k++; endforeach; 
+					
+					?>
+					<div class="col-sm-6">
+						<?php $i = 0;
+							foreach ($_additionalLeft as $_additional): $i++; ?>
+								<div class="attributes_group">
+									<h4><?php echo $this->__($_additional['title']) ?></h4>
+									<?php foreach ($_additional['items'] as $_data): ?>
+										<div class="row">
+											<div class="col-xs-6">
+												<div class="prod-label">
+													<span><?php echo $this->htmlEscape($this->__($_data['label'])) ?></span></div>
+											</div>
+											<div class="col-xs-6">
+
+												<?php $_value = ($_data['code'] == 'weight') ? (int)$_data['value'] : $_data['value'] ?>
+												<?php echo $_helper->productAttribute($_product, $_value, $_data['code']) ?>
+											</div>
+
+										</div>
+									<?php endforeach; ?>
+								</div>
+								<?php   if ($i == floor(count($_additionalgroup) / 2)) {
+									//we have reached the mid-point, let's close the first DIV
+									echo "</div><div class='col-sm-6'>";
+								}?>
+						<?php endforeach; ?>
+					</div>
+					
+					<div class="col-sm-6">
+						<?php $i = 0;
+							foreach ($_additionalRight as $_additional): $i++; ?>
+								<div class="attributes_group">
+									<h4><?php echo $this->__($_additional['title']) ?></h4>
+									<?php foreach ($_additional['items'] as $_data): ?>
+										<div class="row">
+											<div class="col-xs-6">
+												<div class="prod-label">
+													<span><?php echo $this->htmlEscape($this->__($_data['label'])) ?></span></div>
+											</div>
+											<div class="col-xs-6">
+
+												<?php $_value = ($_data['code'] == 'weight') ? (int)$_data['value'] : $_data['value'] ?>
+												<?php echo $_helper->productAttribute($_product, $_value, $_data['code']) ?>
+											</div>
+
+										</div>
+									<?php endforeach; ?>
+								</div>
+								<?php   if ($i == floor(count($_additionalgroup) / 2)) {
+									//we have reached the mid-point, let's close the first DIV
+									echo "</div><div class='col-sm-6'>";
+								}?>
+						<?php endforeach; ?>
+					</div */?>
+                <div class="col-sm-6">
+
+                <?php $i = 0;
+                foreach ($_additionalgroup as $_additional): $i++; ?>
+                    <div class="attributes_group">
+                        <h4><?php echo $this->__($_additional['title']) ?></h4>
+                        <?php foreach ($_additional['items'] as $_data): ?>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="prod-label">
+                                        <span><?php echo $this->htmlEscape($this->__($_data['label'])) ?></span></div>
+                                </div>
+                                <div class="col-xs-6">
+
+                                    <?php $_value = ($_data['code'] == 'weight') ? (int)$_data['value'] : $_data['value'] ?>
+                                    <?php echo $_helper->productAttribute($_product, $_value, $_data['code']) ?>
+                                </div>
+
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <?php   if ($i == ceil (count($_additionalgroup) / 2)) {
+                        //we have reached the mid-point, let's close the first DIV
+                        echo "</div><div class='col-sm-6'>";
+                    }?>
+                <?php endforeach; ?>
+
+                </div>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>

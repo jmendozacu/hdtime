@@ -1,0 +1,199 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2013 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+
+
+
+<div class="form-add">
+	<div class="row">
+		<div class="col-sm-2" id="now_reit"></div>
+		<div class="col-sm-10">
+			<h2><b>Написать отзыв</b></h2>
+		</div>
+		
+	</div>
+		<?php if ($this->getAllowWriteReviewFlag()): ?>
+		<form action="<?php echo $this->getAction() ?>" method="post" id="review-form" class="rew_form">
+			<?php echo $this->getBlockHtml('formkey'); ?>
+			
+
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="row row_form_bottom">
+						<div class="col-sm-4">
+							<label for="nickname_field" class="required">Имя</label>
+						</div>
+						<div class="col-sm-8">
+							<div class="input-box">
+								<input type="text" name="nickname" id="nickname_field" class="input-text required-entry" value="<?php echo $this->escapeHtml($data->getNickname()) ?>" />
+							</div>
+						</div>
+					</div>
+			
+					<?php echo $this->getChildHtml('form_fields_before')?>
+					<?php if( $this->getRatings() && $this->getRatings()->getSize()): ?>
+						<div class="row row_form_bottom">
+							<div class="col-sm-4">
+								<label for="nickname_field" class="required">Рейтинг</label>
+							</div>
+							<div class="col-sm-8">
+								<div class="wrapper_big_star wrapper_big_star_edit">
+									<div class="rating_big_star" style="width:80%"></div>
+									<div class="one_big_star" data-star="1"></div>
+									<div class="one_big_star" data-star="2"></div>
+									<div class="one_big_star" data-star="3"></div>
+									<div class="one_big_star" data-star="4"></div>
+									<div class="one_big_star" data-star="5"></div>
+								</div>
+							</div>
+						
+							<div class="raiteng_wrapper">
+							<span id="input-message-box"></span>
+							<table class="data-table" id="product-review-table">
+								<col />
+								<col width="1" />
+								<col width="1" />
+								<col width="1" />
+								<col width="1" />
+								<col width="1" />
+
+								<tbody>
+								<?php foreach ($this->getRatings() as $_rating): ?>
+									<tr>
+										<th><?php echo $this->escapeHtml($_rating->getRatingCode()) ?></th>
+									<?php $j=0; foreach ($_rating->getOptions() as $_option): ?>
+										<td class="value"><input type="radio" name="ratings[<?php echo $_rating->getId() ?>]" id="<?php echo $this->escapeHtml($_rating->getRatingCode()) ?>_<?php echo $_option->getValue() ?>" value="<?php echo $_option->getId() ?>" class="radio point_<?php echo $_option->getValue(); ?>" <?php if ($_option->getValue() == 4) { echo 'checked="checked"'; }?> /></td>
+									<?php $j++; endforeach; ?>
+									</tr>
+								<?php endforeach; ?>
+								</tbody>
+							</table>
+							<input type="hidden" name="validate_rating" class="validate-rating" value="" />
+							<script type="text/javascript">
+								decorateTable('product-review-table');
+								
+								jQuery(document).ready(function(){
+									jQuery('.one_big_star').click(function(){
+										var num = jQuery(this).data('star');
+										var width = 20 * num;
+										
+										jQuery('.wrapper_big_star_edit .rating_big_star').css('width', width+'%');
+										
+										jQuery('.point_' + num).prop( "checked", true );
+										
+									});
+								});
+							</script>
+							</div>
+						</div>
+					<?php endif; ?>
+					
+						<div class="row row_form_bottom">
+							<div class="col-sm-4">
+								<label for="summary_field" class="required">Тема</label>
+							</div>
+							<div class="col-sm-8">
+								<div class="input-box">
+									<input type="text" name="title" id="summary_field" class="input-text required-entry" value="<?php echo $this->escapeHtml($data->getTitle()) ?>" />
+								</div>
+							</div>
+						</div>
+						
+					</div>
+
+				<div class="col-sm-6">
+					<span class="text_form_rew">
+						<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('review_text')->toHtml() ;?>
+					</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2">
+					<label for="review_field" class="required">Отзыв</label>
+				</div>
+				<div class="col-sm-10">
+					
+					<div class="input-box">
+						<textarea name="detail" id="review_field" cols="5" rows="3" class="required-entry"><?php echo $this->escapeHtml($data->getDetail()) ?></textarea>
+					</div>
+				</div>
+			</div>
+			<script src='https://www.google.com/recaptcha/api.js'></script>
+			<div class="g-recaptcha" data-sitekey="6LehrQgTAAAAAKlxTcEn7TDNkHQCmcRjv7qtzvsD"></div>
+			<?php $bar = $this->getLayout()->createBlock('core/template')->setTemplate('studioforty9/recaptcha/explicit.phtml');
+			//echo $bar->_toHtml();
+			//$this->getLayout()->createBlock('core/template')->setTemplate('studioforty9/recaptcha/explicit.phtml')->toHtml(); ?>
+				<?php echo $this->getChildHtml('studioforty9.recaptcha.explicit'); ?>
+				
+				
+				<div class="buttons-set rew_set">
+					<span class="rew_span_cancel">Отменить</span>
+					<button type="submit" title="<?php echo $this->__('Submit Review') ?>" class="button"><span><span>Отправить отзыв</span></span></button>
+					
+				</div>
+		</form>
+	
+    <script type="text/javascript">
+    //<![CDATA[
+        var dataForm = new VarienForm('review-form');
+        Validation.addAllThese(
+        [
+               ['validate-rating', '<?php echo $this->__('Please select one of each of the ratings above') ?>', function(v) {
+                    var trs = $('product-review-table').select('tr');
+                    var inputs;
+                    var error = 1;
+
+                    for( var j=0; j < trs.length; j++ ) {
+                        var tr = trs[j];
+                        if( j > 0 ) {
+                            inputs = tr.select('input');
+
+                            for( i in inputs ) {
+                                if( inputs[i].checked == true ) {
+                                    error = 0;
+                                }
+                            }
+
+                            if( error == 1 ) {
+                                return false;
+                            } else {
+                                error = 1;
+                            }
+                        }
+                    }
+                    return true;
+                }]
+        ]
+        );
+    //]]>
+    </script>
+    <?php else: ?>
+    <p class="review-nologged" id="review-form">
+        <?php echo $this->__('Only registered users can write reviews. Please, <a href="%s">log in</a> or <a href="%s">register</a>', $this->getLoginLink(), Mage::helper('customer')->getRegisterUrl()) ?>
+    </p>
+    <?php endif ?>
+</div>

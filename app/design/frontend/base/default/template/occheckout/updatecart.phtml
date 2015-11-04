@@ -1,0 +1,160 @@
+<?php $_coreHelper = $this->helper('core'); ?>
+<div class='cart-items-details'>
+    <div class="show-cart-items">
+        <fieldset>
+            <table border="1" cellspacing="5" width='100%' class="data-table cart-table octable">
+                <colgroup>
+                    <col>
+                    <col width="1">
+                    <col width="1">
+                    <col width="1">
+                    <col width="1">
+                </colgroup>
+                <thead>
+                    <tr class="first last">
+                        <th class="a-center" rowspan="1"><?php echo $this->__('Product Name') ?></th>
+                        <th class="a-center" rowspan="1"><?php echo $this->__('Price') ?></th>
+                        <th class="a-center" rowspan="1"><?php echo $this->__('Qty') ?></th>
+                        <th class="a-center" rowspan="1"><?php echo $this->__('Subtotal') ?></th>
+                        <th colspan="1"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $session = Mage::getSingleton('checkout/session');
+                    $productIds = $this->removeConfigurableProduct();
+                    $parentId = array();
+                    foreach ($session->getQuote()->getAllItems() as $item) :
+                        $parentId = Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($item->getProduct()->getId());
+                        if ($parentId) {
+                            continue;
+                        }
+                        ?>
+                        <tr class="product-listing-cart">
+                            <td class="a-left"><?php
+                                echo $item->getName() . '<br>';
+                                // Check for options
+                                $options = $item->getProduct()->getTypeInstance(true)->getOrderOptions($item->getProduct());
+                                if ($options) {
+                                    if (!empty($options['options'])) {
+                                        foreach ($options['options'] as $option) {
+                                            ?>
+                                            <dl class="item-options">
+                                                <dt><?php echo $option['label']; ?></dt>
+                                                <dd><?php echo $option['value']; ?></dd>
+                                            </dl>
+                                            <?php
+                                        }
+                                    }
+                                    if (!empty($options['attributes_info'])) {
+                                        foreach ($options['attributes_info'] as $attributes_info) {
+                                            ?>
+                                            <dl class="item-options">
+                                                <dt><?php echo $attributes_info['label']; ?></dt>
+                                                <dd><?php echo $attributes_info['value']; ?></dd>
+                                            </dl>
+                                            <?php
+                                        }
+                                    }
+                                    if (!empty($options['additional_options'])) {
+                                        foreach ($options['additional_options'] as $additional_options) {
+                                            
+                                        }
+                                    }
+                                }
+                                ?>
+                            </td>
+                            <td class="a-center"><?php echo $_coreHelper->currency($item->getPrice()); ?></td>
+                            <td class="a-center">
+                                <input class="a-center" name="cart[<?php echo $item->getId() ?>][qty]" value="<?php echo $item->getQty() ?>" size="4" title="<?php echo $this->__('Qty') ?>" class="input-text qty" maxlength="12" />
+                            </td>
+                            <td class="a-center"><?php
+                                $total = $item->getQty() * $item->getPrice();
+                                echo $_coreHelper->currency($total);
+                                ?>
+                            </td>
+                            <td class="last">
+                                <button type="button" class="btn-remove btn-remove2" id="prdt-value" value="<?php echo $item->getId() ?>" title="<?php echo $this->__('Del') ?>" class="button" onclick="product.delete(this)"></button>
+                            </td>
+                        </tr>
+                    <?php endforeach;
+                    ?>
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var product = Class.create();
+    product.delete = function(obj) {
+        var id = jQuery(obj).val();
+        var data = 'isAjax=' + 1;
+        jQuery('.ajax-loader').show();
+        var baseUrl = '<?php echo $this->getUrl('occheckout/cart/delete') ?>';
+        jQuery.ajax({
+            type: "POST",
+            dataType: "JSON",
+            data: data,
+            url: baseUrl + '?id=' + id,
+            complete: function() {
+                reloadShippingMethod();
+                reloadCartPage();
+                jQuery('.ajax-loader').hide();
+            },
+            success: function() {
+            }
+        });
+    }
+
+
+// function to refresh cart using ajax
+
+    jQuery(document).ajaxComplete(function() {
+        jQuery('.octable tbody tr:even').addClass('even');
+        jQuery('.octable tbody tr:odd').addClass('odd');
+        jQuery('.octable tbody tr:first').addClass('first');
+        jQuery('.octable tbody tr:last-child').addClass('last');
+        jQuery('#ccsave_expiration_yr').parent().addClass('v-right');
+    });
+    function reloadCartPage() {
+        var data = 'isAjax=' + 1;
+        jQuery.ajax({
+            url: "<?php $this->getUrl('occheckout/index/updatecart') ?>",
+            type: 'post',
+            data: data,
+            success: function(data) {
+                var val = jQuery(data).find('.cart-items-details');
+                jQuery('.cart-data').html(val);
+                updateGrandTotal();
+                var cart_item_count = jQuery('.product-listing-cart').length;
+                if (cart_item_count === 0) {
+                    parent.location.href = "<?php echo Mage::getUrl('checkout/cart/') ?>";
+                }
+            }
+        });
+    }
+    function updateGrandTotal() {
+        var data = 'isAjax=' + 1;
+        jQuery.ajax({
+            url: "<?php $this->getUrl('occheckout/index/updategrandtotal') ?>",
+            type: 'post',
+            data: data,
+            success: function(data) {
+                jQuery('.grand-total-loader').hide();
+                jQuery('#shopping-cart-totals-table').show();
+                var val = jQuery(data).find('#shopping-cart-totals-table');
+                jQuery('.grand-total-refresh').html(val);
+            }
+        });
+    }
+
+    document.observe('dom:loaded', function() {
+        var cart_item_count = jQuery('.product-listing-cart').length;
+        if (cart_item_count === 0) {
+            parent.location.href = "<?php echo Mage::getUrl('checkout/cart/') ?>";
+        }
+    });
+
+
+</script>

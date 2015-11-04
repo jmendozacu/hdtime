@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Me
+ * @package   Me_Cmb
+ * @author    Attila Sági <sagi.attila@aion.hu>
+ * @copyright 2015 Magevolve Ltd. (http://magevolve.com)
+ * @license   http://magevolve.com/terms-and-conditions Magevolve License
+ * @link      http://magevolve.com
+ */
+-->
+<layout>
+    <adminhtml_cmb_index>
+        <reference name="content">
+            <block type="me_cmb/adminhtml_cmb" name="cmb" />
+        </reference>
+    </adminhtml_cmb_index>
+
+    <adminhtml_cmb_grid>
+        <block type="me_cmb/adminhtml_cmb_grid" name="root"/>
+    </adminhtml_cmb_grid>
+</layout>

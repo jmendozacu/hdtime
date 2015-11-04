@@ -1,0 +1,15 @@
+<?php $data = $this->getData(); ?>
+
+<?php $tierPriceHtml = ''; ?>
+
+<dt class="option-<?php echo $data['option_id'] ?>-attribute-<?php echo $data['attribute']['attribute_id'] ?>"><label class="required"><em>*</em><?php echo $data['attribute']['label'] ?></label></dt>
+<dd class="option-<?php echo $data['option_id'] ?>-attribute-<?php echo $data['attribute']['attribute_id'] ?>">
+    <span id="bundle-option-<?php echo $data['option_id'] ?>-tier-prices"> <?php echo $tierPriceHtml; ?></span>
+    <div class="input-box">
+        <?php if($data['attribute_order'] === 0) : ?>
+            <?php foreach($data['attribute']['values'] as $key => $attributeValue) : ?>
+                <input type="radio" name="select_super_attribute[<?php echo $data['option_id'] ?>][<?php echo $data['attribute']['attribute_id'] ?>]" onChange="fillNextAttribute(this, <?php echo $data['option_id'] ?>, <?php echo $data['attribute']['attribute_id'] ?>)" class="super-attribute-select" value="<?php echo $attributeValue['value_index'] ?>"><?php echo $attributeValue['store_label'] ?><br />
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+</dd>

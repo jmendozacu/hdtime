@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Inchoo_Configurable>
+            <version>0.1.1</version>
+        </Inchoo_Configurable>
+    </modules>
+    <global>
+        <models>
+            <configurable>
+                <class>Inchoo_Configurable_Model</class>
+            </configurable>
+        </models>
+        <blocks>
+            <configurable>
+                <class>Inchoo_Configurable_Block</class>
+            </configurable>
+            <catalog>
+                <rewrite>
+                    <product_view_type_configurable>Inchoo_Configurable_Block_Frontend_Configurable</product_view_type_configurable>
+                </rewrite>
+            </catalog>
+        </blocks>
+    </global>
+    <frontend>
+        <layout>
+            <updates>
+                <configurable module="Inchoo_Configurable">
+                    <file>configurable.xml</file>
+                </configurable>
+            </updates>
+        </layout>
+    </frontend>
+</config>

@@ -1,0 +1,9 @@
+<?php
+    $_field = $this->getField();
+    $hlr = $this->helper("amscheckout");
+    //echo $hlr->getBeforeControlHtml($_field);
+	/*
+?>
+<input type="text" id="<?php echo $this->getFieldId('firstname')?>" name="<?php echo $this->getFieldName('firstname')?>" value="11<?php echo $this->escapeHtml($this->getObject()->getFirstname()) ?>" title="<?php echo $this->getStoreLabel('firstname') ?>" maxlength="255" class="input-text <?php echo $this->getRequred() ? $this->helper('customer/address')->getAttributeValidationClass('firstname') : "" ?>" <?php echo $this->getFieldParams() ?> />
+<?php */ //echo $hlr->getAfterControlHtml($_field);?>
+<?php echo $this->escapeHtml($this->getObject()->getFirstname()) ?>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_cache_index>
+        <reference name="content">
+            <block type="exportymlpro/adminhtml_cache" name="exportymlpro_cache" template="mygento/exportymlpro/cache.phtml" after="cache.additional" />
+        </reference>
+    </adminhtml_cache_index>
+    <exportymlpro_adminhtml_category_index>
+        <reference name="content">
+            <block type="exportymlpro/adminhtml_category" name="exportymlpro_category_grid" />
+        </reference>
+    </exportymlpro_adminhtml_category_index>
+    <exportymlpro_adminhtml_cat_index>
+        <update handle="editor"/>
+        <reference name="left">
+            <block name="category.tree" type="adminhtml/catalog_category_tree" template="mygento/exportymlpro/category/tree.phtml" />
+        </reference>
+        <reference name="content">
+            <block name="category.edit" type="adminhtml/catalog_category_edit" template="mygento/exportymlpro/category/edit.phtml">
+            	<block name="category.edit.form" as="form" type="adminhtml/catalog_category_edit_form" template="mygento/exportymlpro/category/edit/form.phtml" />
+            </block>
+        </reference>
+        <reference name="js">
+            <block type="core/template" template="catalog/wysiwyg/js.phtml" name="catalog.wysiwyg.js" />
+        </reference>
+    </exportymlpro_adminhtml_cat_index>
+</layout>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addItem" ifconfig="komplizierte_customercallbacks/jquery/use_jquery">
+                <type>skin_js</type>
+                <name>js/komplizierte/customercallbacks/callback.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/komplizierte/customercallbacks/style.css</name>
+            </action>
+        </reference>
+        <reference name="footer">
+            <block type="core/template" name="callback_form" template="komplizierte/customercallbacks/callback_form.phtml"/>
+        </reference>
+		<reference name="header">
+			<block type="core/template" name="callback_form" template="komplizierte/customercallbacks/callback_form.phtml"/>
+        </reference>
+    </default>
+</layout>

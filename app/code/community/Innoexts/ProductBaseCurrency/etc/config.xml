@@ -1,0 +1,239 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Innoexts
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the InnoExts Commercial License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://innoexts.com/commercial-license-agreement
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@innoexts.com so we can send you a copy immediately.
+ * 
+ * @category    Innoexts
+ * @package     Innoexts_ProductBaseCurrency
+ * @copyright   Copyright (c) 2014 Innoexts (http://www.innoexts.com)
+ * @license     http://innoexts.com/commercial-license-agreement  InnoExts Commercial License
+ */
+-->
+<config>
+    <modules>
+        <Innoexts_ProductBaseCurrency>
+            <version>1.0.1.1</version>
+        </Innoexts_ProductBaseCurrency>
+    </modules>
+    <frontend>
+        <translate>
+            <modules>
+                <Innoexts_ProductBaseCurrency>
+                    <files>
+                        <default>Innoexts_ProductBaseCurrency.csv</default>
+                    </files>
+                </Innoexts_ProductBaseCurrency>
+            </modules>
+        </translate>
+    </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Innoexts_ProductBaseCurrency>
+                    <files>
+                        <default>Innoexts_ProductBaseCurrency.csv</default>
+                    </files>
+                </Innoexts_ProductBaseCurrency>
+            </modules>
+        </translate>
+         <layout>
+              <updates>
+                  <productbasecurrency>
+                      <file>innoexts/productbasecurrency.xml</file>
+                  </productbasecurrency>
+              </updates>
+        </layout>
+        <events>
+            
+            <core_block_abstract_prepare_layout_after>
+                <observers>
+                    <productbasecurrency_prepare_product_grid>
+                        <class>productbasecurrency/adminhtml_product_observer</class>
+                        <method>prepareGrid</method>
+                    </productbasecurrency_prepare_product_grid>
+                </observers>
+            </core_block_abstract_prepare_layout_after>
+            
+            <adminhtml_block_html_before>
+                <observers>
+                    <productbasecurrency_adjust_product_grid>
+                        <class>productbasecurrency/adminhtml_product_observer</class>
+                        <method>adjustGrid</method>
+                    </productbasecurrency_adjust_product_grid>
+                </observers>
+            </adminhtml_block_html_before>
+            
+            <adminhtml_catalog_product_edit_prepare_form>
+                <observers>
+                    <productbasecurrency_prepare_product_edit_form>
+                        <class>productbasecurrency/adminhtml_product_observer</class>
+                        <method>prepareEditForm</method>
+                    </productbasecurrency_prepare_product_edit_form>
+                </observers>
+            </adminhtml_catalog_product_edit_prepare_form>
+            
+        </events>
+    </adminhtml>
+    <global>
+        <models>
+            <productbasecurrency>
+                <class>Innoexts_ProductBaseCurrency_Model</class>
+            </productbasecurrency>
+            <productbasecurrency_mysql4>
+                <class>Innoexts_ProductBaseCurrency_Model_Mysql4</class>
+            </productbasecurrency_mysql4>
+            <adminhtml>
+                <rewrite>
+                    <system_config_backend_price_scope>Innoexts_ProductBaseCurrency_Model_Adminhtml_System_Config_Backend_Price_Scope</system_config_backend_price_scope>
+                </rewrite>
+            </adminhtml>
+            <bundle_mysql4>
+                <rewrite>
+                    <indexer_price>Innoexts_ProductBaseCurrency_Model_Mysql4_Bundle_Indexer_Price</indexer_price>
+                </rewrite>
+            </bundle_mysql4>
+            <catalog>
+                <rewrite>
+                    <product_attribute_backend_basecurrency>Innoexts_ProductBaseCurrency_Model_Catalog_Product_Attribute_Backend_Basecurrency</product_attribute_backend_basecurrency>
+                    <product_attribute_backend_finishdate>Innoexts_ProductBaseCurrency_Model_Catalog_Product_Attribute_Backend_Finishdate</product_attribute_backend_finishdate>
+                    <product_attribute_backend_price>Innoexts_ProductBaseCurrency_Model_Catalog_Product_Attribute_Backend_Price</product_attribute_backend_price>
+                    <product_attribute_backend_startdate>Innoexts_ProductBaseCurrency_Model_Catalog_Product_Attribute_Backend_Startdate</product_attribute_backend_startdate>
+                    <product_attribute_backend_groupprice>Innoexts_ProductBaseCurrency_Model_Catalog_Product_Attribute_Backend_Groupprice</product_attribute_backend_groupprice>
+                    <product_attribute_backend_tierprice>Innoexts_ProductBaseCurrency_Model_Catalog_Product_Attribute_Backend_Tierprice</product_attribute_backend_tierprice>
+                    <product_attribute_source_basecurrency>Innoexts_ProductBaseCurrency_Model_Catalog_Product_Attribute_Source_Basecurrency</product_attribute_source_basecurrency>
+                </rewrite>
+            </catalog>
+            <catalog_resource_eav_mysql4>
+                <rewrite>
+                    <product_collection>Innoexts_ProductBaseCurrency_Model_Mysql4_Catalog_Product_Collection</product_collection>
+                    <product_indexer_price>Innoexts_ProductBaseCurrency_Model_Mysql4_Catalog_Product_Indexer_Price</product_indexer_price>
+                    <product_indexer_price_default>Innoexts_ProductBaseCurrency_Model_Mysql4_Catalog_Product_Indexer_Price_Default</product_indexer_price_default>
+                    <product_indexer_price_grouped>Innoexts_ProductBaseCurrency_Model_Mysql4_Catalog_Product_Indexer_Price_Grouped</product_indexer_price_grouped>
+                    <product_indexer_price_configurable>Innoexts_ProductBaseCurrency_Model_Mysql4_Catalog_Product_Indexer_Price_Configurable</product_indexer_price_configurable>
+                </rewrite>
+            </catalog_resource_eav_mysql4>
+            <catalogrule>
+                <rewrite>
+                    <action_index_refresh>Innoexts_ProductBaseCurrency_Model_Catalogrule_Action_Index_Refresh</action_index_refresh>
+                    <action_index_refresh_row>Innoexts_ProductBaseCurrency_Model_Catalogrule_Action_Index_Refresh_Row</action_index_refresh_row>
+                    <rule>Innoexts_ProductBaseCurrency_Model_Catalogrule_Rule</rule>
+                </rewrite>
+            </catalogrule>
+            <catalogrule_mysql4>
+                <rewrite>
+                    <rule>Innoexts_ProductBaseCurrency_Model_Mysql4_Catalogrule_Rule</rule>
+                </rewrite>
+            </catalogrule_mysql4>
+            <directory>
+                <rewrite>
+                    <currency>Innoexts_ProductBaseCurrency_Model_Directory_Currency</currency>
+                </rewrite>
+            </directory>
+            <downloadable_mysql4>
+                <rewrite>
+                    <indexer_price>Innoexts_ProductBaseCurrency_Model_Mysql4_Downloadable_Indexer_Price</indexer_price>
+                </rewrite>
+            </downloadable_mysql4>
+            <tax>
+                <rewrite>
+                    <sales_total_quote_subtotal>Innoexts_ProductBaseCurrency_Model_Tax_Sales_Total_Quote_Subtotal</sales_total_quote_subtotal>
+                </rewrite>
+            </tax>
+        </models>
+        <blocks>
+            <productbasecurrency>
+                <class>Innoexts_ProductBaseCurrency_Block</class>
+            </productbasecurrency>
+            <adminhtml>
+                <rewrite>
+                    <catalog_product_edit_tab_basecurrency>Innoexts_ProductBaseCurrency_Block_Adminhtml_Catalog_Product_Edit_Tab_Basecurrency</catalog_product_edit_tab_basecurrency>
+                    <catalog_product_edit_tab_basecurrency_renderer>Innoexts_ProductBaseCurrency_Block_Adminhtml_Catalog_Product_Edit_Tab_Basecurrency_Renderer</catalog_product_edit_tab_basecurrency_renderer>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+        <helpers>
+            <productbasecurrency>
+                <class>Innoexts_ProductBaseCurrency_Helper</class>
+            </productbasecurrency>
+            <tax>
+                <rewrite>
+                    <data>Innoexts_ProductBaseCurrency_Helper_Tax</data>
+                </rewrite>
+            </tax>
+        </helpers>
+        <resources>
+            <productbasecurrency_setup>
+                <setup>
+                    <module>Innoexts_ProductBaseCurrency</module>
+                    <class>Innoexts_ProductBaseCurrency_Model_Resource_Eav_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </productbasecurrency_setup>
+            <productbasecurrency_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </productbasecurrency_write>
+            <productbasecurrency_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </productbasecurrency_read>
+        </resources>
+        <events>
+            
+            <!-- Currency -->
+            <directory_currency_rates_save_after>
+                <observers>
+                    <productbasecurrency_after_currency_rates_save>
+                        <class>productbasecurrency/directory_observer</class>
+                        <method>afterCurrencyRatesSave</method>
+                    </productbasecurrency_after_currency_rates_save>
+                </observers>
+            </directory_currency_rates_save_after>
+            
+            <!-- Product -->
+            <catalog_product_collection_load_before>
+                <observers>
+                    <productbasecurrency_add_collection_base_currency>
+                        <class>productbasecurrency/catalog_product_observer</class>
+                        <method>addCollectionBaseCurrency</method>
+                    </productbasecurrency_add_collection_base_currency>
+                </observers>
+            </catalog_product_collection_load_before>
+            
+            <!-- Product Price -->
+            <catalog_product_collection_load_after>
+                <observers>
+                    <productbasecurrency_set_product_collection_price>
+                        <class>productbasecurrency/catalog_product_price_observer</class>
+                        <method>setCollectionPrice</method>
+                    </productbasecurrency_set_product_collection_price>
+                </observers>
+            </catalog_product_collection_load_after>
+            
+            <!-- Product Special Price -->
+            <catalog_product_collection_load_after>
+                <observers>
+                    <productbasecurrency_set_product_collection_special_price>
+                        <class>productbasecurrency/catalog_product_price_observer</class>
+                        <method>setCollectionSpecialPrice</method>
+                    </productbasecurrency_set_product_collection_special_price>
+                </observers>
+            </catalog_product_collection_load_after>
+            
+        </events>
+    </global>
+</config>

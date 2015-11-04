@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<layout version="0.1.0">
+
+    <default>
+        <reference name="content">
+            <block type="page/html" name="retailrocket.basecode" template="kmplzt/retailrocket/basecode.phtml" />
+        </reference>
+    </default>
+
+    <cms_index_index>
+        <reference name="homepage_main_content">
+            <block type="page/html" name="retailrocket.mainpage" template="kmplzt/retailrocket/widgets/main_page.phtml" />
+        </reference>
+    </cms_index_index>
+
+    <catalog_product_view>
+        <reference name="content">
+            <block type="page/html" name="retailrocket.widgetproduct" template="kmplzt/retailrocket/widgets/product.phtml" />
+        </reference>
+
+        <reference name="content">
+            <block type="page/html" name="retailrocket.widgetpersonalrecomend" template="kmplzt/retailrocket/widgets/personal_recomend.phtml" />
+        </reference>
+
+        <reference name="before_body_end">
+            <block type="page/html" name="retailrocket.productview" template="kmplzt/retailrocket/product_view.phtml" />
+        </reference>
+    </catalog_product_view>
+
+    <catalog_category_view>
+        <reference name="before_body_end">
+            <block type="page/html" name="retailrocket.categoryview" template="kmplzt/retailrocket/catalog_view.phtml" />
+        </reference>
+    </catalog_category_view>
+
+    <checkout_onepage_success>
+        <reference name="before_body_end">
+            <block type="checkout/onepage_success" name="retailrocket.checkoutsuccess" template="kmplzt/retailrocket/checkout_success.phtml" />
+        </reference>
+    </checkout_onepage_success>
+
+</layout>

@@ -1,0 +1,223 @@
+<?php
+	$hlr = $this->helper("amscheckout");
+	$hlr->initAddress($this->getAddress());
+?>
+<?php $_shippingRates = $hlr->getConfigShippingRates($this); ?>
+<?php if (!$_shippingRates): ?>
+    <p><?php echo $this->__('Sorry, no quotes are available for this order at this time.') ?></p>
+<?php else: ?>
+    <dl>
+		<?php $shippingCodePrice = array(); ?>
+
+		<div class="ship_wrapper">
+		<?php $_sole = count($_shippingRates) == 1; foreach ($_shippingRates as $_config): ?>
+			<?php
+				$code = $_config['code'];
+				$_rate = $_config['rate'];
+				$_field = $_config['field'];
+
+			?>
+			<label for="s_method_<?php echo $_rate->getCode() ?>" class="one_ship_label<?php if($_rate->getCode()==$this->getAddressShippingMethod()) echo ' active_tab_ship'; ?> ">
+				<?php echo $this->escapeHtml($this->getCarrierName($code)) ?>
+
+				<?php if ($_sole) : ?>
+					<span class="no-display"><input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>" checked="checked" /></span>
+					<?php else: ?>
+					<span class="no-display"><input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?> class="radio"/></span>
+
+					<?php if ($_rate->getCode() === $this->getAddressShippingMethod()): ?>
+						<script type="text/javascript">
+							//<![CDATA[
+								lastPrice = <?php echo (float)$_rate->getPrice(); ?>;
+							//]]>
+						</script>
+					<?php endif; ?>
+				<?php endif; ?>
+			</label>
+
+		<?php endforeach; ?>
+		</div>
+
+		<div class="ship_met_wrap">
+		<?php $_sole = count($_shippingRates) == 1; foreach ($_shippingRates as $_config): ?>
+			<?php
+				$code = $_config['code'];
+				$_rate = $_config['rate'];
+				$_field = $_config['field'];
+
+			?>
+			<div class="wrapper_one_ship_met" <?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' style="display: block;"' ?>>
+				<ul>
+					<?php $shippingCodePrice[] = "'".$_rate->getCode()."':".(float)$_rate->getPrice(); ?>
+					<li>
+					   <?php if ($_rate->getErrorMessage()): ?>
+						<ul class="messages"><li class="error-msg"><ul><li><?php echo $this->escapeHtml($_rate->getErrorMessage()) ?></li></ul></li></ul>
+					   <?php else: ?>
+
+							<?php if ($_rate->getCode() != 'flatrate_flatrate') : ?>
+								<label for="s_method_<?php echo $_rate->getCode() ?>"><?php echo $this->escapeHtml($_field['field_label']) ?><br />
+								<?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
+								<?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
+								<?php echo $_excl; ?>
+								<?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
+									(<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+								<?php endif; ?>
+								</label>
+								</div>
+							<?php else : ?>
+								<?php if($_rate->getCode()===$this->getAddressShippingMethod()) : ?>
+									<input type="hidden" value="-" id="sost_city" name="shipping[city]" />
+									<input type="hidden" value="-" id="sost_adres" name="shipping[street][]" />
+								<?php else : ?>
+									<!--input type="hidden" value="МКАД" id="sost_city" name="shipping[city]" /-->
+									<input type="hidden" value="" id="sost_adres" name="shipping[street][]" />
+								<?php endif; ?>
+								<div class="row">
+									<div class="col-sm-8">
+										<!--div class="row">
+											<div class="col-sm-3">
+												<label>Облость доставки</label>
+											</div>
+											<div class="col-sm-9">
+												<label class="radio_input"><input type="radio" name="shipping[city]" value="МКАД" checked="checked"/>МКАД</label>
+												<label class="radio_input"><input type="radio" name="shipping[city]" value="Не более 10км от МКАД" />Не более 10км от МКАД</label>
+											</div>
+										</div-->
+										<div class="row">
+											<div class="col-sm-3">
+												<label>Город</label>
+											</div>
+											<div class="col-sm-9">
+												<input type="text" name="shipping[city]" value="" id="ship_city" class="full_width_text_ship adress_sost"/>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-3">
+												<label>Улица</label>
+											</div>
+											<div class="col-sm-9">
+												<input type="text" name="" value="" id="ship_street" class="full_width_text_ship adress_sost"/>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-3">
+												<label>Дом</label>
+											</div>
+											<div class="col-sm-9">
+												<input type="text" name="" id="ship_house" value="" class="shot_width_text_ship adress_sost"/>
+												<span class="mini_label">Корпус</span>
+												<input type="text" name="" id="ship_corp" value="" class="shot_width_text_ship adress_sost"/>
+												<span class="mini_label">Строение</span>
+												<input type="text" name="" id="ship_stroen" value="" class="shot_width_text_ship adress_sost"/>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-3">
+												<label>Квартира\офис</label>
+											</div>
+											<div class="col-sm-9">
+												<input type="text" name="" id="ship_num_room" value="" class="shot_width_text_ship adress_sost"/>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-3">
+												<label>Комментарий</label>
+											</div>
+											<div class="col-sm-9">
+												<textarea name="comment" class="textarea_full_width"></textarea>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="wrapper_legend">
+											<!--span class="top_mess_legend">Стоимость доставки:<?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
+												<?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
+												<?php echo $_excl; ?>
+											</span-->
+											<span class="bottom_mess_legend">
+												<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('shipping_comment')->toHtml() ;?>
+											</span>
+										</div>
+									</div>
+								</div>
+
+							<?php endif; ?>
+					   <?php endif ?>
+					</li>
+				</ul>
+			</div>
+		<?php endforeach; ?>
+
+		</div>
+    </dl>
+<script type="text/javascript">
+//<![CDATA[
+    <?php if (!empty($shippingCodePrice)): ?>
+        var shippingCodePrice = {<?php echo implode(',',$shippingCodePrice); ?>};
+    <?php endif; ?>
+
+    $$('input[type="radio"][name="shipping_method"]').each(function(el){
+        Event.observe(el, 'click', function(){
+            if (el.checked == true) {
+                var getShippingCode = el.getValue();
+                <?php if (!empty($shippingCodePrice)): ?>
+                    var newPrice = shippingCodePrice[getShippingCode];
+                    if (!lastPrice) {
+                        lastPrice = newPrice;
+                        quoteBaseGrandTotal += newPrice;
+                    }
+                    if (newPrice != lastPrice) {
+                        quoteBaseGrandTotal += (newPrice-lastPrice);
+                        lastPrice = newPrice;
+                    }
+                <?php endif; ?>
+                checkQuoteBaseGrandTotal = quoteBaseGrandTotal;
+                return false;
+            }
+       });
+    });
+    <?php if ($hlr->reloadAfterShippingMethodChanged()) {?>
+        $$("#checkout-shipping-method-load input[type='radio'][name='shipping_method']").each(function(input){
+            input.observe("click", function(){
+                updateCheckout();
+            })
+        })
+    <?php }?>
+//]]>
+
+jQuery(document).ready(function(){
+	jQuery('.wrapper_one_ship_met input[type="radio"]').click(function(){
+		jQuery('#sost_city').val(jQuery(this).val());
+	});
+
+
+	jQuery('.adress_sost').blur(function(){
+		var address_html = '';
+
+		var ship_street = jQuery('#ship_street').val();
+		var ship_house = jQuery('#ship_house').val();
+		var ship_corp = jQuery('#ship_corp').val();
+		var ship_stroen = jQuery('#ship_stroen').val();
+		var ship_num_room = jQuery('#ship_num_room').val();
+
+		address_html = ship_street;
+		if (ship_house != '') {
+			address_html += ', дом ' + ship_house;
+		}
+		if (ship_corp != '') {
+			address_html += ', корпус ' + ship_corp;
+		}
+		if (ship_stroen != '') {
+			address_html += ', строение ' + ship_stroen;
+		}
+		if (ship_num_room != '') {
+			address_html += ', квартира/офис ' + ship_num_room;
+		}
+
+		jQuery('#sost_adres').val(address_html);
+		//console.log(address_html);
+
+	});
+});
+</script>
+<?php endif; ?>

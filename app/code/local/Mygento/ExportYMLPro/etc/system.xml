@@ -1,0 +1,466 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright (c) Mygento.ru
+ * Public license URL: http://www.mygento.ru/oferta
+ * Support EMAIL support@mygento.ru
+ */
+-->
+<config>
+    <sections>
+        <exportymlpro translate="label" module="exportymlpro">
+            <label>Export YML Pro</label>
+            <tab>allmygento</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>90</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label">
+                    <label>Export Yandex Market Pro</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <versioninfo>
+                            <frontend_model>exportymlpro/version</frontend_model>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </versioninfo>
+                        <suggestparams>
+                            <frontend_model>exportymlpro/suggest</frontend_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </suggestparams>
+                        <enabled translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <model>exportymlpro/source_comment</model>
+                            </comment>
+                        </enabled>
+                        <enabledfull translate="label">
+                            <label>Enabled for complete catalog</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <model>exportymlpro/source_commentfull</model>
+                            </comment>
+                        </enabledfull>
+                        <debug translate="label">
+                            <label>Debug</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>13</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </debug>
+                        <cron translate="label">
+                            <label>Cron</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>14</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cron>
+                        <cronfull translate="label">
+                            <label>Cron for complete catalog</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cronfull>
+                        <timeout translate="label comment">
+                            <label>Regeneration timeout</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>in seconds</comment>
+                        </timeout>
+                        <online translate="label">
+                            <label>Disable Live Generation</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>21</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </online>
+                        <onlinefull translate="label">
+                            <label>Disable Live Generation For Full</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>22</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </onlinefull>
+                        <use_gzip translate="label">
+                            <label>Use GNU ZIP compression</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </use_gzip>
+                        <use_auth translate="label">
+                            <label>Use authentication</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </use_auth>
+                        <auth_login translate="label">
+                            <label>Login</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <use_auth>1</use_auth>
+                            </depends>
+                        </auth_login>
+                        <auth_password translate="label">
+                            <label>Password</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <use_auth>1</use_auth>
+                            </depends>
+                        </auth_password>
+                        <use_category translate="label comment">
+                            <label>Enable per category</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment>Only export enabled categories will be used,ignoring export disabled products</comment>
+                        </use_category>
+                        <use_sitename translate="label comment">
+                            <label>Use current website name</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment>Will be used Store Information's Name</comment>
+                        </use_sitename>
+                        <sitename translate="label">
+                            <label>Sitename</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>61</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <use_sitename>0</use_sitename>
+                            </depends>
+                        </sitename>
+                        <use_phone translate="label comment">
+                            <label>Use current phone number</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment>Will be used Store Information's Phone</comment>
+                        </use_phone>
+                        <phone translate="label">
+                            <label>Phone</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>71</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <use_phone>0</use_phone>
+                            </depends>
+                        </phone>
+                        <company_name translate="label">
+                            <label>Company name</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </company_name>
+                        <agency translate="label">
+                            <label>Agency</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </agency>
+                        <support translate="label">
+                            <label>Technical support e-mail</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>validate-email</validate>
+                        </support>
+                    </fields>
+                </general>
+                <catalog>
+                    <label>Catalog Settings</label>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <minprice translate="label">
+                            <label>Minimal exporting price</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </minprice>
+                        <adult translate="label">
+                            <label>Adult</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        </adult>
+                        <image translate="label">
+                            <label>Image attribute</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>exportymlpro/source_image</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </image>
+                        <utm translate="label">
+                            <label>UTM Codes</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        </utm>
+                        <utm_source translate="label">
+                            <label>UTM source</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>41</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <utm>1</utm>
+                            </depends>
+                        </utm_source>
+                        <utm_medium translate="label">
+                            <label>UTM medium</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>42</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <utm>1</utm>
+                            </depends>
+                            <comment>cpc, price, display, email</comment>
+                        </utm_medium>
+                        <utm_campaign>
+                            <label>UTM campaign</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>43</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <utm>1</utm>
+                            </depends>
+                        </utm_campaign>
+                    </fields>
+                </catalog>
+                <currency>
+                    <label>Currency Settings</label>
+                    <sort_order>30</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <base translate="label">
+                            <label>Use system</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </base>
+                        <custom>
+                            <label>Custom base currency</label>
+                            <frontend_type>select</frontend_type>
+                            <!-- <source_model>adminhtml/system_config_source_currency</source_model> -->
+                            <source_model>exportymlpro/source_currency</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <base>0</base>
+                            </depends>
+                        </custom>
+                    </fields>
+                </currency>
+                <attr>
+                    <label>Attribute Settings</label>
+                    <sort_order>40</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <description translate="label">
+                            <label>Description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>exportymlpro/source_list</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </description>
+                        <vendor translate="label">
+                            <label>Vendor</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>exportymlpro/source_list</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </vendor>
+                        <model translate="label">
+                            <label>Model</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>exportymlpro/source_list</source_model>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </model>
+                        <vendorcode translate="label comment">
+                            <label>Vendor Code</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>exportymlpro/source_list</source_model>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Manufacturer code</comment>
+                        </vendorcode>
+                        <barcode translate="label comment">
+                            <label>Barcode</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>exportymlpro/source_list</source_model>
+                            <sort_order>13</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Manufacturer barcode</comment>
+                        </barcode>
+                        <colour translate="label">
+                            <label>Colour</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>exportymlpro/source_list</source_model>
+                            <sort_order>14</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </colour>
+                        <!--                        <gender translate="label">
+                            <label>Gender</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>exportymlpro/source_list</source_model>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </gender>-->
+                    </fields>
+                </attr>
+
+                <category>
+                    <label>Category's default settings</label>
+                    <sort_order>40</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <delivery translate="label comment">
+                            <label>Delivery</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment>Наличие доставки</comment>
+                        </delivery>
+                        <store translate="label comment">
+                            <label>Store</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment>Наличие точки продаж, где товар есть в наличии и его можно купить без предварительного заказа</comment>
+                        </store>
+                        <pickup translate="label comment">
+                            <label>Pickup</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <comment>Предусмотрена возможность предварительно заказать данный товар и забрать его в пункте выдачи заказов</comment>
+                        </pickup>
+                    </fields>
+                </category>
+
+            </groups>
+        </exportymlpro>
+    </sections>
+</config>

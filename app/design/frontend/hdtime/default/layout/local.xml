@@ -1,0 +1,405 @@
+<?xml version="1.0"?>
+
+<layout version="0.1.0">
+
+	<!-- Default handle, loaded on most pages -->
+	<default>
+
+        <!-- Remove callouts and rarely used stuff -->
+        <remove name="right.poll"/>
+        <remove name="right.permanent.callout"/>
+        <remove name="left.permanent.callout"/>
+        <remove name="paypal.partner.right.logo"/>
+		<remove name="sale.reorder.sidebar"></remove>
+		<reference name="head">
+
+			<!-- Remove Magento's default assets -->
+			<action method="removeItem">
+				<type>skin_css</type>
+				<name>css/print.css</name>
+			</action>
+			<action method="removeItem">
+				<type>skin_css</type>
+				<name>css/styles-ie.css</name>
+			</action>
+			<action method="removeItem">
+				<type>skin_css</type>
+				<name>css/styles.css</name>
+			</action>
+			<action method="removeItem">
+				<type>skin_css</type>
+				<name>css/widgets.css</name>
+			</action>
+			<action method="removeItem">
+				<type>skin_js</type>
+				<name>js/ie6.js</name>
+			</action>
+			<action method="removeItem">
+				<type>js</type>
+				<name>lib/ds-sleight.js</name>
+			</action>
+			<action method="removeItem">
+				<type>js</type>
+				<name>varien/menu.js</name>
+			</action>
+
+			<!-- Add our assets -->
+			<action method="addCss">
+				<stylesheet>dist/css/style.css</stylesheet>
+			</action>
+
+            <!--
+            <action method="addItem">
+				<type>skin_js</type>
+				<name>dist/js/script.js</name>
+			</action>
+			-->
+
+            <action method="addItem"><type>skin_js</type><name>design/assets/js/vendor/jquery.min.js</name></action>
+            <action method="addItem"><type>skin_js</type><name>design/assets/js/vendor/noConflict.js</name></action>
+
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/komplizierte/customercallbacks/callback.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>masked-input/jquery.maskedinput.min.js</name>
+            </action>
+
+            <!-- Design Styles -->
+            <action method="addCss">
+                <stylesheet>design/assets/css/style.min.css</stylesheet>
+            </action>
+
+            <!-- Design Scripts -->
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>design/assets/js/scripts.min.js</name>
+            </action>
+
+			<!-- Add additioanl child blocks -->
+			<block type="core/template" name="boilerplate.head.meta" template="boilerplate/page/html/head/meta.phtml"/>
+			<block type="core/template" name="boilerplate.head.ie8" template="boilerplate/page/html/head/ie8.phtml"/>
+
+		</reference>
+
+        <reference name="header">
+            <block type="checkout/cart_sidebar" name="total.price" as="totalPrice" template="checkout/cart/totalprice.phtml"/>
+			<block type="core/template" name="callback" template="contacts/callback.phtml"/>
+        </reference>
+
+        <reference name="right">
+            <action method="unsetChild"><name>cart_sidebar</name></action>
+			<remove name="sale.reorder.sidebar" />
+        </reference>
+
+        <reference name="footer">
+            <block type="checkout/cart_sidebar" name="total.price" as="totalPrice" template="checkout/cart/totalprice.phtml"/>
+        </reference>
+
+	</default>
+
+    <jquery_core>
+        <reference name="head">
+            <action method="addJs"><script>jquery/jquery.noconflict.js</script></action>
+         </reference>
+    </jquery_core>
+
+    <catalog_product_compare_index translate="label">
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
+        <reference name="breadcrumbs">
+            <action method="addCrumb">
+                <name>home-crumb</name>
+                <crumbInfo>
+                    <label>Home</label>
+                    <title>Home</title>
+                    <link>/</link>
+                </crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <name>customer-account-crumb</name>
+                <crumbInfo>
+                    <label>Customer Account</label>
+                    <title>Customer Account</title>
+                    <link>/customer/account</link>
+                </crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <name>shopping-cart-crumb</name>
+                <crumbInfo>
+                    <label>Сравнение</label>
+                    <title>Сравнение</title>
+                    <link/>
+                </crumbInfo>
+            </action>
+        </reference>
+    </catalog_product_compare_index>
+    <contacts_index_index translate="label">
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+    </contacts_index_index>
+    <cms_index_index>
+        <remove name="catalog.compare.sidebar"/>
+        <remove name="right.reports.product.viewed"/>
+        <remove name="cart_sidebar"/>
+
+        <reference name="content">
+            <block type="bannerpro/bannerpro" name="homepage.banners" template="homepage/banners.phtml"/>
+            <block type="page/html" name="homepage.main.content" template="homepage/maincontent.phtml">
+                <block type="catalog/product_new" name="home.catalog.product.new" as="product_new" template="homepage/product-new.phtml">
+                    <action method="setProductsCount"><count>12</count></action>
+                    <action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
+                    <action method="addColumnCountLayoutDepend"><layout>one_column</layout><count>5</count></action>
+                    <action method="addColumnCountLayoutDepend"><layout>two_columns_left</layout><count>4</count></action>
+                    <action method="addColumnCountLayoutDepend"><layout>two_columns_right</layout><count>4</count></action>
+                    <action method="addColumnCountLayoutDepend"><layout>three_columns</layout><count>3</count></action>
+                </block>
+                <block type="inchoo_onsale/catalog_product_list" name="home.catalog.product.sale" as="product_sale" template="homepage/product-sale.phtml" />
+            </block>
+        </reference>
+    </cms_index_index>
+
+    <catalog_category_layered>
+        <remove name="catalog.compare.sidebar"/>
+        <remove name="right.reports.product.viewed"/>
+        <remove name="left.newsletter"/>
+        <remove name="tags_popular"/>
+        <remove name="cart_sidebar"/>
+
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addItem"><type>js</type><name>jquery/jquery.noconflict.js</name></action> <!-- for ManaPro Filters -->
+
+        </reference>
+        <reference name="category.products">
+            <block type="catalog/category_view" name="category.listing" as="category_listing" template="catalog/category/listing.phtml"/>
+            <block type="catalog/category_view" name="category.listing.filters" as="category_listing_filters" template="catalog/category/listing_filters.phtml"/>
+        </reference>
+        <!-- ManaPro Filters -->
+        <reference name="left">
+            <action method="unsetChild"><name>mana.catalog.leftnav</name></action>
+			<remove name="sale.reorder.sidebar"></remove>
+        </reference>
+        <reference name="right">
+            <remove name="right.reports.product.viewed"/>
+            <remove name="catalog.compare.sidebar"/>
+        </reference>
+
+        <reference name="product_list">
+            <block type="catalog/product_new" name="home.catalog.product.new" as="product_new" template="homepage/product-new.phtml">
+                <action method="setProductsCount"><count>12</count></action>
+                <action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
+                <action method="addColumnCountLayoutDepend"><layout>one_column</layout><count>5</count></action>
+                <action method="addColumnCountLayoutDepend"><layout>two_columns_left</layout><count>4</count></action>
+                <action method="addColumnCountLayoutDepend"><layout>two_columns_right</layout><count>4</count></action>
+                <action method="addColumnCountLayoutDepend"><layout>three_columns</layout><count>3</count></action>
+            </block>
+            <block type="inchoo_onsale/catalog_product_list" name="home.catalog.product.sale" as="product_sale" template="homepage/product-sale.phtml" />
+        </reference>
+    </catalog_category_layered>
+
+    <catalog_category_default>
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
+        <reference name="product_list">
+            <block type="catalog/product_new" name="home.catalog.product.new" as="product_new" template="homepage/product-new.phtml">
+                <action method="setProductsCount"><count>12</count></action>
+                <action method="addColumnCountLayoutDepend"><layout>empty</layout><count>6</count></action>
+                <action method="addColumnCountLayoutDepend"><layout>one_column</layout><count>5</count></action>
+                <action method="addColumnCountLayoutDepend"><layout>two_columns_left</layout><count>4</count></action>
+                <action method="addColumnCountLayoutDepend"><layout>two_columns_right</layout><count>4</count></action>
+                <action method="addColumnCountLayoutDepend"><layout>three_columns</layout><count>3</count></action>
+            </block>
+            <block type="inchoo_onsale/catalog_product_list" name="home.catalog.product.sale" as="product_sale" template="homepage/product-sale.phtml" />
+        </reference>
+        <reference name="right">
+            <remove name="right.reports.product.viewed"/>
+            <remove name="catalog.compare.sidebar"/>
+        </reference>
+    </catalog_category_default>
+
+    <catalog_product_view>
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>connected-carousels/jcarousel.connected-carousels.js</name>
+            </action>
+            <action method="removeItem"><type>skin_js</type><name>js/z_amasty/plugins/jquery-1.9.1.min.js</name></action>
+        </reference>
+        <remove name="catalog.compare.sidebar"/>
+        <remove name="right.reports.product.viewed"/>
+        <reference name="product_type_data">
+            <action method="unsetChild"><name>mana.catalog.leftnav</name></action>
+        </reference>
+        <reference name="right">
+            <action method="unsetChild"><name>catalog.product.related</name></action>
+
+            <block type="cms/block" name="product_view_banner" before="-">
+                <action method="setBlockId"><block_id>product-view-banner</block_id></action>
+            </block>
+        </reference>
+        <reference name="product.info.options.wrapper.bottom">
+            <action method="unsetChild"><name>product.info.addtocart</name></action>
+        </reference>
+        <reference name="product.info.container1">
+            <action method="unsetChild"><name>product.info.options.wrapper</name></action>
+        </reference>
+        <reference name="product.info.container2">
+            <action method="unsetChild"><name>product.info.options.wrapper</name></action>
+        </reference>
+        <reference name="product.info">
+            <remove name="product.info.addto"/>
+            <block type="core/template" name="callback" template="contacts/callback.phtml"/>
+            <block type="catalog/product_view_tabs" name="product.info.tabs" as="info_tabs" template="catalog/product/view/tabs.phtml" >
+                <!--<action method="addTab" translate="title" module="catalog"><alias>upsell_products</alias><title>We Also Recommend</title><block>catalog/product_list_upsell</block><template>catalog/product/list/upsell.phtml</template></action> -->
+                <action method="addTab" translate="title" module="catalog"><alias>additional</alias><title>Additional Information</title><block>Webguys_AttributesAsGroup/Groupview</block><template>webguys/attributesasgroup/groupview.phtml</template></action>
+                <action method="addTab" translate="title" module="catalog"><alias>description</alias><title>Product Description</title><block>catalog/product_view_description</block><template>catalog/product/view/description.phtml</template></action>
+                <action method="addTab" translate="title" module="catalog"><alias>tab_review_list</alias><title>Product Reviews</title><block>review/product_view_list</block><template>catalog/product/view/tabs/reviews.phtml</template></action>
+            </block>
+            <action method="insert"><name>catalog.product.related</name></action>
+            <action method="append"><block>product.info.options.wrapper</block></action>
+        </reference>
+        <reference name="tab_review_list">
+            <block type="review/form" name="tab_review_form" as="review_form" template="catalog/product/view/tabs/review_form.phtml" />
+        </reference>
+    </catalog_product_view>
+
+    <PRODUCT_TYPE_simple>
+        <reference name="product.info.simple">
+            <action method="insert"><block>product.info.addtocart</block></action>
+        </reference>
+    </PRODUCT_TYPE_simple>
+    <PRODUCT_TYPE_bundle>
+        <reference name="product.info.bundle">
+            <action method="insert"><block>product.info.addtocart</block></action>
+        </reference>
+    </PRODUCT_TYPE_bundle>
+    <PRODUCT_TYPE_configurable>
+        <reference name="head">
+            <action method="addItem"><type>skin_js</type><name>js/amasty/amconf/configurable-radios.js</name><params/></action>
+        </reference>
+        <reference name="product.info.configurable">
+            <action method="insert"><block>product.info.addtocart</block></action>
+        </reference>
+    </PRODUCT_TYPE_configurable>
+    <PRODUCT_TYPE_grouped>
+        <reference name="product.info.grouped">
+            <action method="insert"><name>product.info.addtocart</name></action>
+        </reference>
+    </PRODUCT_TYPE_grouped>
+    <PRODUCT_TYPE_virtual>
+        <reference name="product.info.virtual">
+            <action method="insert"><block>product.info.addtocart</block></action>
+        </reference>
+    </PRODUCT_TYPE_virtual>
+
+    <catalogsearch_result_index>
+        <remove name="catalog.compare.sidebar"/>
+        <remove name="cart_sidebar"/>
+
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addItem"><type>js</type><name>jquery/jquery.noconflict.js</name></action> <!-- for ManaPro Filters -->
+        </reference>
+        <!-- ManaPro Filters -->
+        <reference name="left">
+            <action method="unsetChild"><name>mana.catalog.leftnav</name></action>
+        </reference>
+        <reference name="right">
+            <block type="mana_filters/view" name="mana.catalog.leftnav" before="-" template="catalog/layer/view.phtml"/>
+        </reference>
+        <!-- End ManaPro Filters -->
+    </catalogsearch_result_index>
+
+    <checkout_onepage_index>
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
+
+        <reference name="right">
+            <action method="unsetChild"><name>checkout.progress.wrapper</name></action>
+        </reference>
+
+        <reference name="breadcrumbs">
+            <action method="addCrumb">
+                <name>home-crumb</name>
+                <crumbInfo>
+                    <label>Home</label>
+                    <title>Home</title>
+                    <link>/</link>
+                </crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <name>customer-account-crumb</name>
+                <crumbInfo>
+                    <label>Customer Account</label>
+                    <title>Customer Account</title>
+                    <link>/customer/account</link>
+                </crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <name>shopping-cart-crumb</name>
+                <crumbInfo>
+                    <label>Shopping Cart</label>
+                    <title>Shopping Cart</title>
+                    <link/>
+                </crumbInfo>
+            </action>
+        </reference>
+        <reference name="checkout.onepage">
+            <block type="checkout/onepage_billing" name="checkout.onepage.billing.pass" as="billing.pass" template="amasty/amscheckout/onepage/password_fields.phtml"/>
+        </reference>
+    </checkout_onepage_index>
+
+	<print>
+
+		<reference name="head">
+
+			<!-- Add our assets -->
+			<action method="addCss">
+				<stylesheet>css/style.css</stylesheet>
+			</action>
+			<action method="addItem">
+				<type>skin_js</type>
+				<name>js/script-ck.js</name>
+			</action>
+
+		</reference>
+
+	</print>
+    <customer_account>
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="customer/account_navigation" name="customer_account_   navigation" before="-" template="customer/account/navigation.phtml">
+                <action method="addLink" translate="label"><name>checkout</name><path>checkout/onepage/</path><label>Корзина</label></action>
+                <action method="addLink" translate="label"><name>compare</name><path>catalog/product_compare/index/</path><label>Сравнение</label></action>
+                <action method="addLink" translate="label" module="review"><name>reviews</name><path>review/customer</path><label>Отзывы</label></action>
+                <action method="addLink" translate="label" module="sales"><name>orders</name><path>sales/order/history/</path><label>Заказы</label></action>
+                <action method="addLink" translate="label" module="customer"><name>account</name><path>customer/account/</path><label>Настройки</label></action>
+            </block>
+
+        </reference>
+    </customer_account>
+    <customer_account_index>
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
+        <reference name="content">
+        </reference>
+
+    </customer_account_index>
+</layout>

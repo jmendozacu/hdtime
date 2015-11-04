@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Uni_Occheckout>
+      <active>1</active>
+      <codePool>community</codePool>
+      <version>1.0.1</version>
+    </Uni_Occheckout>
+  </modules>
+</config>

@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Raveinfosys_Showmap>
+            <version>0.1.0</version>
+        </Raveinfosys_Showmap>
+    </modules>
+    <frontend>
+        <routers>
+            <showmap>
+                <use>standard</use>
+                <args>
+                    <module>Raveinfosys_Showmap</module>
+                    <frontName>showmap</frontName>
+                </args>
+            </showmap>
+        </routers>
+        <layout>
+            <updates>
+                <showmap>
+                    <file>showmap.xml</file>
+                </showmap>
+            </updates>
+        </layout>
+    </frontend>
+    <admin>
+        <routers>
+			<showmap>
+				<use>admin</use>
+				<args>
+					<module>Raveinfosys_Showmap</module>
+					<frontName>showmap</frontName>
+				</args>
+			</showmap>
+        </routers>
+    </admin>
+    <adminhtml>
+		<menu>
+			<showmap module="showmap">
+				<title>Sitemap</title>
+				<sort_order>71</sort_order>
+				<children>
+					<sitemap_submission translate="title" module="showmap">
+                    <title>Sitemap Submission</title>
+                    <action>showmap/adminhtml_showmap</action>
+                    <sort_order>0</sort_order>
+                </sitemap_submission>
+                <frontend_configuration translate="title" module="showmap">
+                    <title>Configuration</title>
+                    <action>showmap/adminhtml_showmap/config</action>
+                    <sort_order>10</sort_order>
+                </frontend_configuration>
+                <view_response translate="title" module="showmap">
+                    <title>View Response</title>
+                    <action>showresponse/adminhtml_showresponse/index</action>
+                    <sort_order>100</sort_order>
+                </view_response>
+				</children>      
+				               
+			</showmap>
+		</menu>
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<Raveinfosys_Showmap>
+							<title>Showmap Module</title>
+							<sort_order>10</sort_order>
+						</Raveinfosys_Showmap>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+		<layout>
+			<updates>
+				<showmap>
+					<file>showmap.xml</file>
+				</showmap>
+			</updates>
+		</layout>
+    </adminhtml>   
+    <global>
+        <models>
+            <showmap>
+                <class>Raveinfosys_Showmap_Model</class>
+                <resourceModel>showmap_mysql4</resourceModel>
+            </showmap>
+			
+            <showmap_mysql4>
+                <class>Raveinfosys_Showmap_Model_Mysql4</class>
+                <entities>
+                    <showmap>
+                        <table>showmap</table>
+                    </showmap>
+					 <config>
+                        <table>showmap_config</table>
+                    </config>
+                </entities>
+            </showmap_mysql4>
+			
+        </models>
+        <resources>
+            <showmap_setup>
+                <setup>
+                    <module>Raveinfosys_Showmap</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </showmap_setup>
+            <showmap_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </showmap_write>
+            <showmap_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </showmap_read>
+        </resources>
+        <blocks>
+            <showmap>
+                <class>Raveinfosys_Showmap_Block</class>
+            </showmap>
+        </blocks>
+        <helpers>
+            <showmap>
+                <class>Raveinfosys_Showmap_Helper</class>
+            </showmap>
+        </helpers>
+    </global>
+	
+	<crontab>
+        <jobs>
+            <Raveinfosys_Showmap>
+			 <schedule>
+                      <cron_expr>0 */1 * * *</cron_expr>
+                 </schedule>
+                <run>
+                    <model>showmap/showmap::update</model>
+                </run>
+            </Raveinfosys_Showmap>
+        </jobs>
+    </crontab>
+	
+</config>

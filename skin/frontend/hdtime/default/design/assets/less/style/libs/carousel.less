@@ -1,0 +1,103 @@
+/* This less is only for Twitter Bootstrap carousel */
+
+@arrowsHeight: 71px;
+@arrowsWidth: 71px;
+
+/* ================ Carousel ====================== */
+.carousel-indicators {
+  position: relative;
+  text-align: center;
+
+  li {
+    display: inline-block;
+    float: none;
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+    background-color: transparent;
+    border-radius: 10px;
+  }
+  .active {
+
+  }
+}
+
+.carousel-control {
+  background-image: url(image/arrows.png) !important;
+  background-color: transparent;
+  border: none;
+  .border-radius(0 0 0 0);
+  height: @arrowsHeight;
+  left: 0;
+  margin-top: 0;
+  opacity: 1;
+  position: absolute;
+  text-align: center;
+  top: 35%;
+  width: @arrowsWidth;
+  z-index: 10;
+
+  &.right {
+    background-position: -40px 0;
+  }
+  &.left {
+    background-position: 0 0;
+  }
+}
+
+.carousel {
+  padding: @padding-large-vertical @arrowsWidth;
+
+  .item {
+    
+    .pict-item {
+      width: 100%;
+      text-align: center;
+    }
+  }
+  .pull-right {
+    min-width: 53%;
+    max-height: 235px;
+    max-width: 100%;
+  }
+
+  .media-body {
+      overflow: visible;
+  }
+}
+.carousel-inner {
+  width: 1125px;
+  max-width: 100%;
+  > .item {
+    width: 100%;
+    width: 1125px;
+    > img, > a > img {
+      display: block;
+      height: auto;
+      position: relative;
+      max-width: 100%;
+    }
+  }
+}
+
+// Fade transition for carousel items
+.carousel {
+  .item {
+    left: 0 !important;
+    .transition(opacity .4s); //adjust timing here
+  }
+  .carousel-control {
+    background-image: none; // remove background gradients on controls
+  }
+  // Fade controls with items
+  .next.left,
+  .prev.right {
+    opacity: 1;
+    z-index: 1;
+  }
+  .active.left,
+  .active.right {
+    opacity: 0;
+    z-index: 2;
+  }
+}

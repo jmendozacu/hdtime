@@ -1,0 +1,48 @@
+2015.09.23 19:28:15	1	Start import DB `hd_sypex`
+2015.09.23 19:28:15	1	File: hd_17.09.2015.sql
+2015.09.23 19:28:15	1	Set connection encoding: `utf8`
+2015.09.23 19:28:15	1	Import table `admin_assert`
+2015.09.23 19:28:15	1	Import table `admin_role`
+2015.09.23 19:28:15	1	Import table `admin_rule`
+2015.09.23 19:28:15	1	Import table `admin_user`
+2015.09.23 19:28:15	1	Import table `adminnotification_inbox`
+2015.09.23 19:28:15	1	Import table `am_scheckout_area`
+2015.09.23 19:28:15	1	Import table `am_scheckout_area_store`
+2015.09.23 19:28:15	1	Import table `am_scheckout_block`
+2015.09.23 19:28:15	1	Import table `am_scheckout_config`
+2015.09.23 19:28:15	1	Import table `am_scheckout_country`
+2015.09.23 19:28:15	1	Import table `am_scheckout_field`
+2015.09.23 19:28:15	1	Import table `am_scheckout_field_store`
+2015.09.23 19:28:15	1	Import table `am_scheckout_location`
+2015.09.23 19:28:15	1	Import table `amasty_amconf_attribute`
+2015.09.23 19:28:15	1	Import table `amasty_amconf_product_attribute`
+2015.09.23 19:28:15	1	Import table `api2_acl_attribute`
+2015.09.23 19:28:15	1	Import table `api2_acl_role`
+2015.09.23 19:28:15	1	Import table `api2_acl_rule`
+2015.09.23 19:28:15	1	Import table `api2_acl_user`
+2015.09.23 19:28:15	1	Import table `api_assert`
+2015.09.23 19:28:15	1	Import table `api_role`
+2015.09.23 19:28:15	1	Import table `api_rule`
+2015.09.23 19:28:15	1	Import table `api_session`
+2015.09.23 19:28:15	1	Import table `api_user`
+2015.09.23 19:28:15	1	Import table `authorlogin_customer`
+2015.09.23 19:28:15	1	Import table `aw_blog`
+2015.09.23 19:28:15	1	Import table `aw_blog_cat`
+2015.09.23 19:28:15	1	Import table `aw_blog_cat_store`
+2015.09.23 19:28:15	1	Import table `aw_blog_comment`
+2015.09.23 19:28:15	1	Import table `aw_blog_post_cat`
+2015.09.23 19:28:15	1	Import table `aw_blog_store`
+2015.09.23 19:28:15	1	Import table `aw_blog_tags`
+2015.09.23 19:28:15	1	Import table `bannerpro`
+2015.09.23 19:28:15	1	Import table `bannerpro_store`
+2015.09.23 19:28:15	1	Import table `captcha_log`
+2015.09.23 19:28:15	1	Import table `catalog_category_anc_categs_index_idx`
+2015.09.23 19:28:15	1	Import table `catalog_category_anc_categs_index_tmp`
+2015.09.23 19:28:15	1	Import table `catalog_category_anc_products_index_idx`
+2015.09.23 19:28:15	1	Import table `catalog_category_anc_products_index_tmp`
+2015.09.23 19:28:15	1	Import table `catalog_category_entity`
+2015.09.23 19:28:15	1	Import table `catalog_category_entity_datetime`
+2015.09.23 19:28:15	1	Import table `catalog_category_entity_decimal`
+2015.09.23 19:28:15	1	Import table `catalog_category_entity_int`
+2015.09.23 19:28:16	1	Import table `catalog_category_entity_text`
+2015.09.23 19:28:16	4	MySQL Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'DEFAULT CHARSET=utf8\' at line 14 (/var/www/html/sypex/index.php:1587)

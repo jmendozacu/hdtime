@@ -1,0 +1,462 @@
+<?php
+$var = Mage::registry('license_msg');
+if($var==null){
+
+$config= array(
+			'styles' => array(
+				'error' => array(
+					'icon' => Mage::getDesign()->getSkinUrl('images/error_msg_icon.gif'),
+					'bg'   => '#FDD'
+				),
+				'message' => array(
+					'icon' => Mage::getDesign()->getSkinUrl('images/fam_bullet_success.gif'),
+					'bg'   => '#DDF'
+				),
+				'loader'  => Mage::getDesign()->getSkinUrl('images/ajax-loader.gif')
+			),
+			'template' => '<li style="#{style}" id="#{id}">'
+						. '<img id="#{id}_img" src="#{image}" class="v-middle" style="margin-right:5px"/>'
+						. '<span id="#{id}_status" class="text">#{text}</span>'
+						. '</li>',
+			'text'     => $this->__('Processed <strong>%s%% %s/%d</strong> product(s)', '#{percent}', '#{updated}', $count),
+			'successText'  => $this->__($direction.' <strong>%s</strong> product(s)', '#{updated}')
+		);
+					
+					
+?>
+<style type="text/css" >
+    #profileRows.ul { list-style-type:none; padding:0; margin:0; }
+    #profileRows li { margin-left:0; border:1px solid #ccc; margin:2px; padding:2px 2px 2px 2px; font:normal 12px sans-serif; }
+    #profileRows img { margin-right:5px; }
+
+	.entry-edit .field-row label{
+	width:175px;
+	}
+	.field-row .with-tip{
+	margin-left:175px;
+	}
+	#loading_mask_loader{
+	width:250px!important;
+	}
+</style>
+
+<div id="profile-generator" class="entry-edit profile-generator">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__("Export File Information") ?></h4>
+    </div>
+    <fieldset>
+        <legend><?php echo $this->__("Export File Information") ?></legend>
+
+        <span class="field-row">
+            <label for="profile_store_id"><?php echo $this->__("Store:") ?></label>
+            <span class="with-tip">
+                <select id="store" name="store">
+                <option value="*"><?php echo $this->__('All Store Views') ?></option>
+                    <?php foreach ($this->getWebsiteCollection() as $_website): ?>
+                        <?php $_websiteShow=false; ?>
+                        <?php foreach ($this->getGroupCollection() as $_group): ?>
+                            <?php if ($_website->getId() != $_group->getWebsiteId()) continue; ?>
+                            <?php $_groupShow=false; ?>
+                            <?php foreach ($this->getStoreCollection() as $_store): ?>
+                                <?php if ($_group->getId() != $_store->getGroupId()) continue; ?>
+                                <?php if (!$_websiteShow): ?>
+                                    <?php $_websiteShow=true; ?>
+                                    <optgroup label="<?php echo $_website->getName() ?>"></optgroup>
+                                <?php endif; ?>
+                                <?php if (!$_groupShow): ?>
+                                    <?php $_groupShow=true; ?>
+                                    <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $_group->getName() ?>">
+                                <?php endif; ?>
+                                <option value="<?php echo $_store->getId() ?>" <?php echo $this->getSelected('store_id', $_store->getId()) ?>>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $_store->getName() ?></option>
+                            <?php endforeach; ?>
+                            <?php if ($_groupShow): ?>
+                                </optgroup>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </select>
+                <small class="profile_direction_import profile_entity_type_product">
+                        <?php echo $this->__("(Selected store product(s) will be exported.)") ?>
+                </small>
+            </span>
+        </span>
+        		
+		<input type="hidden" id="exportfiletype" name="exportfiletype" value="csv"/>
+		
+		<span class="field-row">
+                <label for="export_for"><?php echo $this->__("Select Fields For: ") ?></label>
+				<span class="with-tip">
+					<select onchange="updateSelector()" name="export_for" id="export_for" style="width:200px;">
+						<option value='*'>All Fields Export</option>
+						<option value='custom_fields'>Custom Fields Selection</option>
+						<option value='custom_options'>Custom Options Related Fields</option>
+						<option value='image'>Image Related Fields</option>
+						<option value='inventory'>Inventory Related Fields</option>
+						<option value='price'>Price Related Fields</option>						
+					</select>
+		
+					<small class="profile_direction_import profile_entity_type_product">
+							<?php echo $this->__("Please select value for export fields.") ?>
+					</small>
+				</span>
+		</span>		
+		
+		<span class="field-row">
+                <label for="file_filename"><?php echo $this->__("File Name Without extension") ?></label>
+				<span class="with-tip">
+					<input class="input-text" id="output" name="output" value="productdata"/>
+					<small class="profile_direction_import profile_entity_type_product">
+							<?php echo $this->__("(Export file name.)") ?>
+					</small>
+				</span>
+		</span>
+			
+		<span class="field-row">
+				<label for="file_type">&nbsp </label>
+				<div class='runProfileBtn' style='padding:15px'>
+					<?php echo $this->getRunButtonHtml() ?> 	
+				</div>	
+        </span>
+		
+		
+    </fieldset>
+
+
+</div>
+
+
+<script type="text/javascript">
+
+function runProfile()
+{
+	getTotalProductsCount();	
+}
+function getTotalProductsCount(){
+
+						//Element.show('loading-mask');
+		new Ajax.Request("<?php echo $this->getUrl('*/adminhtml_RunProfile/exportRecordCount');?>store_id/"+document.getElementById('store').value, {
+				method: "post",
+				parameters: {form_key: FORM_KEY},
+				onComplete: function(transport) {
+
+					try {
+					var response = transport.responseText.evalJSON();	
+					}catch(e){
+						$('loading-mask').hide();
+						alert(transport.responseText);					
+					}
+					
+					if(response.export_can_proceed==true)
+					{
+						totalRecords=response.totalOrder;
+						//console.log(response.timestamp);
+						//console.log(response);
+						$('loading_mask_loader').update('<ul id="profileRows"><img alt="Loading..." src="<?php echo $this->getSkinUrl('images/ajax-loader-tr.gif');?>"><br>Total: '+totalRecords+' Product(s) founds.</ul>');
+						exportCall(response.splitExport,1,null,response.timestamp);		
+					}else{					
+						var el = document.getElementById('store');
+						var text = decodeHtml(el.options[el.selectedIndex].innerHTML);
+						alert('Selected Store: "'+text.trim()+'" not having Product(s) to export');
+					}			
+				}
+		});
+		
+}
+</script>
+
+
+
+
+<script type="text/javascript">
+	var countOfStartedProfiles = 0;
+	var countOfUpdated = 0;
+	var countOfError = 0;
+	var totalRecords = 0;
+	var totalPage=0;
+	var config= <?php echo Mage::helper('core')->jsonEncode($config);?>;
+	var export_type='*'
+	var checkedList = [];
+
+		
+	function exportCall(splitRun,page,filename,timestamp){
+		var url="<?php echo $this->getUrl('*/adminhtml_RunProfile/exportrun');?>store_id/"+document.getElementById('store').value+"/exportfiletype/"+document.getElementById('exportfiletype').value+"/output/"+document.getElementById('output').value+'/splitRun/'+splitRun+'/timestamp/'+timestamp+'/filename/'+filename+'/page/'+page;
+		
+
+		if(!document.getElementById('checkProductFields').checked)
+		{
+			export_type='subselection';
+			$$('.productsField_checkbox').each(function(ele){
+			   if( $(ele).checked )
+			   {
+				   checkedList.push($(ele).name);
+			   }
+			});
+		}
+
+
+		//console.log(checkedList);
+		new Ajax.Request(url, {
+				method: "post",
+				parameters: {form_key: FORM_KEY,'export_fields[]':checkedList,export_type:export_type},
+				onComplete: function(transport) {
+					totalPage++;
+					//var response = transport.responseText.evalJSON();
+					
+					try {
+					var response = transport.responseText.evalJSON();	
+					}catch(e){
+						$('loading-mask').hide();
+						alert(transport.responseText);					
+					}
+					
+					if(response.proceed_next==true){
+						countOfUpdated=countOfUpdated+response.exportedOrders;
+						$('loading_mask_loader').update('<ul id="profileRows"><img alt="Loading..." src="<?php echo $this->getSkinUrl('images/ajax-loader-tr.gif');?>"><br>Exported: '+getPercent()+'% '+countOfUpdated+'/'+totalRecords+' product(s).</ul>');
+
+						
+						exportCall(splitRun,response.page,response.filename,response.timestamp);						
+					}else if(response.filename!='')
+					{
+						//alert();
+						if(document.getElementById('exportfiletype').value=='csv'){						
+							mergingCSVFiles(response.filename,1,totalPage,response.timestamp);
+						}else{
+							window.location="<?php echo $this->getUrl('*/adminhtml_Exportproducts/index');?>";
+						}
+						//alert();
+					}
+				}
+		});
+
+	}
+	
+	function mergingCSVFiles(filename,processPage,page,timestamp){
+		var url="<?php echo $this->getUrl('*/adminhtml_RunProfile/mergeCsv');?>filename/"+filename+'/page/'+page+'/processPage/'+processPage+'/timestamp/'+timestamp;
+		$('loading_mask_loader').update('<ul id="profileRows"><img alt="Loading..." src="<?php echo $this->getSkinUrl('images/ajax-loader-tr.gif');?>"><br>Please wait while CSV is being prepared for download... </ul>');
+
+						
+		new Ajax.Request(url, {
+				method: "post",
+				parameters: {form_key: FORM_KEY,'export_fields[]':checkedList,export_type:export_type},				
+				onComplete: function(transport) {
+					//alert(transport);
+
+					
+					try {
+					var response = transport.responseText.evalJSON();	
+					}catch(e){
+						$('loading-mask').hide();
+						alert(transport.responseText);					
+					}
+
+					
+					if(response.proceed_next==true){
+						mergingCSVFiles(response.filename,response.processPage,response.page,response.timestamp);
+					}else{
+						window.location="<?php echo $this->getUrl('*/adminhtml_Exportproducts/index');?>";
+					}
+					//console.log(response);	
+					//
+				}
+		});
+	
+	}
+	
+	
+	function decodeHtml(html) {
+		var txt = document.createElement("textarea");
+		txt.innerHTML = html;
+		return txt.value;
+	}	
+	function getPercent() {
+		return Math.ceil((countOfUpdated/totalRecords)*1000)/10;
+	}
+
+
+	
+	window.onload=function(){			
+			config.tpl = new Template(config.template);
+			config.tplTxt = new Template(config.text);
+			config.tplSccTxt = new Template(config.successText);			
+	}
+	
+
+	
+</script>
+
+
+
+
+<script type="text/javascript">
+//<![CDATA[
+function checkAllOrderFields(element)
+{
+    if(element.checked)
+    {
+        $elements = $$('.productsField_checkbox').each(check);
+    }
+    else
+    {
+        $elements = $$('.productsField_checkbox').each(uncheck);
+    }
+}
+function check(checkbox)
+{
+    checkbox.checked = true;
+    checkbox.disabled = true;	
+}
+
+function checkSomeFields(checkbox)
+{
+    checkbox.disabled = false;	
+    checkbox.checked = true;
+}
+
+
+function uncheck(checkbox)
+{
+    checkbox.disabled = false;
+    checkbox.checked = false;	
+}
+
+function updateSelector(){
+
+	var export_type=document.getElementById('export_for').value;
+
+	switch(export_type){
+	
+	case 'image':
+		$('checkProductFields').checked=false;	
+        $$('.productsField_checkbox').each(uncheck);	
+        $$('.img_fields').each(checkSomeFields);	
+	break;
+	case 'inventory':
+        $('checkProductFields').checked=false;	
+        $$('.productsField_checkbox').each(uncheck);	
+        $$('.inventory_fields').each(checkSomeFields);	
+	break;
+	case 'price':
+        $('checkProductFields').checked=false;	
+        $$('.productsField_checkbox').each(uncheck);	
+        $$('.price_fields').each(checkSomeFields);	
+		
+	break;	
+	case 'custom_options':
+        $('checkProductFields').checked=false;	
+        $$('.productsField_checkbox').each(uncheck);	
+        $$('.customoptions_fields').each(checkSomeFields);	
+		$('productFieldrequired_options').checked=true;	
+		$('productFieldhas_options').checked=true;			
+	break;	
+	
+	case 'custom_fields':
+        $('checkProductFields').checked=false;	
+        $$('.productsField_checkbox').each(uncheck);	
+	break;		
+		
+	default:
+        $('checkProductFields').checked=true;	
+		$$('.productsField_checkbox').each(check);
+	break;
+	}	
+}
+
+
+//]]>
+<?php
+
+$attriubte_list=$this->getAttriubteList();
+
+function cmp($a, $b) {
+	if ($a['type'] == $b['type']) {
+		return 0;
+	}
+	return ($a['type'] < $b['type']) ? 1 : -1;
+}
+
+usort($attriubte_list, "cmp");
+
+
+$_columns      = 4;
+$_rows         = ceil(count($attriubte_list) / $_columns);
+
+?>
+
+</script>
+
+
+
+
+
+
+<div class="entry-edit-head">
+    <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('importproduct')->__('Mandatory Fields') ?></h4>
+</div>
+<fieldset>
+         <legend><?php echo Mage::helper('importproduct')->__('Mandatory Fields') ?></legend>
+
+        <div class="clear">
+				<span class="field-row" style="float: left; width: 220px;">
+					<label style="float:none;margin:2px;padding:2px;">store</label>
+					<span>
+						<input type="checkbox" style="float:left"  value="1" checked disabled="true"/>
+					</span>
+				</span>
+
+				<span class="field-row" style="float: left; width: 220px;">
+					<label  style="float:none;margin:2px;padding:2px;">website</label>
+					<span>
+						<input type="checkbox" style="float:left"  value="1" checked disabled="true"/>
+					</span>
+				</span>
+
+				<span class="field-row" style="float: left; width: 220px;">
+					<label style="float:none;margin:2px;padding:2px;">sku</label>
+					<span>
+						<input type="checkbox" style="float:left"  value="1" checked disabled="true"/>
+					</span>
+				</span>
+				
+        </div>
+		
+</fieldset>
+
+
+
+
+<div class="entry-edit-head">
+    <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('importproduct')->__('Additional Fields') ?></h4>
+</div>
+<fieldset>
+        <span class="field-row">
+            <label for="checkProductFields"><?php echo Mage::helper('importproduct')->__('Select All/Unselect All') ?></label>
+            <span>
+                <input type="checkbox" id="checkProductFields" name="check" value="1" onclick="checkAllOrderFields(this)" checked />
+            </span>
+        </span>
+</fieldset>
+<fieldset>
+    <legend><?php echo Mage::helper('importproduct')->__('Additional Fields') ?></legend>
+    <?php for ($row = 0; $row < $_rows; $row++) : ?>
+        <div class="clear">
+        <?php for ($column = 0; $column < $_columns; $column++) : ?>
+            <?php $index = $row * $_columns + $column ?>
+                <?php if (isset($attriubte_list[$index])) : ?>
+                    <?php $field = $attriubte_list[$index]['code'] ?>
+            <span class="field-row" style="float: left; width: 220px;">
+                <label for="productField<?php echo $field ?>" style="float:none;margin:2px;padding:2px;"><?php echo $field ?>
+                </label>
+                <span>
+                    <input type="checkbox" style="float:left" id="productField<?php echo $field ?>" class="productsField_checkbox <?php echo $attriubte_list[$index]['type'];?>" name="<?php echo $field ?>" value="1" disabled="true" checked/>
+                </span>
+            </span>
+            <?php endif ?>
+        <?php endfor ?>
+        </div>
+    <?php endfor ?>
+</fieldset>
+
+<?php 
+}else{
+}
+ //echo $this->getRunButtonHtml() ?><br/>

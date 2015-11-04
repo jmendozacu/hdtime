@@ -1,0 +1,19 @@
+//
+// Breadcrumbs
+// --------------------------------------------------
+
+
+.breadcrumb {
+  margin-bottom: 13px;
+    > li {
+      padding: 0;
+        + li:before {
+            content: "\003E";
+            padding: 0;
+            color: @breadcrumb-color;
+        }
+      a{
+        line-height: 1;
+      }
+    }
+}

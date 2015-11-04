@@ -1,0 +1,45 @@
+<?php $rootId = Mage::app()->getStore()->getRootCategoryId(); ?>
+<?php $rootCategory = Mage::getModel('catalog/category')->load(106); ?>
+<?php $catIds = explode(',', $rootCategory->getChildren(false /*Recursive*/, true /*Is Active*/)); ?>
+
+<?php
+    $categories = array();
+    for ($i = 0; $i < count($catIds); $i++) {
+        $row = array();
+        array_push($row, $catIds[$i]);
+        if (!is_null($catIds[$i+1])) array_push($row, $catIds[$i+1]);
+        $i++; array_push($categories, $row);
+    }
+?>
+
+<?php if (count($categories) > 0): ?>
+<article class="col-sm-12">
+    <div class="cat-list">
+    <?php foreach($categories as $categoryIds): ?>
+        <div class="row">
+        <?php foreach($categoryIds as $categoryId): ?>
+            <div class="col-sm-6">
+                <?php $category = Mage::getModel('catalog/category')->load($categoryId); ?>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="cat-pict">
+                            <a href="<?php echo $category->getUrl() ?>"><img src="<?php echo $category->getImageUrl() ?>"></a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <ul class="list-unstyled">
+                            <li><a href="<?php echo $category->getUrl() ?>"><div class="cat-caption"><?php echo $category->getName() ?></div></a></li>
+                            <?php $subCategories = $category->getChildrenCategories(); ?>
+                            <?php foreach($subCategories as $subCat): ?>
+                                <li><a href="<?php echo $subCat->getUrl() ?>"><?php echo $subCat->getName() ?></a></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+        </div>
+    <?php endforeach; ?>
+    </div>
+</article>
+<?php endif; ?>

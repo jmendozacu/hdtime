@@ -1,0 +1,30 @@
+/* Extra small devices (phones, up to 480px) */
+/* No media query since this is the default in Bootstrap */
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: @screen-md) and (max-width: @screen-md-max)  { 
+
+  .main-menu {
+    margin-left: -12px;
+    .navbar-collapse{
+      padding: 0;
+    }
+  }
+  .footer-menu {
+    .basket {
+      //text-align: right;
+    }
+    .bin-go {
+      margin-right: 0 !important;
+    }
+  }
+  .top-aside {
+    padding-left: 11%;
+  }
+  .list-inline{
+    >li{
+      padding: 0 3px;
+    }
+  }
+} //end of media
+

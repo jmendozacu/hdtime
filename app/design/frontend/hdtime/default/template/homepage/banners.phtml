@@ -1,0 +1,46 @@
+<?php
+$bannerCollection = $this->getCollection();
+$configData = Mage::getStoreConfig('bannerpro');
+if($configData['settings']['time_delay'] != null) {
+    $timeDelay = $configData['settings']['time_delay'];
+}
+else {
+    $timeDelay = 5000;
+}
+$i = 1;
+?>
+<section class="container-fluid">
+    <div class="slider">
+        <div class="container">
+            <div id="slider-main" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+					<?php $k=0; foreach ($bannerCollection as $banner): ?>
+						<li data-target="#slider-main" data-slide-to="<?php echo $k; ?>" <?php if ($k == 0) : ?>class="active"<?php endif; ?>></li>
+					<?php $k++; endforeach; ?>
+					<!--li data-target="#slider-main" data-slide-to="0" class="active"></li>
+                    <li data-target="#slider-main" data-slide-to="1"></li>
+                    <li data-target="#slider-main" data-slide-to="2"></li-->
+                </ol>
+                <div class="carousel-inner">
+                <?php foreach ($bannerCollection as $banner): ?>
+                    <div class="item <?php if ($i == 1) { echo 'active'; } ?>">
+                        <a href="<?php echo $banner->getWeblink() ?>" title="<?php echo $banner->getWeblink() ?>">
+                            <img title="<?php echo $banner->getTitle() ?>" alt="<?php echo $banner->getTitle() ?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . $banner->getFilename() ?>" alt="">
+                        </a>
+                        <?php if ($configData['settings']['show_description'] == '1' && $banner->getText() != ""):?>
+                        <div class="carousel-caption">
+                            <h3 class="promo-caption"><?php echo $banner->getTitle() ?></h3>
+                            <div class="hidden-xs">
+                                <p><?php echo $banner->getText() ?></p>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                <?php $i++; endforeach; ?>
+                </div>
+                <a class="left carousel-control" href="#slider-main" data-slide="prev"></a>
+                <a class="right carousel-control" href="#slider-main" data-slide="next"></a>
+            </div>
+        </div>
+    </div>
+</section>

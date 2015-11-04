@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Unicode Systems
+ * @category   Uni
+ * @package    Uni_Occheckout
+ * @copyright  Copyright (c) 2010-2011 Unicode Systems. (http://www.unicodesystems.in)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Uni_Occheckout>
+            <version>1.0.1</version>
+        </Uni_Occheckout>
+    </modules>
+    <frontend>
+        <routers>
+            <occheckout>
+                <use>standard</use>
+                <args>
+                    <module>Uni_Occheckout</module>
+                    <frontName>occheckout</frontName>
+                </args>
+            </occheckout>
+            <checkout>
+                <args>
+                    <modules>
+                        <Uni_Occheckout before="Mage_Checkout">Uni_Occheckout</Uni_Occheckout>
+                    </modules>
+                </args>
+            </checkout>
+            <customer>
+                <args>
+                    <modules>
+                        <Uni_Occheckout before="Mage_Customer">Uni_Occheckout</Uni_Occheckout>
+                    </modules>
+                </args>
+            </customer>
+        </routers>
+        <layout>
+            <updates>
+                <occheckout>
+                    <file>occheckout.xml</file>
+                </occheckout>
+            </updates>
+        </layout>
+    </frontend>
+    <global>
+        <helpers>
+            <occheckout>
+                <class>Uni_Occheckout_Helper</class>
+            </occheckout>
+        </helpers>
+        <blocks>
+            <occheckout>
+                <class>Uni_Occheckout_Block</class>
+            </occheckout>
+            <catalog>
+                <rewrite>
+                    <product_view>Uni_Occheckout_Block_Catalog_Product_View</product_view>
+                </rewrite>
+            </catalog>
+            <checkout>
+                <rewrite>
+                    <onepage_billing>Uni_Occheckout_Block_Checkout_Onepage_Billing</onepage_billing>
+                </rewrite>
+            </checkout>
+            <checkout>
+                <rewrite>
+                    <onepage_shipping>Uni_Occheckout_Block_Checkout_Onepage_Shipping</onepage_shipping>
+                </rewrite>
+            </checkout>
+            <checkout>
+                <rewrite>
+                    <onepage_payment_methods>Uni_Occheckout_Block_Checkout_Onepage_Payment_Methods</onepage_payment_methods>
+                </rewrite>
+            </checkout>
+        </blocks>
+    </global>
+</config> 

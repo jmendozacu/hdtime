@@ -1,0 +1,241 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright (c) Mygento.ru
+ * Public license URL: http://www.mygento.ru/oferta
+ * Support EMAIL support@mygento.ru
+ */
+-->
+<config>
+    <modules>
+        <Mygento_ExportYMLPro>
+            <version>2.5.4.0</version>
+        </Mygento_ExportYMLPro>
+    </modules>
+    <default>
+        <exportymlpro>
+            <general>
+                <enabled>0</enabled>
+                <enabledfull>0</enabledfull>
+                <debug>0</debug>
+                <use_sitename>1</use_sitename>
+                <use_phone>1</use_phone>
+                <timeout>7200</timeout>
+                <cron>1</cron>
+                <cronfull>0</cronfull>
+                <online>1</online>
+                <onlinefull>1</onlinefull>
+                <agency>Mygento</agency>
+            </general>
+            <catalog>
+                <minprice>0</minprice>
+                <adult>0</adult>
+                <image>image</image>
+                <utm>0</utm>
+                <utm_source>yandex</utm_source>
+                <utm_campaign>market</utm_campaign>
+                <utm_medium>cpc</utm_medium>
+            </catalog>
+            <currency>
+                <base>1</base>
+            </currency>
+        </exportymlpro>
+    </default>
+    <frontend>
+        <routers>
+            <exportymlpro>
+                <use>standard</use>
+                <args>
+                    <module>Mygento_ExportYMLPro</module>
+                    <frontName>exportymlpro</frontName>
+                </args>
+            </exportymlpro>
+        </routers>
+        <default>
+            <router>exportymlpro</router>
+        </default>
+    </frontend>
+
+    <global>
+        <models>
+            <exportymlpro>
+                <class>Mygento_ExportYMLPro_Model</class>
+                <resourceModel>exportymlpro_mysql4</resourceModel>
+            </exportymlpro>
+            <exportymlpro_mysql4>
+                <class>Mygento_ExportYMLPro_Model_Mysql4</class>
+                <entities>
+                    <bid>
+                        <table>mygento_exportymlpro_bid</table>
+                    </bid>
+                </entities>
+            </exportymlpro_mysql4>
+        </models>
+        <blocks>
+            <exportymlpro>
+                <class>Mygento_ExportYMLPro_Block</class>
+            </exportymlpro>
+        </blocks>
+        <resources>
+            <exportymlpro_setup>
+                <setup>
+                    <module>Mygento_ExportYMLPro</module>
+                    <class>Mygento_ExportYMLPro_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </exportymlpro_setup>
+            <exportymlpro_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </exportymlpro_write>
+            <exportymlpro_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </exportymlpro_read>
+        </resources>
+        <helpers>
+            <exportymlpro>
+                <class>Mygento_ExportYMLPro_Helper</class>
+            </exportymlpro>
+        </helpers>
+    </global>
+    <adminhtml>
+        <events>
+            <catalog_category_prepare_save>
+                <observers>
+                    <exportymlpro_category_observer>
+                        <class>exportymlpro/observer</class>
+                        <method>beforeSaveCategory</method>
+                    </exportymlpro_category_observer>
+                </observers>
+            </catalog_category_prepare_save>
+
+            <adminhtml_catalog_category_tabs>
+                <observers>
+                    <exportymlpro_category_observer>
+                        <class>exportymlpro/observer</class>
+                        <method>addCategoryTab</method>
+                    </exportymlpro_category_observer>
+                </observers>
+            </adminhtml_catalog_category_tabs>
+
+        </events>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <mygento translate="title" module="exportymlpro">
+                            <title>Mygento Extensions</title>
+                            <sort_order>60</sort_order>
+                            <children>
+                                <exportymlpro translate="title" module="exportymlpro">
+                                    <title>Yandex Market Pro</title>
+                                    <sort_order>40</sort_order>
+                                    <children>
+                                        <category translate="title" module="exportymlpro">
+                                            <title>Manage Categories</title>
+                                            <sort_order>10</sort_order>
+                                        </category>
+                                    </children>
+                                </exportymlpro>
+                            </children>
+                        </mygento>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <exportymlpro>
+                                            <title>Mygento Export YML Pro</title>
+                                        </exportymlpro>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <translate>
+            <modules>
+                <exportymlpro>
+                    <files>
+                        <default>Mygento_ExportYMLPro.csv</default>
+                    </files>
+                </exportymlpro>
+            </modules>
+        </translate>
+        <menu>
+            <mygento translate="title" module="exportymlpro">
+                <title>Mygento Extensions</title>
+                <sort_order>60</sort_order>
+                <children>
+                    <exportymlpro translate="title" module="exportymlpro">
+                        <title>Yandex Market Pro</title>
+                        <sort_order>40</sort_order>
+                        <children>
+                            <category translate="title" module="exportymlpro">
+                                <title>Manage Categories</title>
+                                <sort_order>10</sort_order>
+                                <action>exportymlpro/adminhtml_category</action>
+                            </category>
+                            <!--
+                            <cat translate="title" module="exportymlpro">
+                                                                                                                                                <title>Manage Categories [BETA]</title>
+                                                                                                                                                <sort_order>20</sort_order>
+                                                                                                                                                <action>exportymlpro/adminhtml_cat</action>
+                                                                                                                                </cat>
+                            -->
+                            <settings translate="title" module="exportymlpro">
+                                <title>Settings</title>
+                                <action>adminhtml/system_config/edit/section/exportymlpro</action>
+                                <sort_order>100</sort_order>
+                            </settings>
+                        </children>
+                    </exportymlpro>
+                </children>
+            </mygento>
+        </menu>
+        <layout>
+            <updates>
+                <exportymlpro>
+                    <file>mygento/exportymlpro.xml</file>
+                </exportymlpro>
+            </updates>
+        </layout>
+    </adminhtml>
+    <admin>
+        <routers>
+            <exportymlpro>
+                <use>admin</use>
+                <args>
+                    <module>Mygento_ExportYMLPro</module>
+                    <frontName>exportymlpro</frontName>
+                </args>
+            </exportymlpro>
+        </routers>
+    </admin>
+    <crontab>
+        <jobs>
+            <exportymlpro_generate>
+                <schedule>
+                    <cron_expr>10 1,3,5,7,9,11,13,15,17,19,21,23 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>exportymlpro/crontab::generate</model>
+                </run>
+            </exportymlpro_generate>
+            <exportymlpro_generatefull>
+                <schedule>
+                    <cron_expr>10 */4 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>exportymlpro/crontab::generatefull</model>
+                </run>
+            </exportymlpro_generatefull>
+        </jobs>
+    </crontab>
+</config>

@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <LogicMind_Currency>
+            <version>0.1.0</version>
+        </LogicMind_Currency>
+    </modules>
+
+    <global>
+        <models>
+            <directory>
+                <rewrite>
+                    <currency>LogicMind_Currency_Model_Currency</currency>
+                </rewrite>
+            </directory>
+        </models>
+        <helpers>
+          <logicmind_currency>
+            <class>LogicMind_Currency_Helper</class>
+          </logicmind_currency>
+        </helpers>
+    </global>
+    <admin>
+      <routers>
+          <adminhtml>
+              <args>
+                  <modules>
+                      <currencysymbol before="Mage_Adminhtml">Mage_CurrencySymbol_Adminhtml</currencysymbol>
+                  </modules>
+              </args>
+          </adminhtml>
+      </routers>
+    </admin>
+</config>

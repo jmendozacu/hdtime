@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <LogicMind_Currency>
+            <active>true</active>
+            <codePool>local</codePool>
+        </LogicMind_Currency>
+        <depends>
+          <Mage_Directory />
+          <ET_CurrencyManager />
+        </depends>
+
+    </modules>
+    
+</config>

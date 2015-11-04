@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Me
+ * @package   Me_Cmb
+ * @author    Attila Sági <sagi.attila@aion.hu>
+ * @copyright 2015 Magevolve Ltd. (http://magevolve.com)
+ * @license   http://magevolve.com/terms-and-conditions Magevolve License
+ * @link      http://magevolve.com
+ */
+-->
+<config>
+    <modules>
+        <Me_Cmb>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Adminhtml />
+            </depends>
+        </Me_Cmb>
+    </modules>
+</config>

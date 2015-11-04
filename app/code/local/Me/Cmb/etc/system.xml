@@ -1,0 +1,240 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Me
+ * @package   Me_Cmb
+ * @author    Attila Sági <sagi.attila@aion.hu>
+ * @copyright 2015 Magevolve Ltd. (http://magevolve.com)
+ * @license   http://magevolve.com/terms-and-conditions Magevolve License
+ * @link      http://magevolve.com
+ */
+-->
+<config>
+    <tabs>
+        <me_tab translate="label" module="me_cmb">
+            <label>Magevolve Extensions</label>
+            <sort_order>300</sort_order>
+        </me_tab>
+    </tabs>
+    <sections>
+        <cmb>
+            <class>separator-top</class>
+            <label>Request Callback</label>
+            <tab>me_tab</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>500</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <config translate="label">
+                    <label>Basic</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Enable Extension</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Enable extension on frontend.</comment>
+                        </enabled>
+                    </fields>
+                </config>
+                <display translate="label">
+                    <label>Display</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <title translate="label">
+                            <label>Block Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>required-entry</validate>
+                            <comment>The title of the Request Callback block in the sidebar.</comment>
+                        </title>
+                        <message translate="label">
+                            <label>Block Message</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>The message of the Request Callback block after the title. You can use HTML tags for formatting.</comment>
+                        </message>
+                        <response translate="label">
+                            <label>Success Message</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>required-entry</validate>
+                            <comment>The success message after the form was submitted. You can use HTML tags for formatting.</comment>
+                        </response>
+                        <delay translate="label">
+                            <label>Success Message Delay</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>required-entry validate-number validate-greater-than-zero validate-number-range number-range-5-30</validate>
+                            <comment>The delay time in seconds until the success message will be shown. For example: 10. This value range is 5 - 30.</comment>
+                        </delay>
+                        <sidebar translate="label">
+                            <label>Sidebar</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>me_cmb/system_config_source_sidebar</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Please choose left or rigth sidebar to show Request Callback box automatically.</comment>
+                        </sidebar>
+                    </fields>
+                </display>
+                <schedule translate="label">
+                    <label>Date and Time</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>30</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <date translate="label">
+                            <label>Show Date</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Show date field with datepicker.</comment>
+                        </date>
+                        <mandatory translate="label">
+                            <label>Is Date Mandatory</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Please select if date is mandatory field or not.</comment>
+                            <depends>
+                                <date>1</date>
+                            </depends>
+                        </mandatory>
+                        <show_predefined translate="label">
+                            <label>Show Predefined Times</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <backend_model>me_cmb/system_config_backend_notification</backend_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Show predefined times as drop down.</comment>
+                        </show_predefined>
+                        <predefined translate="comment">
+                            <label>Predefined Times</label>
+                            <frontend_model>me_cmb/adminhtml_form_field_predefined</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Please add predefined time intervals. For example: Between 9:00 and 11:00 am.</comment>
+                            <depends>
+                                <show_predefined>1</show_predefined>
+                            </depends>
+                        </predefined>
+                    </fields>
+                </schedule>
+                <email translate="label">
+                    <label>Email Options</label>
+                    <sort_order>40</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Enable Notification Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Send admin notification email.</comment>
+                        </enabled>
+                        <recipient_email translate="label">
+                            <label>Send Emails To</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-email required-entry</validate>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Please enter the email address where notification will be sent.</comment>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </recipient_email>
+                        <bcc_email translate="label">
+                            <label>Send BCC Emails To</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-email</validate>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Please enter the bcc copy email address where notification will be also sent.</comment>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </bcc_email>
+                        <sender_email_identity translate="label">
+                            <label>Email Sender</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Please select the email sender from store email addresses.</comment>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </sender_email_identity>
+                        <email_template translate="label">
+                            <label>Email Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Please select the custom email template or use the default.</comment>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </email_template>
+                    </fields>
+                </email>
+            </groups>
+        </cmb>
+    </sections>
+</config>

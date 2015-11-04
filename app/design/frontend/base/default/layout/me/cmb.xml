@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Me
+ * @package   Me_Cmb
+ * @author    Attila Sági <sagi.attila@aion.hu>
+ * @copyright 2015 Magevolve Ltd. (http://magevolve.com)
+ * @license   http://magevolve.com/terms-and-conditions Magevolve License
+ * @link      http://magevolve.com
+ */
+-->
+<layout version="0.1.0">
+
+    <default>
+        <reference name="head">
+            <action method="addCss" ifconfig="cmb/config/enabled"><stylesheet>css/me/cmb/cmb.css</stylesheet></action>
+            <action method="addItem" ifconfig="cmb/config/enabled"><type>skin_js</type><name>js/me/cmb/cmb.js</name></action>
+        </reference>
+        <!-- You can add block anywhere with this sample -->
+        <!--
+        <reference name="left">
+            <block type="me_cmb/request" name="left.cmb" template="me/cmb/request.phtml" />
+        </reference>
+        -->
+    </default>
+
+</layout>

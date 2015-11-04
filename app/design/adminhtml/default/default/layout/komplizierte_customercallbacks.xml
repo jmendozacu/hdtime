@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <adminhtml_callbacks_index>
+        <reference name="content">
+            <block type="komplizierte_customercallbacks/adminhtml_callbacks" name="callbacks"/>
+        </reference>
+    </adminhtml_callbacks_index>
+    <adminhtml_callbacks_edit>
+        <reference name="content">
+            <block type="komplizierte_customercallbacks/adminhtml_callbacks_edit" name="callbacks_edit"/>
+        </reference>
+    </adminhtml_callbacks_edit>
+    <adminhtml_callbacks_new>
+        <update handle="adminhtml_callbacks_edit"/>
+    </adminhtml_callbacks_new>
+</layout>

@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Amasty_ShippingDate extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category   	Amasty
+ * @package		Amasty_ShippingDate
+ * @copyright  	Copyright (c) 2014
+ * @license		http://opensource.org/licenses/mit-license.php MIT License
+ */
+--> 
+<layout>
+    <adminhtml_system_config_edit>
+        <update handle="editor"/>
+        <reference name="head">
+            <action method="setCanLoadTinyMce"><load>1</load></action>
+        </reference>
+    </adminhtml_system_config_edit>
+	<!-- Weekends grid action -->
+	<adminhtml_shippingdate_weekend_index>
+		<reference name="menu">
+			<action method="setActive">
+				<menupath>shippingdate/weekend</menupath>
+			</action>
+		</reference>
+		<reference name="content">
+			<block type="shippingdate/adminhtml_weekend" name="weekend" />
+		</reference>
+	</adminhtml_shippingdate_weekend_index>
+	<adminhtml_shippingdate_weekend_grid>
+		<block type="core/text_list" name="root" output="toHtml">
+			<block type="shippingdate/adminhtml_weekend_grid" name="weekend_grid"/>
+		</block>
+	</adminhtml_shippingdate_weekend_grid>
+	<!-- Weekend add/edit action -->
+	<adminhtml_shippingdate_weekend_edit>
+		<update handle="editor"/>
+		<reference name="menu">
+			<action method="setActive">
+				<menupath>shippingdate/weekend</menupath>
+			</action>
+		</reference>
+		<reference name="content">
+			<block type="shippingdate/adminhtml_weekend_edit" name="weekend_edit"></block>
+		</reference>
+		<reference name="left">
+			<block type="shippingdate/adminhtml_weekend_edit_tabs" name="weekend_tabs"></block>
+		</reference> 
+	</adminhtml_shippingdate_weekend_edit>
+</layout>

@@ -1,0 +1,112 @@
+<?php $hlr = $this->helper("amscheckout"); ?>
+<div class="user-nav">
+    <ul class="nav nav-tabs user-nav">
+        <li class="active"><a href="#"><span>Корзина</span> <span class="sub"><?php echo Mage::helper('checkout/cart')->getItemsCount() ?></span></a></li>
+
+        <li><a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>catalog/product_compare/index"><span>Сравнение</span></a></li>
+        <li><a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>review/customer"><span>Отзывы</span></a></li>
+        <li><a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>sales/order/history"><span>Заказы</span></a></li>
+        <li><a href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB); ?>customer/account"><span>Настройки</span></a></li>
+    </ul>
+</div>
+
+<div class="cart checkout-list table-responsive">
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <?php echo $this->getChildHtml('form_before') ?>
+
+    <input type="hidden" name="update_cart_action" id="update_cart_action"/>
+    <input type="hidden" name="delete_cart_id" id="delete_cart_id"/>
+
+
+    <table id="shopping-cart-table" class="table table-hover">
+    <?php $mergedCells = ($this->helper('tax')->displayCartBothPrices() ? 2 : 1); ?>
+        <thead>
+            <tr>
+                <th rowspan="<?php echo $mergedCells; ?>">&nbsp;</th>
+                <th rowspan="<?php echo $mergedCells; ?>">
+                    <?php if($this->helper('amscheckout')->getContinueShoppingUrl()): ?>
+                        <a class="text-dashed" href="<?php echo $this->helper('amscheckout')->getContinueShoppingUrl() ?>"><?php echo $this->__('Add Product') ?></a>
+                    <?php endif; ?>
+                </th>
+                <th rowspan="<?php echo $mergedCells; ?>" style="display: none;"></th>
+                <th class="a-right" colspan="<?php echo $mergedCells; ?>"><span class="nobr"><?php echo $this->__('Unit Price') ?></span></th>
+                <th rowspan="<?php echo $mergedCells; ?>" class="a-center"><?php echo $this->__('Qty') ?></th>
+                <th class="a-right" colspan="<?php echo $mergedCells; ?>"><?php echo $this->__('Subtotal') ?></th>
+                <th rowspan="<?php echo $mergedCells; ?>" class="a-center">&nbsp;</th>
+            </tr>
+            <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+            <tr>
+                <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+                <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+                <th class="a-right"><?php echo $this->helper('tax')->getIncExcTaxLabel(false) ?></th>
+                <th><?php echo $this->helper('tax')->getIncExcTaxLabel(true) ?></th>
+            </tr>
+            <?php endif; ?>
+        </thead>
+        <tbody>
+        <?php foreach($this->getItems() as $_item): ?>
+            <?php echo $this->getItemHtml($_item) ?>
+        <?php endforeach ?>
+        </tbody>
+    </table>
+    <script type="text/javascript">decorateTable('shopping-cart-table')</script>
+
+
+    <div class="cart-collaterals">
+        <div class="col2-set">
+            <div class="col-1">
+                <?php echo $this->getChildHtml('crosssell') ?>
+            </div>
+            <div class="col-2">
+                <?php /* Extensions placeholder */ ?>
+                <?php echo $this->getChildHtml('checkout.cart.extra') ?>
+                <?php echo $this->getChildHtml('coupon') ?>
+                <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
+            </div>
+        </div>
+        <div class="totals">
+            <?php echo $this->getChildHtml('totals'); ?>
+            <?php if(!$this->hasError()): ?>
+            <ul class="checkout-types">
+            <?php foreach ($this->getMethods('methods') as $method): ?>
+                <?php if ($methodHtml = $this->getMethodHtml($method)): ?>
+                <li><?php echo $methodHtml; ?></li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            </ul>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $$('.qty-link').each(function(el){
+        el.observe('click', function(){
+            var rel =el.readAttribute('rel');
+//            if(el.hasClassName('control-up') && $('hidden'+rel).value != $(rel).value){
+            if(el.hasClassName('control-up')) {
+                $(rel).value++;
+				$('update_cart_action').value = 'update_qty';
+                ajaxUpdate('<?php print $hlr->getCartUrl();?>', null, this);
+            }else if($(rel).value>1 && el.hasClassName('control-down')){
+                $(rel).value--;
+				$('update_cart_action').value = 'update_qty';
+                ajaxUpdate('<?php print $hlr->getCartUrl();?>', null, this);
+            }
+        });
+    });
+</script>
+
+<!-- Conversion tracking code: purchases. Step 1: Product added to cart -->
+<script type="text/javascript">
+    (function(w, p) {
+        var a, s;
+        (w[p] = w[p] || []).push({
+            counter_id: 423541879,
+            tag: '2fe97b6ec8f72754a20e47969485e64c'
+        });
+        a = document.createElement('script'); a.type = 'text/javascript'; a.async = true;
+        a.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'autocontext.begun.ru/analytics.js';
+        s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(a, s);
+    })(window, 'begun_analytics_params');
+</script>

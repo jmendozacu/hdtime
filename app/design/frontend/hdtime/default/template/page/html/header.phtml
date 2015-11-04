@@ -1,0 +1,127 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/**
+ * @var Mage_Page_Block_Html_Header $this
+ */
+?>
+
+<header id="header" class="container-fluid">
+    <div class="container">
+        <div class="row block-header">
+            <div class="col-sm-2">
+                <div class="logo">
+                    <a id="logo" href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>"></a>
+                </div>
+            </div>
+            <div class="col-sm-10">
+                <div class="row center-xs">
+
+                    <div class="col-sm-8">
+                        <div class="head-contact">
+						<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('header_info')->toHtml() ;?>
+                           
+								<div class="popup_callback">
+									<h2>Заказать обратный звонок</h2>
+									<span class="close_callback"><i></i></span>
+									<div class="popup_body">
+										<?php //echo $this->getChildHtml('callback')?>
+										<?php echo $this->getChildHtml('callback_form'); ?>
+									</div>
+								</div>
+								<script>
+									jQuery(document).ready(function() {
+										jQuery('.close_callback').click(function(){
+											jQuery('.popup_callback').css('display', 'none');
+										});
+										jQuery('.callback_but').click(function(){
+											jQuery('.popup_callback').css('display', 'block');
+										});
+									});
+								</script>
+                        </div>
+                        <?php echo $this->getChildHtml('topMenu') ?>
+                    </div>
+
+                    <div class="col-sm-4 search-block">
+                        <div class="user-login top-aside">
+                            <?php //echo $this->getChildHtml('topLinks') ?>
+                            <?php Mage::getSingleton('core/session', array('name'=>'frontend'));
+                                $session = Mage::getSingleton('customer/session', array('name'=>'frontend'));
+                                //$customer_data = Mage::getModel('customer/customer')->$session->id;?>
+                            <ul class="list-inline list-unstyled">
+                                <?php if($session->isLoggedIn()):?>
+                                    <li>
+                                        <a class="text-dashed" href="<?php echo Mage::getUrl('customer/account/logout/') ?>"><?php echo $this->__('Выход') ?></a>
+                                    </li>
+                                <?php else: ?>
+                                    <li>
+                                        <a class="text-dashed" href="<?php echo Mage::getUrl('customer/account/login') ?>"><?php echo $this->__('Вход') ?></a>
+                                    </li>
+                                <?php endif;?>
+
+                                <li>
+                                    <a class="text-dashed" href="<?php echo Mage::getUrl('customer/account/create') ?>">Регистрация</a>
+                                </li>
+                                <li>
+                                    <a class="text-solid" href="<?php echo Mage::getUrl('customer/account/login') ?>">Корп. клиентам</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="basket top-aside clearfix">
+                            <ul class="list-inline list-unstyled">
+                                <li class="first">
+                                    <?php $compareCollection = $this->getLayout()->createBlock('catalog/product_compare_list')->getItems(); ?>
+                                    <a href="<?php echo Mage::getUrl('catalog/product_compare/index') ?>" class="link-list"><span class="link-kol"><?php echo $compareCollection->count() ?></span></a>
+                                </li>
+                                <li  class="middle minicart">
+								<?php echo $this->getChildHtml('totalPrice') ?>
+                                </li>
+                            </ul>
+                        </div>
+                        <?php echo $this->getChildHtml('topSearch') ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <?php echo $this->getChildHtml('topContainer'); ?>
+</header>
+<script>
+jQuery(window).load(function() { 
+	jQuery(window).scroll(function () {
+		if (jQuery(window).scrollTop() > 120) {
+			jQuery('#Growler').css('position', 'fixed');
+			jQuery('#Growler').addClass('Growler_fixed');
+			jQuery('.basket.top-aside ul.list-unstyled .first .link-kol').addClass('compare_fixed');
+			
+		} else {
+			jQuery('#Growler').css('position', 'absolute');
+			jQuery('.basket.top-aside ul.list-unstyled .first .link-kol').removeClass('compare_fixed');
+		}
+	});	
+});
+</script>

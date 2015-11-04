@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <showresponse_adminhtml_showresponse_index>
+        <reference name="content">
+            <block type="showresponse/adminhtml_showresponse" name="showresponse" />
+        </reference>
+    </showresponse_adminhtml_showresponse_index>
+</layout>

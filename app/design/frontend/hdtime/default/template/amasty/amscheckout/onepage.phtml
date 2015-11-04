@@ -1,0 +1,927 @@
+<?php
+$hlr = $this->helper("amscheckout");
+
+$_areas = $hlr->getAreas();
+?>
+<script type="text/javascript">
+    (function(w, p) {
+        var a, s;
+        (w[p] = w[p] || []).push({
+            counter_id: 423541879,
+            tag: '1b474949ced9a2f602436732fa952237'
+        });
+        a = document.createElement('script'); a.type = 'text/javascript'; a.async = true;
+        a.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'autocontext.begun.ru/analytics.js';
+        s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(a, s);
+    })(window, 'begun_analytics_params');
+</script>
+<script type="text/javascript" src="<?php echo $this->getJsUrl('varien/accordion.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/opcheckout.js') ?>"></script>
+<script>
+    var amContentWin = null
+    var billingForm = new VarienForm('amscheckout-onepage');
+    var amQtyClick = []
+    var amQtyClickTimeout = 2000;
+
+    function updateReview(){
+        ajaxUpdate('<?php print $hlr->getCartUrl();?>');
+    }
+
+    function reviewEvents(){
+
+        $$('[id="review-qty"]').each(function(input){
+
+            function inputQtyHandler(){
+                for(var ind in amQtyClick){
+                    var t = amQtyClick[ind];
+                    if (typeof(t) != 'function'){
+                        clearTimeout(t);
+                    }
+                }
+
+                if (this.getAttribute('prev_val') != this.value){
+                    updateReview();
+                    this.setAttribute('prev_val', this.value);
+                }
+            }
+
+            input.observe("blur", inputQtyHandler);
+
+            input.observe("keyup", function(){
+                amQtyClick.push(setTimeout(inputQtyHandler.bind(this), amQtyClickTimeout))
+            })
+        });
+    }
+
+    function cartEvents(){
+        $$('#update_cart_qty').each(function(input){
+            input.observe("click", function(){
+                $('update_cart_action').value = 'update_qty';
+                ajaxUpdate('<?php print $hlr->getCartUrl();?>', null);
+                return false;
+            })
+        })
+
+        $$('#empty_cart_button').each(function(input){
+            input.observe("click", function(){
+                $('update_cart_action').value = 'empty_cart';
+                ajaxUpdate('<?php print $hlr->getCartUrl();?>', null);
+                return false;
+            })
+        })
+
+        $$('[id="amcheckout-delete"]').each(function(input){
+            input.observe("click", function(){
+                $('delete_cart_id').value = this.getAttribute('data-id');
+                ajaxUpdate('<?php print $hlr->getDeleteUrl();?>', null);
+                return false;
+            })
+        })
+
+
+
+    }
+
+    function ajaxUpdate(url, after, cart){
+
+        showLoading();
+
+        new Ajax.Request(url, {
+            method: 'post',
+            parameters: $('amscheckout-onepage').serialize(true),
+            onSuccess: function(response) {
+                var config = response.responseText.evalJSON();
+				
+
+                if (config.html){
+                    if (config.html.shipping_method)
+                        $('checkout-shipping-method-load').update(config.html.shipping_method);
+
+                    if (config.html.payment_method)
+                        $('co-payment-form').update(config.html.payment_method);
+
+                    if (config.html.review){
+                        $('checkout-review-load').update(config.html.review);
+                        reviewEvents();
+                    }
+
+                    /*if (config.html.cart){
+                        $('amscheckout-cart').update(config.html.cart);
+                        cartEvents();
+                    }*/
+                } 
+				
+				if (config.html.cart){
+					var price = jQuery('#checkout-review-table-wrapper .price').html();
+					jQuery('.middle.minicart .bin-summ .price').html(price);
+					jQuery('#grand-total-top').html(price);
+					
+					var parent = jQuery(cart).closest('tr');
+					var count = jQuery(parent).find('.qty-block input').val();
+					var priceOne = parseInt(jQuery(parent).find('.price_one .price').text().replace(/\D+/g,""));
+					var resoult = priceOne * count;
+					resoult = resoult.toString();
+					var result = resoult.split( /(?=(?:\d{3})+(?!\d))/ ); 
+					resoult = '';
+					for (var k = 0; k < result.length; k++) {
+						resoult += result[k];
+						resoult += '&nbsp;';
+					}
+					resoult += '<i class="fa fa-rub"></i>';
+					jQuery(parent).find('.all_price .price').html(resoult);
+
+				}
+				
+                if (typeof(after) == 'function'){
+                    after(config)
+                }
+
+                hideLoading();
+            },
+            on403: function(){
+                document.location.reload();
+            }
+        });
+    }
+
+    function updateCheckout(){
+        ajaxUpdate('<?php print $hlr->getUpdateUrl();?>');
+    }
+
+    function createAccountClick(){
+        var ch = $('billing:create_account');
+        var hidden = $('billing:method');
+        $$(".amscheckout-password").each(function(div){
+            if (ch.checked) {
+                div.show()
+                hidden.value = 'register';
+            }
+            else {
+                div.hide();
+                hidden.value = 'guest';
+            }
+        });
+    }
+
+    function amShowDialog(){
+        if (!amContentWin){
+            amContentWin = new Window({
+                draggable: true,
+                resizable: true,
+                closable: true,
+                className: "amschekcout",
+                windowClassName: "popup-window",
+                title: '<?php print $this->__("Log in")?>',
+                width: 320,
+                height: 185,
+                zIndex: 5000,
+                recenterAuto: true,
+                hideEffect: Element.hide,
+                showEffect: Element.show,
+                id: 'viewDialog'
+            });
+            amContentWin.setContent('amscheckout-login');
+
+        }
+        amContentWin.showCenter(true);
+        loginForm = new VarienForm('login-form', true);
+    }
+
+    function showLoading(){
+        $("amscheckout-processing").show();
+        $("amscheckout-loading").show();
+        $$("#shopping-cart-table input,#shopping-cart-table button").each(function(input){
+            input.setAttribute("readonly", "readonly");
+        })
+
+        $$("#shopping-cart-table button").each(function(input){
+            input.setAttribute("disabled", "disabled");
+        })
+
+    }
+
+    function hideLoading(){
+        $("amscheckout-processing").hide();
+        $("amscheckout-loading").hide();
+		
+
+        jQuery('.nav.nav-tabs.tab-success .active a').click();
+        
+
+        $$("#shopping-cart-table input,#shopping-cart-table button").each(function(input){
+            input.removeAttribute("readonly");
+            input.removeAttribute("disabled");
+        })
+    }
+
+    function initUpdatableFieldEvent(field){
+        $$("[id='" + field + "']").each(function(input){
+            var event = input.tagName.toLowerCase() == 'select' ? 'change' : 'blur';
+
+            input.observe(event, function(){
+                if (this.tagName.toLowerCase() == 'input'){
+                    if (this.getAttribute('prev_val') != this.value){
+                        updateCheckout();
+                        this.setAttribute('prev_val', this.value);
+                    }
+
+                } else {
+                    updateCheckout();
+                }
+            });
+
+
+//            $('billing:use_for_shipping_yes').observe("click", updateCheckout);
+            $('billing:use_for_shipping_no').observe("click", updateCheckout);
+
+            if (input.tagName.toLowerCase() == 'input'){
+                input.setAttribute('prev_val', input.value);
+            }
+        })
+
+    }
+</script>
+<?php
+if (!$this->isCustomerLoggedIn()){
+    ?>
+    <div style="display: none;">
+        <?php echo $this->getChildHtml("login") ?>
+    </div>
+<?php } ?>
+
+<form method="post" id="amscheckout-onepage" onsubmit="return false;">
+	<?php if ($hlr->isShoppingCartOnCheckout() && !$hlr->isMergeShoppingCartCheckout()) {?>
+		<div id="amscheckout-cart">
+			<?php echo $this->getChildHtml("cart") ?>
+		</div>
+	<?php }?>
+
+	<input type="hidden" value="22" name="billing[test]" />
+	
+	
+    <div class="row total">
+        <div class="col-md-2 col-md-offset-6 col-sm-3 col-sm-offset-5 col-xs-5">Итого</div>
+        <div class="col-sm-4 col-xs-7">
+            <div class="price" id="grand-total-top">
+                <?php $total = Mage::helper('checkout/cart')->getQuote()->getGrandTotal(); ?>
+                <?php echo Mage::helper('core')->formatPrice($total, false) ?>
+            </div>
+        </div>
+    </div>
+	
+	<div class="amscheckout-main">
+		<div id="amscheckout-processing" class="amscheckout-processing" style="display: none;">&nbsp;</div>
+		<div id="amscheckout-loading" class="amscheckout-loading" style="display: none;">&nbsp;</div>
+
+		<input type="hidden" name="form_key" value="<?php print Mage::getSingleton('core/session')->getFormKey();?>"/>
+		<h3 class="first"><?php echo $this->__('Оформление заказа') ?></h3>
+		
+<?php if (!$this->isCustomerLoggedIn()): ?>
+        
+        <div>
+            <ul class="nav nav-tabs tab-success">
+                <li class="privat_per active"><a id="private_person" href="#private_person_block" data-toggle="tab"><span><?php echo $this->__('Частое лицо') ?></span></a></li>
+                <li class="company_per"><a id="company" href="#company_block" data-toggle="tab"><span><?php echo $this->__('Организация') ?></span></a></li>
+            </ul>
+        </div>
+		
+		<!--customer billing field-->
+        <div class="tab-content">
+            <div class="form-group">
+                <div class="input-group clearer">
+				
+                    <div class="input-group-addon">
+                        <label for="billing:email">
+                            <?php echo $this->__('Электронная почта') ?>
+                        </label>
+                    </div>
+                    <div class="input-box">
+                        <button class="check_mail">OK</button>
+						<input class="mail_field emailCheck input-text required-entry validate-email cust_mail" value="" type="text" name="billing[email]" id="billing:email" placeholder="Введите email">
+                        <span class="icon-mail" style="display: none;"></span>
+                        <p class="hint hint-mail"><?php echo $this->__('Используется для входа.') ?></p>
+                    </div>
+					
+					<div class="clearer"></div>
+					<div class="input-group-addon">
+						<label>
+							<?php echo $this->__('Войти при помощи') ?>
+						</label>
+					</div>
+					<div class="input-box">
+						<?php echo $this->getLayout()->createBlock('oneall_sociallogin/login')->setTemplate('oneall/sociallogin/login.phtml')->toHtml(); ?>
+						<p class="hint hint-mail"><?php echo $this->__('Использовать для входа аккаунты социальных сетей.') ?></p>
+					</div>
+				</div>
+				
+				<p class="email_no_in" style="display: none;">Введённая вами электронная почта ранее не использовалась в нашем магазине.</p>
+				<p class="email_yes_in" style="display: none; color: #4ba639;"><span class="customer-name"></span>, приветсвуем вас! Введённая вами электронная почта ранее зарегистрирована в нашем магазине.</p>
+				
+				<div class="form-group new-customer-field" style="display: none;">
+                    <div class="gray-field">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <label class="name_label"><?php echo $this->__('Имя') ?></label>
+                            </div>
+                            <div class="input-box">
+                                <input type="text" value="" name="billing[firstname]" title="Имя" maxlength="255" class="firstname_field required-entry input-text form-control names input_first_tab" placeholder="Введите ваше имя">
+                                <p class="hint hint-mail"><?php echo $this->__('Этот заказ будет добален в историю ваших покупок.') ?></p>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <label for="billing[telephone]"><?php echo $this->__('Телефон') ?></label>
+                            </div>
+                            <div class="input-box">
+                                <input type="text" name="billing[telephone]" value="" title="Telephone" class="required-entry input-text phones input_first_tab" placeholder="+7">
+                                <p class="hint hint-phone">По завершению формирования данного заказа вы сможете воспользоваться всеми возможностями пользователя прошедешго регистрацию.</p>
+                            </div>
+                        </div>
+						
+						<input type="hidden" value="22" name="account[test]" />
+						
+                        <div id="signin-block" >
+                            <?php echo $this->getChildHtml('billing.pass');?>
+                        </div>
+                    </div>
+                </div>
+				
+                <div class="form-group old-customer" style="display: none;" id="hello-field-set">
+
+                    <div class="gray-field">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <label><?php echo $this->__('Контактный телефон') ?></label>
+                            </div>
+                            <div class="input-box">
+                                <input type="text" name="billing[telephone]" class="form-control phones input-text"  placeholder="+7" value="">
+                                <p class="hint hint-phone-new">Этот заказ будет добален в историю ваших покупок.</br>
+                                    Полностью просмотреть всю историю и сохранить личные настройки вы сможете при входе с паролем.</p>
+                            </div>
+                        </div>
+                        <div id="password-field-set">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <label for="billing:password">Пароль</label>
+                                </div>
+                                <div class="input-box">
+                                    <input type="password" class="emailCheck input-text form-control pass_field" id="billing:password" placeholder="Пароль">
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <div class="form-inline">
+                                    <button type="submit" id="email-check-btn" class="btn btn-default"><?php echo $this->__('Далее') ?></button>
+                                    <a class="btn btn-default" id="forgot-password-btn" href="<?php echo Mage::getUrl('customer/account/forgotpassword') ?>">Забыл пароль</a>
+                                    <a class="btn btn-default" id="dont-want-put-password-btn" href="#">Не хочу вводить пароль</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			
+			<!--частное лицо-->
+            <div class="tab-pane active" id="private_person_block">
+
+                <!--div class="form-group new-customer-field" style="display: none;" id="new-customer-field-set">
+                    <div class="gray-field">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <label><?php echo $this->__('Имя') ?></label>
+                            </div>
+                            <div class="input-box">
+                                <input type="text" value="" name="billing[firstname]" title="Имя" maxlength="255" class="firstname_field required-entry input-text form-control names input_first_tab" placeholder="Введите ваше имя">
+                                <p class="hint hint-mail"><?php echo $this->__('Этот заказ будет добален в историю ваших покупок.') ?></p>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <label for="billing[telephone]"><?php echo $this->__('Телефон') ?></label>
+                            </div>
+                            <div class="input-box">
+                                <input type="text" name="billing[telephone]" value="" title="Telephone" class="required-entry input-text phones input_first_tab" placeholder="+7">
+                                <p class="hint hint-phone">По завершению формирования данного заказа вы сможете воспользоваться всеми возможностями пользователя прошедешго регистрацию.</p>
+                            </div>
+                        </div>
+						
+						<input type="hidden" value="22" name="account[test]" />
+						
+                        <div id="signin-block" >
+                            <?php echo $this->getChildHtml('billing.pass');?>
+                        </div>
+                    </div>
+                </div-->
+				
+                <!--div class="form-group old-customer" style="display: none;" id="hello-field-set">
+
+                    <div class="gray-field">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <label><?php echo $this->__('Контактный телефон') ?></label>
+                            </div>
+                            <div class="input-box">
+                                <input type="text" name="billing[telephone]" class="form-control phones input-text"  placeholder="+7" value="">
+                                <p class="hint hint-phone-new">Этот заказ будет добален в историю ваших покупок.</br>
+                                    Полностью просмотреть всю историю и сохранить личные настройки вы сможете при входе с паролем.</p>
+                            </div>
+                        </div>
+                        <div id="password-field-set">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <label for="billing:password">Пароль</label>
+                                </div>
+                                <div class="input-box">
+                                    <input type="password" class="emailCheck input-text form-control pass_field" id="billing:password" placeholder="Пароль">
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <div class="form-inline">
+                                    <button type="submit" id="email-check-btn" class="btn btn-default"><?php echo $this->__('Далее') ?></button>
+                                    <a class="btn btn-default" id="forgot-password-btn" href="<?php echo Mage::getUrl('customer/account/forgotpassword') ?>">Забыл пароль</a>
+                                    <a class="btn btn-default" id="dont-want-put-password-btn" href="#">Не хочу вводить пароль</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div-->
+            </div>
+			
+			<!--юридическое лицо-->
+            <div class="tab-pane" id="company_block">
+                <div class="form-group new-customer-field">
+                    
+                    <div class="gray-field">
+                        <!--div class="input-group">
+                            <div class="input-group-addon">
+                                <label>Название</label>
+                            </div>
+                            <div class="input-box">
+                                <input type="text"  name="billing[firstname]" value="" title="Имя" maxlength="255" class="firstname_field input-text form-control names input_second_tab" placeholder="Введите ваше имя">
+                                <p class="hint">Этот заказ будет добален в историю ваших покупок.</p>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <label>Телефон</label>
+                            </div>
+                            <div class="input-box">
+                                <input type="text" name="billing[telephone]" value="" title="Telephone" class="input-text phones input_second_tab" placeholder="+7">
+                                <p class="hint absolute">По завершению формирования данного заказа вы сможете воспользоваться всеми возможностями пользователя прошедешго регистрацию.</p>
+                            </div>
+                        </div-->
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <label>Юридическое название</label>
+                            </div>
+                            <div class="input-box">
+                                <input type="text" name="billing[legal_name]" value="" title="Юридическое название" class="input-text company input_second_tab">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <label>Инн</label>
+                            </div>
+                            <div class="input-box">
+                                <input type="text" name="billing[inn]" value="" title="Инн" class="input-text company input_second_tab">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <label>Кпп</label>
+                            </div>
+                            <div class="input-box">
+                                <input type="text" name="billing[kpp]" value="" title="Кпп" class="input-text company input_second_tab">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <label>Расчетный счет</label>
+                            </div>
+                            <div class="input-box">
+                                <input type="text" name="billing[schet]" value="" title="Расчетный счет" class="input-text company input_second_tab">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <label>Банк</label>
+                            </div>
+                            <div class="input-box">
+                                <input type="text" name="billing[bank]" value="" title="Банк" class="input-text company input_second_tab">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <label>Кор счет</label>
+                            </div>
+                            <div class="input-box">
+                                <input type="text" name="billing[kor_schet]" value="" title="Кор счет" class="input-text company input_second_tab">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <label>Бик</label>
+                            </div>
+                            <div class="input-box">
+                                <input type="text" value="" name="billing[bik]" title="Бик" class="input-text company input_second_tab">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<?php else : ?>
+		<!--div class="tab-content" style="<?php if (!$this->isCustomerLoggedIn()): ?>display: none;<?php endif; ?>"-->
+			<?php echo $this->getChildHtml("billing") ?>
+		<!--/div-->
+<?php endif; ?>
+
+    <div class="amscheckout" id="amscheckout-all-fields" style="<?php if (!$this->isCustomerLoggedIn()): ?>display: none;<?php endif; ?>">
+<!--        <div class="checkout"></div>-->
+        <div class="one-columns">
+            <div>
+                <div class="first-column">
+                    <div>
+                        <h3><?php echo $this->__('Способ получения') ?></h3>
+                        <div>
+                            <div class="shipping-method" >
+								<input type="hidden" value="RU" name="billing[country_id]" />
+								<input type="hidden" value="RU" name="shipping[country_id]" />
+                                <?php echo $this->getChildHtml("shipping_method") ?>
+                            </div>
+                            
+                        </div>
+
+<?php //echo $this->getChildHtml("shipping") ?>
+                        <!--h3><?php //echo $this->__('Способ оплаты') ?></h3>
+                        <ul class="nav nav-tabs tab-success">
+                            <li class="active"><a href="#online_block"  class="payments" rel="p_method_ccsave"  data-toggle="tab"><span><?php echo $this->__('Оплата онлайн') ?></span></a></li>
+                            <li><a href="#cash_block" data-toggle="tab" class="payments" rel="p_method_checkmo"><span><?php echo $this->__('Наличными') ?></span></a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="online_block">
+                                <?php //echo $this->getChildHtml("payment") ?>
+                            </div>
+                            <div class="tab-pane" id="cash_block">
+                                Оплата курьеру наличными.
+                            </div>
+                        </div>
+						
+						<br /-->
+						<h3><?php echo $this->__('Способ оплаты') ?></h3>
+						<div class="payment_wrapper">
+							<?php echo $this->getChildHtml("payment") ?>
+						</div>
+
+
+                    </div>
+
+                    <div class="bottom-checkout">
+                        <?php echo $this->getChildHtml("review") ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</form>
+<script>
+    var amscheckoutForm = new VarienForm('amscheckout-onepage');
+
+//    $('billing:use_for_shipping_yes').observe("click", function(){
+//        $('shipping_area').hide();
+//    });
+
+//    $('billing:use_for_shipping_no').observe("click", function(){
+//        $('shipping_area').show();
+//    });
+
+//    $('shipping:same_as_billing').observe("click", function(){
+//        $('billing:use_for_shipping_yes').click();
+//    });
+
+    function completeCheckout(){
+        $$('.billings').each(function(el){
+            if(el.value){
+                $('billing:street').value=$('billing:street').value+el.readAttribute('title')+':'+el.value+',  ';
+            }
+        });
+        $$('.company').each(function(el){
+            if(el.value){
+                //$('billing:company').value=$('billing:company').value+el.readAttribute('title')+':'+el.value+',  ';
+            }
+        });
+        if (amscheckoutForm.validator.validate()){
+			
+			if (jQuery('#s_method_flatrate_flatrate').prop( "checked" )) {
+			
+				var otpravka = true;
+				
+				var ship_street = jQuery('#ship_street').val();
+				var ship_house = jQuery('#ship_house').val();
+				var ship_corp = jQuery('#ship_corp').val();
+				var ship_stroen = jQuery('#ship_stroen').val();
+				var ship_num_room = jQuery('#ship_num_room').val();
+				
+				if (ship_street == '') {
+					otpravka = false;
+					jQuery('#ship_street').addClass('validation-failed');
+				} else {
+					jQuery('#ship_street').removeClass('validation-failed');
+				}
+				
+				if ((ship_house == '') && (ship_corp == '') && (ship_stroen == '')) {
+					otpravka = false;
+					jQuery('#ship_house').addClass('validation-failed');
+					jQuery('#ship_corp').addClass('validation-failed');
+					jQuery('#ship_stroen').addClass('validation-failed');
+				} else {
+					jQuery('#ship_house').removeClass('validation-failed');
+					jQuery('#ship_corp').removeClass('validation-failed');
+					jQuery('#ship_stroen').removeClass('validation-failed');
+				}
+				
+				if (otpravka) {
+					
+					showLoading();
+					new Ajax.Request('<?php print $hlr->getCheckoutUrl();?>', {
+						method: 'post',
+						parameters: $('amscheckout-onepage').serialize(true),
+						onSuccess: function(response) {
+
+							var config = response.responseText.evalJSON();
+
+							if (config.redirect_url){
+								document.location.href = config.redirect_url;
+							}
+							else if (config.status == "ok"){
+								document.location.href = '<?php print $hlr->getSuccessUrl();?>'
+							} else {
+								alert(config.errors);
+							}
+
+							hideLoading();
+
+						},
+						on403: function(){
+							document.location.reload();
+						}
+					});
+					
+				}
+			} else {
+			
+				showLoading();
+				new Ajax.Request('<?php print $hlr->getCheckoutUrl();?>', {
+					method: 'post',
+					parameters: $('amscheckout-onepage').serialize(true),
+					onSuccess: function(response) {
+
+						var config = response.responseText.evalJSON();
+
+						if (config.redirect_url){
+							document.location.href = config.redirect_url;
+						}
+						else if (config.status == "ok"){
+							document.location.href = '<?php print $hlr->getSuccessUrl();?>'
+						} else {
+							alert(config.errors);
+						}
+
+						hideLoading();
+
+					},
+					on403: function(){
+						document.location.reload();
+					}
+				});
+				
+			}
+        }
+
+    }
+
+
+    <?php
+        if (!$hlr->isAllowGuestCheckout()){
+    ?>
+    $('billing:create_account').click();
+
+    $('billing:create_account').up('.amscheckout-row').hide();
+
+
+    <?php
+        }
+    ?>
+    if (payment.initWhatIsCvvListeners)
+        payment.initWhatIsCvvListeners();
+
+
+   /* if ($('billing:create_account')){
+        $('billing:create_account').observe('click', createAccountClick);
+        createAccountClick();
+    }*/
+
+
+
+    <?php
+    foreach($hlr->getBillingUpdatable() as $id){
+    ?>
+    initUpdatableFieldEvent('<?php print $id;?>')
+    <?php
+    }
+    ?>
+
+    <?php
+    foreach($hlr->getShippingUpdatable() as $id){
+    ?>
+    initUpdatableFieldEvent('<?php print $id;?>')
+    <?php
+    }
+    ?>
+
+    reviewEvents();
+    cartEvents();
+
+    function checkEmail(){
+        if(Validation.validate('billing:email')){
+            showLoading();
+
+            if ($('billing:password').value !== "") {
+                $('login-email').value = $('billing:email').value;
+                $('login-password').value = $('billing:password').value;
+                loginForm.submit();
+            } else {
+                new Ajax.Request('<?php echo Mage::getUrl('amscheckout/onepage/checkpassword') ?>', {
+                    method: 'post',
+                    parameters: {email: $('billing:email').value},
+                    onSuccess: function(response) {
+                        var data = response.responseText.evalJSON();
+                        hideLoading();
+                        if (data.success) {
+                            var name =data.data.customer.fullname;
+							jQuery('.customer-name').html(name);
+							jQuery('.email_yes_in').css('display', 'block');
+							jQuery('.email_no_in').css('display', 'none');
+                            $$('.icon-mail')[0].show();
+                            $('amscheckout-all-fields').hide();
+                            $('hello-field-set').show();
+                            jQuery('.new-customer-field').hide();
+							jQuery('#login-email').val(jQuery('.cust_mail').val());
+							$('password-field-set').show();
+                        } else {
+                            $$('.icon-mail')[0].addClassName('new');
+							jQuery('.email_yes_in').css('display', 'none');
+							jQuery('.email_no_in').css('display', 'block');
+                            $$('.icon-mail')[0].show();
+                            $('hello-field-set').hide();
+                            jQuery('.new-customer-field').show();
+                            $('password-field-set').hide();
+
+
+                            $('amscheckout-all-fields').show();
+                        }
+						
+						//jQuery('.s_method_flatrate_flatrate').prop('checked', true);
+                    }
+                });
+            }
+        }
+    }
+    <?php if (!$this->isCustomerLoggedIn()):?>
+    $$('.check_mail').each(function(el){
+        el.observe('click', function(event) {
+            checkEmail()
+        });
+    });
+
+
+    $('dont-want-put-password-btn').observe('click', function(event) {
+        event.preventDefault();
+        $('password-field-set').hide();
+        $('amscheckout-all-fields').show();
+    });
+
+   /* $$('.firstname_field').each(function(el){
+        el.observe('change', function(){
+            //$$('.firstname_field').value=el.value;
+			
+        });
+    });*/
+	
+
+    <?php endif;?>
+//Custom HDTIME checkout
+
+
+    $$('.payments').each(function(el){
+        el.observe('click',function(){
+            $(el.readAttribute('rel')).click();
+        })
+    });
+
+/*
+    $$('.phones').each(function(el){
+        el.observe('change', function(){
+            $('billing:telephone').value=el.value;
+        });
+    });*/
+    $$('.show-block').each(function(el){
+        el.observe('click', function(){
+            $(el.readAttribute('rel')).toggle();
+        });
+    });
+    if($("billing-city")){
+        $("billing-city").observe('change', function(){
+            $("billing:city").value=$("billing-city").value;
+        });
+    }
+
+	jQuery(document).ready(function(){
+	
+	
+		jQuery('.firstname_field').change(function(){
+			jQuery('.firstname_field').val(jQuery(this).val());
+		});
+		
+		jQuery('.phones').change(function(){
+			jQuery('.phones').val(jQuery(this).val());
+		});
+	
+		jQuery('.pass_field').change(function(){
+			jQuery('#login-password').val(jQuery(this).val());
+		});
+		
+		jQuery('#email-check-btn').click(function(){
+			jQuery('#login-form').submit();
+		});
+		
+		jQuery('#private_person').click(function(){
+			jQuery('.name_label').html('Имя');
+		});
+		
+		jQuery('#company').click(function(){
+			jQuery('.name_label').html('Название');
+		});
+		
+		jQuery('.ship_wrapper label:first').click();
+
+		jQuery('.tab-success .privat_per').click(function(){
+			jQuery('#payment_form_cashondelivery').css('display', 'none');
+			jQuery('#payment_form_checkmo').css('display', 'block');
+			jQuery('.active_tab_pay').removeClass('active_tab_pay');
+			jQuery('#p_method_label_checkmo').addClass('active_tab_pay');
+			jQuery('#p_method_label_checkmo input').prop('checked', true);
+		});
+		jQuery('.tab-success .company_per').click(function(){
+			jQuery('#payment_form_checkmo').css('display', 'none');
+			jQuery('#payment_form_cashondelivery').css('display', 'block');
+			jQuery('.active_tab_pay').removeClass('active_tab_pay');
+			jQuery('#p_method_label_cashondelivery').addClass('active_tab_pay');
+			jQuery('#p_method_label_cashondelivery input').prop('checked', true);
+		});
+		/*jQuery('#payment_form_ccsave input').prop('disabled', false);
+		jQuery('#payment_form_ccsave select').prop('disabled', false);
+		
+		jQuery('#company').click(function(){
+			jQuery('.input_first_tab').removeClass('required-entry');//private_person_block
+			var newName = '';
+			jQuery('.input_first_tab').each(function(ind, element) {
+				newName = '';
+				newName = '!!!'; 
+				newName += jQuery('.input_first_tab:eq(' + ind + ')').attr('name');
+				jQuery('.input_first_tab:eq(' + ind + ')').attr('name', newName);
+			});
+			
+			jQuery('.input_second_tab').addClass('required-entry');
+			jQuery('.input_second_tab').each(function(ind, element) {
+				newName = jQuery('.input_second_tab:eq(' + ind + ')').attr('name');
+				newName = newName.replace(/!/g,""); 
+				
+				jQuery('.input_second_tab:eq(' + ind + ')').attr('name', newName);
+			});
+		});
+		
+		jQuery('#private_person').click(function(){
+			jQuery('.input_second_tab').removeClass('required-entry');//private_person_block
+			var newName = '';
+			jQuery('.input_second_tab').each(function(ind, element) {
+				newName = '';
+				newName = '!!!'; 
+				newName += jQuery('.input_second_tab:eq(' + ind + ')').attr('name');
+				jQuery('.input_second_tab:eq(' + ind + ')').attr('name', newName);
+			});
+			
+			jQuery('.input_first_tab').addClass('required-entry');
+			jQuery('.input_first_tab').each(function(ind, element) {
+				newName = jQuery('.input_first_tab:eq(' + ind + ')').attr('name');
+				newName = newName.replace(/!/g,""); 
+				
+				jQuery('.input_first_tab:eq(' + ind + ')').attr('name', newName);
+			});
+		});
+		*/
+	});
+</script>
+
+

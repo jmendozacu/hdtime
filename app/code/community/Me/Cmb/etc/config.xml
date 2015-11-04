@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Me
+ * @package   Me_Cmb
+ * @author    Attila Sági <sagi.attila@aion.hu>
+ * @copyright 2015 Magevolve Ltd. (http://magevolve.com)
+ * @license   http://magevolve.com/terms-and-conditions Magevolve License
+ * @link      http://magevolve.com
+ */
+-->
+<config>
+    <modules>
+        <Me_Cmb>
+            <version>0.9.0.0</version>
+        </Me_Cmb>
+    </modules>
+    <global>
+        <models>
+            <me_cmb>
+                <class>Me_Cmb_Model</class>
+                <resourceModel>cmb_resource</resourceModel>
+            </me_cmb>
+            <cmb_resource>
+                <class>Me_Cmb_Model_Resource</class>
+                <entities>
+                    <cmb>
+                        <table>me_cmb</table>
+                    </cmb>
+                </entities>
+            </cmb_resource>
+        </models>
+        <helpers>
+            <me_cmb>
+                <class>Me_Cmb_Helper</class>
+            </me_cmb>
+        </helpers>
+        <blocks>
+            <me_cmb>
+                <class>Me_Cmb_Block</class>
+            </me_cmb>
+        </blocks>
+        <resources>
+            <me_cmb_setup>
+                <setup>
+                    <module>Me_Cmb</module>
+                    <class>Mage_Core_Model_Resource_Setup</class>
+                </setup>
+            </me_cmb_setup>
+        </resources>
+        <template>
+            <email>
+                <cmb_email_email_template translate="label" module="me_cmb">
+                    <label>Request Callback Admin Notification</label>
+                    <file>me_cmb_notification.html</file>
+                    <type>html</type>
+                </cmb_email_email_template>
+            </email>
+        </template>
+    </global>
+    <frontend>
+        <routers>
+            <me_cmb>
+                <use>standard</use>
+                <args>
+                    <module>Me_Cmb</module>
+                    <frontName>cmb</frontName>
+                </args>
+            </me_cmb>
+        </routers>
+        <layout>
+            <updates>
+                <me_cmb>
+                    <file>me/cmb.xml</file>
+                </me_cmb>
+            </updates>
+        </layout>
+        <events>
+            <controller_action_layout_generate_blocks_after>
+                <observers>
+                    <add_request_block_sidebar>
+                        <class>me_cmb/observer/observer</class>
+                        <method>addRequestBlock</method>
+                    </add_request_block_sidebar>
+                </observers>
+            </controller_action_layout_generate_blocks_after>
+            <me_cmb_send_notification>
+                <observers>
+                    <me_cmb_request_save_after>
+                        <class>me_cmb/observer</class>
+                        <method>sendNotificationEmail</method>
+                    </me_cmb_request_save_after>
+                </observers>
+            </me_cmb_send_notification>
+        </events>
+    </frontend>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Me_Cmb before="Mage_Adminhtml">Me_Cmb_Adminhtml</Me_Cmb>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <me_cmb>
+                    <file>me_cmb.xml</file>
+                </me_cmb>
+            </updates>
+        </layout>
+    </adminhtml>
+    <default>
+        <cmb>
+            <config>
+                <enabled>0</enabled>
+            </config>
+            <display>
+                <title>Request a Callback</title>
+                <message>Please submit the form and we will call you back.</message>
+                <response>Thank you for contacting us.</response>
+                <delay>10</delay>
+                <sidebar>left</sidebar>
+            </display>
+            <schedule>
+                <date>1</date>
+                <mandatory>0</mandatory>
+                <time>0</time>
+                <show_predefined>0</show_predefined>
+            </schedule>
+            <email>
+                <enabled>0</enabled>
+                <recipient_email><![CDATA[hello@example.com]]></recipient_email>
+                <sender_email_identity>custom2</sender_email_identity>
+                <email_template>cmb_email_email_template</email_template>
+            </email>
+        </cmb>
+    </default>
+</config>

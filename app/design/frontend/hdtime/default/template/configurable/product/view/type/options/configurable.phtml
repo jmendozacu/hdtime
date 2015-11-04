@@ -1,0 +1,34 @@
+<?php
+$_product    = $this->getProduct();
+$_attributes = Mage::helper('core')->decorateArray($this->getAllowAttributes());
+?>
+<?php if ($_product->isSaleable() && count($_attributes)):?>
+    <?php $config = $this->getRegularConfig(); ?>
+    <?php foreach($config['attributes'] as $_attribute): ?>
+    <dl class="available-options clearfix">
+        <dt id="label<?php echo $_attribute['id'] ?>" class="title text-muted"><?php echo $_attribute['label'] ?></dt>
+        <dd id="<?php echo $_attribute['id'] ?>" class="input-box radio custom-radio-configurable">
+            <?php foreach($_attribute['options'] as $value):?>
+                <div id="<?php echo $value['id']?>" class="radio-item text-left">
+                    <label class="label-radio-configurable" id="<?php echo (float)$value['price'] + (float) $_product->getPrice();?>">
+                        <input type="radio" name="super_attribute[<?php echo $_attribute['id']  ?>]"
+                               id="attribute<?php echo $_attribute['id']  ?>"
+                               class="validate-custom-configurable"
+                               value="<?php echo $value['id']?>"/>
+                        <span class="mark"></span>
+                        <?php echo $value['label']?>
+                    </label>
+               </div>
+            <?php endforeach;?>
+            <p class="show-more-less">
+                <a href="javascript:;" class="show-more" style="display: none"><?php echo $this->__('Show more') ?>&nbsp;<span class="count"></span></a>
+                <a href="javascript:;" class="show-less" style="display: none"><?php echo $this->__('Hide') ?></a>
+            </p>
+        </dd>
+    </dl>
+    <?php endforeach; ?>
+
+<?php endif;?>
+    <script type="text/javascript">
+        var spConfig = new Product.Config(<?php echo $this->getJsonConfig() ?>);
+    </script>

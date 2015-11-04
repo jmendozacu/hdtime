@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <showmap_adminhtml_showmap_index>
+        <reference name="content">
+            <block type="showmap/adminhtml_showmap" name="showmap" />
+        </reference>
+    </showmap_adminhtml_showmap_index>
+	
+	<showmap_adminhtml_showmap_config>
+        <reference name="content">
+		    <block type="showmap/adminhtml_showmap_edit_tab_config" name="showmap_config"/>
+	   </reference>
+    </showmap_adminhtml_showmap_config>
+</layout>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Raveinfosys_Showresponse>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Raveinfosys_Showresponse>
+    </modules>
+</config> 

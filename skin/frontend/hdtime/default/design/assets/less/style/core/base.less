@@ -1,0 +1,269 @@
+#logo {
+  background-image: url(../images/logo.png);
+  background-position: left top;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 14px;
+  padding-top: 3px;
+  height: 59px;
+  width: 105px;
+  max-width: 100%;
+}
+
+.prod-item {
+  .price-box {
+      .minimal-price-link {
+         display: none;
+      }
+  }
+  .discr {
+    background-color: rgba(255,255,255,0.7);
+    position: relative;
+    margin-top: -44px;
+    padding: 0 4px 0 0;
+  }
+  .cast {
+    text-align: right;
+    line-height: 1;
+    margin-top: 3px;
+    font-size: 18px;
+  }
+  .fa{display: none;}
+}
+
+.price, .range-min, .range-max {
+    .fa-rub {
+        font-size: 0.5em;
+    }
+}
+
+
+a.btn {
+  text-decoration: none;
+}
+
+.pane-header {
+  margin-top: 0;
+}
+
+.btn-success {
+	#gradient .vertical(@green-btn-light; @green-btn; 50%; 51%);
+	&:focus, &:hover {
+		border-color: @green-btn-light;
+	}
+}
+.btn-info {
+	#gradient .vertical(@blue-btn-light; @blue-btn; 50%; 51%);
+	&:focus, &:hover {
+		border-color: @blue-btn-light;
+	}
+}
+.btn {
+	font-size: 14px;
+	line-height: 1;
+  &.btn-sm {
+    font-size: 11px;
+    padding: 1px 10px 3px;
+  }
+  &.btn-dashed {
+    background-color: transparent;
+    border-style: dashed;
+    border-width: 0 0 1px 0;
+    border-bottom: 1px dashed @gray-light;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0 0 2px;  
+    margin-left: 5px;    
+    color: @gray-light;
+  }
+}
+.btn-max {
+	width: 100%;
+	max-width: 340px;
+    white-space: normal;
+}
+.block-main.rates {
+    height: 100%;
+    padding: 20px 20px 0px 20px;
+  hr{
+    margin: 13px 0;
+  }
+  .block-main_rates_text{
+    margin-top: 18px;
+  }
+  p{
+    margin-bottom: 5px;
+    line-height: 1.2;
+    .link-rate-ya{
+      position: relative;
+      left: -1px;
+    }
+  }
+}
+.service .tab-content.tab-border {
+    min-height: 131px;
+    padding: 20px 13px 0;
+}
+
+.rates-btn {
+  text-align: center;
+}
+.carousel-control.left { left: 0.5%; } 
+.carousel-control.right { right: 0.5%; }
+.carousel-caption {
+  right: 5%;
+  width: 38%
+}
+.carousel-inner {
+  max-width: 1125px;
+  
+  > .item {
+    max-width: 100%;
+  }
+}
+
+.ymaps-controls-pane { display: none !important; }
+
+.breadcrumb {
+  background-color: transparent;
+}
+
+// Page header
+// -------------------------
+
+.page-header {
+  padding-bottom: 0;
+  margin: 0 20px 5px;
+  border-bottom: none;
+  font-size: 18px;
+}
+.sub {
+  font-size: 0.75em;
+  position: absolute;
+  right: -8px;
+  top: 0; 
+  display: inline-block;
+}
+a .sub, a .sub:hover, a .sub:focus { text-decoration: none; }
+.btn {
+  padding: 5px 12px;
+}
+.btn-lg {
+  font-size: @font-size-base + 6;
+  padding: 4px 40px 6px;
+}
+
+.table {
+
+  > thead {
+
+    > tr {
+      > th {
+        border-bottom: none;
+        vertical-align: middle;
+        a { .text-muted; }
+      }
+    }
+  }
+  > tbody {
+    > tr {
+      > td {
+        vertical-align: middle;
+      }
+    }
+  }
+}
+th {
+  .text-muted;
+  font-weight: normal;
+}
+.btn-default {
+  #gradient .vertical(#d8d8d8; #cccccc; 50%; 51%);
+}
+
+.block-header {
+  padding: 0 0 9px 0;
+}
+
+.pg404 {
+  margin-top: 4em;
+  font-size: 110%;
+}
+.text404 {
+  font-size: 1200%;
+  display: inline-block;
+  background-color: @gray-border;
+  color: @white;
+  padding: 20px;
+  width: 100%;
+  text-align: center;
+  line-height: 1.1em;
+}
+
+.pop-over {
+  position: relative;
+  margin-right: 20px;
+  margin-left: 0 !important;
+  &:after {
+    .ico-sprite;
+    background-position: -68px -48px;
+    height: 4px;
+    position: absolute;
+    right: -13px;
+    top: 5px;
+    width: 6px;
+  }
+}
+
+#main-content{
+  margin-top: 20px;
+}
+.compare-table {
+  &.data-table{
+    tr{
+      th{
+        background: none;
+        .nobr{
+          border-bottom: 1px dashed #999;
+        }
+      }
+      td{
+        background: none;
+      }
+    }
+
+  }
+
+  td {
+    .product-name {
+      text-align: left;
+      a{
+        font-size: 11px;
+        font-family: @font-family-sans-serif;
+
+      }
+    }
+  }
+}
+.data-table>tbody>tr:nth-child(odd)>td, .data-table>tbody>tr:nth-child(odd)>th{
+  background: none;
+}
+.old-price{
+  
+  text-decoration: line-through;
+  color: #000;
+  .price-label{
+    display: none;
+  }
+  .price{
+    text-decoration: none;
+  }
+}
+.special-price{
+  color: #000;
+  .price-label{
+    display: none;
+  }
+}

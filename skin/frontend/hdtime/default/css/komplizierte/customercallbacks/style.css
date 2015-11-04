@@ -1,0 +1,5 @@
+.webforms-callback  label { width: 80px; display: inline-block}
+.webforms-callback { text-align: left;}
+.webforms-callback .field { margin-bottom: 10px;}
+.webforms-callback input.input-text { width: 264px;}
+.buttons-set { margin:0; padding: 0; border: none}

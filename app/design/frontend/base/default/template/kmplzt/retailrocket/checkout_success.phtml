@@ -1,0 +1,23 @@
+<?php
+$orderObj = Mage::getModel('sales/order')->loadByIncrementId($this->getOrderId());
+$orderItems = $orderObj->getAllItems();
+?>
+<script type="text/javascript">
+    function rrAsyncInit() {
+        try {
+            rrApi.order({
+                transaction: <?php echo $this->getOrderId() ?>,
+                items: [
+                    <?php foreach($orderItems as $item) { ?>
+                    {
+                        id: <?php echo $item->getId(); ?>,
+                        qnt: <?php echo $item->getQtyOrdered(); ?>,
+                        price: <?php echo $item->getPrice();?>
+                    }
+                    <?php if (!($item == $last_item)) { ?>,<?php } ?>
+                    <?php } ?>
+                ]
+            });
+        } catch(e) {}
+    }
+</script>

@@ -1,0 +1,27 @@
+<config>
+	
+	<global>
+		<blocks>
+			<Webguys_AttributesAsGroup>
+				<class>Webguys_AttributesAsGroup_Block</class>
+			</Webguys_AttributesAsGroup>
+		</blocks>
+	</global>
+	
+
+    <frontend>
+
+
+
+        <layout>
+            <updates>
+                <AttributesAsGroup>
+                    <file>AttributesAsGroup.xml</file>
+                </AttributesAsGroup>
+                
+            </updates>
+        </layout>
+        
+    </frontend>
+
+</config>

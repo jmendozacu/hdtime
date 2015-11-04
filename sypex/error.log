@@ -1,0 +1,124 @@
+-----------------
+CREATE TABLE `catalog_category_entity_text` (
+  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
+  `entity_type_id` smallint(5) unsigned NOT NULL COMMENT 'Entity Type ID',
+  `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute ID',
+  `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
+  `value` text COMMENT 'Value',
+  PRIMARY KEY (`value_id`),
+  UNIQUE KEY `UNQ_CAT_CTGR_ENTT_TEXT_ENTT_TYPE_ID_ENTT_ID_ATTR_ID_STORE_ID` (`entity_type_id`,`entity_id`,`attribute_id`,`store_id`),
+  KEY `IDX_CATALOG_CATEGORY_ENTITY_TEXT_ENTITY_ID` (`entity_id`),
+  KEY `IDX_CATALOG_CATEGORY_ENTITY_TEXT_ATTRIBUTE_ID` (`attribute_id`),
+  KEY `IDX_CATALOG_CATEGORY_ENTITY_TEXT_STORE_ID` (`store_id`),
+  CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_TEXT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_CAT_CTGR_ENTT_TEXT_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE DEFAULT CHARSET=utf8
+-----------------
+CREATE TABLE `catalog_category_entity_text` (
+  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
+  `entity_type_id` smallint(5) unsigned NOT NULL COMMENT 'Entity Type ID',
+  `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute ID',
+  `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
+  `value` text COMMENT 'Value',
+  PRIMARY KEY (`value_id`),
+  UNIQUE KEY `UNQ_CAT_CTGR_ENTT_TEXT_ENTT_TYPE_ID_ENTT_ID_ATTR_ID_STORE_ID` (`entity_type_id`,`entity_id`,`attribute_id`,`store_id`),
+  KEY `IDX_CATALOG_CATEGORY_ENTITY_TEXT_ENTITY_ID` (`entity_id`),
+  KEY `IDX_CATALOG_CATEGORY_ENTITY_TEXT_ATTRIBUTE_ID` (`attribute_id`),
+  KEY `IDX_CATALOG_CATEGORY_ENTITY_TEXT_STORE_ID` (`store_id`),
+  CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_TEXT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_CAT_CTGR_ENTT_TEXT_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
+-----------------
+CREATE TABLE `catalog_category_entity_text` (
+  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
+  `entity_type_id` smallint(5) unsigned NOT NULL COMMENT 'Entity Type ID',
+  `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute ID',
+  `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
+  `value` text COMMENT 'Value',
+  PRIMARY KEY (`value_id`),
+  UNIQUE KEY `UNQ_CAT_CTGR_ENTT_TEXT_ENTT_TYPE_ID_ENTT_ID_ATTR_ID_STORE_ID` (`entity_type_id`,`entity_id`,`attribute_id`,`store_id`),
+  KEY `IDX_CATALOG_CATEGORY_ENTITY_TEXT_ENTITY_ID` (`entity_id`),
+  KEY `IDX_CATALOG_CATEGORY_ENTITY_TEXT_ATTRIBUTE_ID` (`attribute_id`),
+  KEY `IDX_CATALOG_CATEGORY_ENTITY_TEXT_STORE_ID` (`store_id`),
+  CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_TEXT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_CAT_CTGR_ENTT_TEXT_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
+-----------------
+CREATE TABLE `catalog_category_entity_text` (
+  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
+  `entity_type_id` smallint(5) unsigned NOT NULL COMMENT 'Entity Type ID',
+  `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute ID',
+  `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
+  `value` text COMMENT 'Value',
+  PRIMARY KEY (`value_id`),
+  UNIQUE KEY `UNQ_CAT_CTGR_ENTT_TEXT_ENTT_TYPE_ID_ENTT_ID_ATTR_ID_STORE_ID` (`entity_type_id`,`entity_id`,`attribute_id`,`store_id`),
+  KEY `IDX_CATALOG_CATEGORY_ENTITY_TEXT_ENTITY_ID` (`entity_id`),
+  KEY `IDX_CATALOG_CATEGORY_ENTITY_TEXT_ATTRIBUTE_ID` (`attribute_id`),
+  KEY `IDX_CATALOG_CATEGORY_ENTITY_TEXT_STORE_ID` (`store_id`),
+  CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_TEXT_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_CAT_CTGR_ENTT_TEXT_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
+-----------------
+/*Table structure for table `catalog_category_entity_text` */
+/*
+DROP TABLE IF EXISTS `catalog_category_entity_text`
+-----------------
+CREATE TABLE `catalog_category_entity_varchar` (
+  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
+  `entity_type_id` smallint(5) unsigned NOT NULL COMMENT 'Entity Type ID',
+  `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute ID',
+  `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
+  `value` varchar(255) DEFAULT NULL COMMENT 'Value',
+  PRIMARY KEY (`value_id`),
+  UNIQUE KEY `UNQ_CAT_CTGR_ENTT_VCHR_ENTT_TYPE_ID_ENTT_ID_ATTR_ID_STORE_ID` (`entity_type_id`,`entity_id`,`attribute_id`,`store_id`),
+  KEY `IDX_CATALOG_CATEGORY_ENTITY_VARCHAR_ENTITY_ID` (`entity_id`),
+  KEY `IDX_CATALOG_CATEGORY_ENTITY_VARCHAR_ATTRIBUTE_ID` (`attribute_id`),
+  KEY `IDX_CATALOG_CATEGORY_ENTITY_VARCHAR_STORE_ID` (`store_id`),
+  CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_VARCHAR_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_CAT_CTGR_ENTT_VCHR_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE DEFAULT CHARSET=utf8
+-----------------
+CREATE TABLE `catalog_category_entity_varchar` (
+  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
+  `entity_type_id` smallint(5) unsigned NOT NULL COMMENT 'Entity Type ID',
+  `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute ID',
+  `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
+  `value` varchar(255) DEFAULT NULL COMMENT 'Value',
+  PRIMARY KEY (`value_id`),
+  UNIQUE KEY `UNQ_CAT_CTGR_ENTT_VCHR_ENTT_TYPE_ID_ENTT_ID_ATTR_ID_STORE_ID` (`entity_type_id`,`entity_id`,`attribute_id`,`store_id`),
+  KEY `IDX_CATALOG_CATEGORY_ENTITY_VARCHAR_ENTITY_ID` (`entity_id`),
+  KEY `IDX_CATALOG_CATEGORY_ENTITY_VARCHAR_ATTRIBUTE_ID` (`attribute_id`),
+  KEY `IDX_CATALOG_CATEGORY_ENTITY_VARCHAR_STORE_ID` (`store_id`),
+  CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_VARCHAR_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_CAT_CTGR_ENTT_VCHR_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE DEFAULT CHARSET=utf8
+-----------------
+CREATE TABLE `catalog_category_entity_varchar` (
+  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
+  `entity_type_id` smallint(5) unsigned NOT NULL COMMENT 'Entity Type ID',
+  `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute ID',
+  `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
+  `value` varchar(255) DEFAULT NULL COMMENT 'Value',
+  PRIMARY KEY (`value_id`),
+  UNIQUE KEY `UNQ_CAT_CTGR_ENTT_VCHR_ENTT_TYPE_ID_ENTT_ID_ATTR_ID_STORE_ID` (`entity_type_id`,`entity_id`,`attribute_id`,`store_id`),
+  KEY `IDX_CATALOG_CATEGORY_ENTITY_VARCHAR_ENTITY_ID` (`entity_id`),
+  KEY `IDX_CATALOG_CATEGORY_ENTITY_VARCHAR_ATTRIBUTE_ID` (`attribute_id`),
+  KEY `IDX_CATALOG_CATEGORY_ENTITY_VARCHAR_STORE_ID` (`store_id`),
+  CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_VARCHAR_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_CAT_CTGR_ENTT_VCHR_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE
+-----------------
+CREATE TABLE `catalog_category_entity_varchar` (
+  `value_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Value ID',
+  `entity_type_id` smallint(5) unsigned NOT NULL COMMENT 'Entity Type ID',
+  `attribute_id` smallint(5) unsigned NOT NULL COMMENT 'Attribute ID',
+  `store_id` smallint(5) unsigned NOT NULL COMMENT 'Store ID',
+  `entity_id` int(10) unsigned NOT NULL COMMENT 'Entity ID',
+  `value` varchar(255) DEFAULT NULL COMMENT 'Value',
+  PRIMARY KEY (`value_id`),
+  UNIQUE KEY `UNQ_CAT_CTGR_ENTT_VCHR_ENTT_TYPE_ID_ENTT_ID_ATTR_ID_STORE_ID` (`entity_type_id`,`entity_id`,`attribute_id`,`store_id`),
+  KEY `IDX_CATALOG_CATEGORY_ENTITY_VARCHAR_ENTITY_ID` (`entity_id`),
+  KEY `IDX_CATALOG_CATEGORY_ENTITY_VARCHAR_ATTRIBUTE_ID` (`attribute_id`),
+  KEY `IDX_CATALOG_CATEGORY_ENTITY_VARCHAR_STORE_ID` (`store_id`),
+  CONSTRAINT `FK_CATALOG_CATEGORY_ENTITY_VARCHAR_STORE_ID_CORE_STORE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `core_store` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_CAT_CTGR_ENTT_VCHR_ATTR_ID_EAV_ATTR_ATTR_ID` FOREIGN KEY (`attribute_id`) REFERENCES `eav_attribute` (`attribute_id`) ON DELETE CASCADE ON UPDATE CASCADE DEFAULT CHARSET=utf8

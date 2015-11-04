@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<modules>
+		<Septsite_TypeChange>
+			<version>1.0.7</version>
+		</Septsite_TypeChange>
+	</modules>
+	
+	<global>
+        <models>
+            <septsite_typechange>
+                <class>Septsite_TypeChange_Model</class>
+            </septsite_typechange>
+		</models>
+		<helpers>
+            <typechange>
+                <class>Septsite_TypeChange_Helper</class>
+            </typechange>
+        </helpers>
+	</global>
+    <adminhtml>        
+        <events>
+            <adminhtml_block_html_before>
+                <observers>
+                    <septsite_typechange>
+                        <type>singleton</type>
+                        <class>septsite_typechange/observer</class>
+                        <method>addMassactionToProductGrid</method>
+                    </septsite_typechange>
+                </observers>
+            </adminhtml_block_html_before>
+		</events> 
+		<translate>
+            <modules>
+                <Septsite_TypeChange>
+                    <files>
+                        <default>Septsite_TypeChange.csv</default>
+                    </files>
+                </Septsite_TypeChange>
+            </modules>
+        </translate>       
+    </adminhtml>
+	
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Septsite_TypeChange before="Mage_Adminhtml">Septsite_TypeChange_Adminhtml</Septsite_TypeChange>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>		
+		
+</config>

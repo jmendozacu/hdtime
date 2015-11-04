@@ -1,0 +1,324 @@
+<?php
+$var = Mage::registry('license_msg');
+if($var==null){
+
+	$csvFileList='';
+	$xmlFileList='';
+
+	foreach ($this->getImportedCSVFiles() as $file) {
+		$csvFileList=$csvFileList.'"'.$file.'",';
+	} 
+	
+	foreach ($this->getImportedXMLFiles() as $file) {
+		$xmlFileList=$xmlFileList.'"'.$file.'",';
+	} 
+
+	$csvFileList=rtrim($csvFileList, ",");
+	$xmlFileList=rtrim($xmlFileList, ",");
+
+?>
+<style>					
+	#loading_mask_loader{
+	width:220px!important;
+	}
+</style>
+							
+<script type="text/javascript">
+var csvFileList=[<?php echo $csvFileList;?>];
+var xmlFileList=[<?php echo $xmlFileList;?>];
+
+
+function runProfile(popup)
+{
+    var url = '<?php echo $this->getUrl('*/adminhtml_RunProfile/run', array('importfiletype'=>'csv')); ?>'+"/"+document.getElementById("importfiletype").value;
+
+    if (getDirection() == 'import' && getTransferType() == 'interactive') {
+        var file = getSelectedFiles();
+		//alert(file);
+        if (file == '') {
+            alert('Please select file first.');
+           // $('file_list').show();
+            return false;
+        }
+        url += '/files/' + file + '/';
+    }
+
+    if (!popup) {
+        $('run_iframe').style.display = 'block';
+	//	alert(document.body.scrollWidth);
+		$('loading-mask').style.height=document.body.scrollHeight+'px';
+		$('loading-mask').style.width=document.body.scrollWidth+'px';
+		$('loading-mask').style.left='0';
+		$('loading-mask').style.top='0';
+		Element.show('loading-mask');
+
+        $('run_iframe').src = url;
+    } else {
+        window.open(url);
+    }
+}
+
+function getDirection()
+{
+    return 'import';
+}
+
+function getSelectedFiles()
+{
+    return $('files').options[$('files').options.selectedIndex].value;
+}
+
+function getTransferType()
+{
+    return 'interactive';
+}
+
+function validateData()
+{
+  var url = '<?php echo $this->getUrl('*/adminhtml_Importproducts/validate');?>';
+
+  var file = getSelectedFiles();
+		
+        if (file == '') {
+            alert('Please select file first.');
+           // $('file_list').show();
+            return false;
+        }
+        url += 'clearOldData/true/';
+        url += 'behavior/'+document.getElementById("behavior").value+'/';
+		url += 'validationBehavior/'+document.getElementById("validationBehavior").value+'/';		
+        url += 'importfiletype/' + document.getElementById("importfiletype").value+'/';
+        url += 'files/' + file + '/';
+		
+		new Ajax.Request(url,{
+				method: "post",
+				parameters: {form_key: FORM_KEY},
+				onComplete: function(transport) {
+
+					try {
+					var response = transport.responseText.evalJSON();	
+					}catch(e){
+						deleteImportFlagOnError();
+						$('loading-mask').hide();
+						alert(transport.responseText);					
+					}
+					
+					if(response.url!='')
+					{
+						ajaxProfiler(response.url);
+					}else{
+						if(document.getElementById("validationBehavior").value=='skip'){
+							runSkipImport();
+						}else{
+						window.location='<?php echo $this->getUrl('*/adminhtml_Importproducts/index',array('active_tab'=>'validationlog','direction'=>'Validated'));?>behavior/'+document.getElementById("behavior").value+'/validationBehavior/'+document.getElementById("validationBehavior").value;
+						}
+					}
+				}
+		});
+			
+}
+
+function ajaxProfiler(url){
+
+	new Ajax.Request(url,{
+				method: "post",
+				parameters: {form_key: FORM_KEY},
+				onComplete: function(transport) {
+
+					try {
+					var response = transport.responseText.evalJSON();	
+					}catch(e){
+						deleteImportFlagOnError();
+						$('loading-mask').hide();
+						alert(transport.responseText);					
+					}
+					
+					if(response.url!='')
+					{
+						ajaxProfiler(response.url);
+					}else{
+						if(document.getElementById("validationBehavior").value=='skip'){
+							runSkipImport();
+						}else{
+						//alert('null');						
+						window.location='<?php echo $this->getUrl('*/adminhtml_Importproducts/index',array('active_tab'=>'validationlog','direction'=>'Validated'));?>behavior/'+document.getElementById("behavior").value+'/validationBehavior/'+document.getElementById("validationBehavior").value;
+						}
+					}
+				}
+	});
+		
+}
+
+function changeFileDropdown(){
+	importtype=document.getElementById('importfiletype').value;
+	if(importtype=='csv'){
+			files.innerHTML = "";			
+
+			var opt = document.createElement('option');
+			opt.value = '';
+			opt.innerHTML='Please Select CSV file';
+			files.appendChild(opt);
+
+			csvFileList.forEach(function(value, index, _ary) {
+					var opt = document.createElement('option');
+					opt.value = value;
+					opt.innerHTML=value;
+					files.appendChild(opt);
+			});
+
+	}else if(importtype=='xml'){
+			files.innerHTML = "";
+
+			var opt = document.createElement('option');
+			opt.value = '';
+			opt.innerHTML='Please Select XML file';
+			files.appendChild(opt);
+			
+			xmlFileList.forEach(function(value, index, _ary) {
+					var opt = document.createElement('option');
+					opt.value = value;
+					opt.innerHTML=value;
+					files.appendChild(opt);
+			});
+	}
+}
+
+
+function deleteImportFlagOnError(){
+	var url = '<?php echo $this->getUrl('*/adminhtml_Runprofile/deleteImportFlag');?>';
+
+	new Ajax.Request(url,{
+				method: "post",
+				parameters: {form_key: FORM_KEY,timestamp:timestamp},
+				onComplete: function(transport) {
+				}
+	});
+	
+}
+
+function runImport(){
+//alert();
+	window.location='<?php echo $this->getUrl('*/adminhtml_Importproducts/index',array('active_tab'=>'importlog','show_import_button'=>'true','direction'=>'Imported','behavior'=>$this->getRequest()->getParam('behavior'),'validationBehavior'=>$this->getRequest()->getParam('validationBehavior')));?>';
+}
+	
+function runSkipImport(){
+//alert();
+	window.location='<?php echo $this->getUrl('*/adminhtml_Importproducts/index',array('active_tab'=>'importlog','show_import_button'=>'true','direction'=>'Imported'));?>behavior/'+document.getElementById("behavior").value;
+}
+
+<?php
+$index=array();
+$process = Mage::getModel('index/process')->getCollection();
+foreach($process as $p){
+if (strpos($p->getIndexerCode(),'catalog') !== false) {
+		$index[]=$p->getId();
+	}
+}
+
+$index_str=implode(",",$index);
+			
+?>
+
+var indexProcessList=[<?php echo $index_str;?>];
+
+function doIndexing(){
+
+	var url = '<?php echo $this->getUrl('*/adminhtml_Runprofile/doIndexing');?>';
+	
+	if(indexProcessList.length >0){
+		$('loading_mask_loader').update('<ul id="profileRows"><img alt="Loading..." src="<?php echo $this->getSkinUrl('images/ajax-loader-tr.gif');?>"><br>Please wait re-indexing processing is going on...</ul>');	
+		
+		new Ajax.Request(url,{
+					method: "post",
+					parameters: {form_key: FORM_KEY,indexCode:indexProcessList.shift()},
+					onComplete: function(transport) {
+						doIndexing();
+					}
+		});
+	}else{								 
+		 setTimeout(function () {
+			window.location=redirect_to_import_log_url;
+		}, 1000);		
+	}
+
+}
+
+</script>
+
+
+
+
+<div id="profile-generator" class="entry-edit profile-generator">
+
+    <fieldset>
+        <legend><?php echo $this->__("Export File Information") ?></legend>
+
+		<ul class="messages">
+		<li class="notice-msg">
+			<ul>
+				<li><?php echo $this->__('Please make sure that you choose proper setting before running the profile.') ?></li>
+			</ul>
+		</li>
+		</ul>
+
+		<input type="hidden" id="importfiletype" name="importfiletype" value="csv"/>
+		
+		<span class="field-row">
+                <label for="file_type"><?php echo $this->__("Choose Import File:") ?></label>
+				<span class="with-tip">
+					<select id="files" name="files" class="option-control">
+								<option value="">Please Select CSV file</option>
+							<?php if ($files = $this->getImportedCSVFiles()){
+								foreach ($files as $file) { ?>
+									<option value=<?php echo $file ?>><?php echo $file ?></option>							
+							<?php  }} ?>
+					</select>
+					<small class="profile_direction_import profile_entity_type_product">
+							<?php echo $this->__("(Choose file to import.)") ?>
+					</small>
+				</span>				
+        </span>
+
+		<span class="field-row">
+                <label for="file_type"><?php echo $this->__("Import Behavior :") ?></label>
+				<span class="with-tip">
+					<select id="behavior" name="behavior" class="option-control">
+							<option value="append" selected>Add/Update Products</option>
+							<!-- <option value="append">Replace Existing Orders</option> -->
+							<option value="delete">Delete Products</option>
+					</select>
+					<small class="profile_direction_import profile_entity_type_product">
+							<?php echo $this->__("(Choose Import Behavior.)") ?>
+					</small>
+				</span>				
+        </span>
+		
+		<span class="field-row">
+                <label for="file_type"><?php echo $this->__("Validation Behavior :") ?></label>
+				<span class="with-tip">
+					<select id="validationBehavior" name="validationBehavior" class="option-control">
+							<option value="validate" selected>Validate & Import</option>
+							<!-- <option value="append">Replace Existing Orders</option> -->
+							<option value="skip">Skip Validation</option>
+					</select>
+					<small class="profile_direction_import profile_entity_type_product">
+							<?php echo $this->__("(Choose Validation Behavior.)") ?>
+					</small>
+				</span>				
+        </span>
+		
+		<span class="field-row">
+                <label for="file_type"></label>
+				<span class="with-tip">
+				<?php //echo $this->getRunButtonHtml() ?> &nbsp <?php echo $this->getValidateButtonHtml() ?>
+				</span>
+		</span>
+		
+	</fieldset>	
+</div>
+
+<iframe id="run_iframe" src="<?php echo $this->getJsUrl() ?>blank.html" frameborder=0 style="display:none; width:100%; height:400px;"></iframe>
+<?php 
+}else{
+}
+ //echo $this->getRunButtonHtml() ?><br/>

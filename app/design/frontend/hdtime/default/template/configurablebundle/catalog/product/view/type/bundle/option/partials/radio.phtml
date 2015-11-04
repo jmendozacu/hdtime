@@ -1,0 +1,32 @@
+<?php $data = $this->getData(); ?>
+
+<?php $tierPriceHtml = ''; ?>
+
+<dt class="option-<?php echo $data['option_id'] ?>-attribute-<?php echo $data['attribute']['attribute_id'] ?>"><label class="required"><em>*</em><?php echo $data['attribute']['label'] ?></label></dt>
+<dd class="option-<?php echo $data['option_id'] ?>-attribute-<?php echo $data['attribute']['attribute_id'] ?>">
+    <span id="bundle-option-<?php echo $data['option_id'] ?>-tier-prices"> <?php echo $tierPriceHtml; ?></span>
+    <div class="input-box radio">
+        <?php if($data['attribute_order'] === 0) : ?>
+            <?php $k=1; foreach($data['attribute']['values'] as $key => $attributeValue) : ?>
+				<?php if (($k == 5) && ($k != count($data['attribute']['values']))) : ?>
+					<div class="hidden_wrapper_radio_conf">
+				<?php endif; ?>
+				
+                <label>
+                    <input type="radio" name="select_super_attribute[<?php echo $data['option_id'] ?>][<?php echo $data['attribute']['attribute_id'] ?>]" onChange="fillNextAttribute(this, <?php echo $data['option_id'] ?>, <?php echo $data['attribute']['attribute_id'] ?>)" class="super-attribute-select" value="<?php echo $attributeValue['value_index'] ?>"><?php echo $attributeValue['store_label'] ?>
+                    <span class="mark"></span>
+                </label>
+				
+				<?php if (($k > 5) && ($k == count($data['attribute']['values']))) : ?>
+					</div>
+					<span class="open_hidden_option" onclick="jQuery(this).closest('.radio').find('.hidden_wrapper_radio_conf').css('display', 'block');
+					jQuery(this).closest('.radio').find('.close_hidden_option').css('display', 'inline-block');
+					jQuery(this).css('display', 'none');">Показать ещё</span>
+					<span class="close_hidden_option" onclick="jQuery(this).closest('.radio').find('.hidden_wrapper_radio_conf').css('display', 'none');
+					jQuery(this).closest('.radio').find('.open_hidden_option').css('display', 'inline-block');
+					jQuery(this).css('display', 'none');">Свернуть</span>
+				<?php endif; ?>
+            <?php $k++; endforeach; ?>
+        <?php endif; ?>
+    </div>
+</dd>

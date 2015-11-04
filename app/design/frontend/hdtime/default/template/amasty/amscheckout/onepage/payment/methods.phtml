@@ -1,0 +1,112 @@
+<?php
+    $hlr = $this->helper("amscheckout");
+    $methods = $hlr->getConfigPaymentMethods($this);
+    $oneMethod = count($methods) <= 1;
+?>
+<?php if (empty($methods)): ?>
+    <dt>
+        <?php echo $this->__('No Payment Methods') ?>
+    </dt>
+<?php else: ?>
+	<div class="pay_tab_wrapper">
+		<?php
+			$k = 0;
+			foreach ($methods as $_config):
+				$_method = $_config['method'];
+				$_field = $_config['field'];
+				$_code = $_method->getCode();
+		?>
+		<div class="pay_met_one_wrap">
+		
+			<label for="p_method_<?php echo $_code ?>" <?php if ($k == 0) : ?>class="active_tab_pay"<?php endif;?> id="p_method_label_<?php echo $_code ?>">
+				<?php if(!$oneMethod): ?>
+					<input id="p_method_<?php echo $_code ?>" value="<?php echo $_code ?>" type="radio" name="payment[method]" title="<?php echo $this->escapeHtml($_field['field_label']) ?>" onclick="payment.switchMethod('<?php echo $_code ?>')"<?php /*if($this->getSelectedMethodCode()==$_code): ?> checked="checked"<?php endif;*/ ?> class="radio" />
+				<?php else: ?>
+					<span class="no-display"><input id="p_method_<?php echo $_code ?>" value="<?php echo $_code ?>" type="radio" name="payment[method]" checked="checked" class="radio" /></span>
+					<?php $oneMethod = $_code; ?>
+				<?php endif; ?>
+			
+				<?php echo $this->escapeHtml($_field['field_label']) ?> <?php echo $this->getMethodLabelAfterHtml($_method) ?>
+			</label>
+		</div>
+		<?php $k++; endforeach; ?>
+	</div>
+	<div class="pay_met_text_wrap">
+	<?php foreach ($methods as $_config):
+        $_method = $_config['method'];
+        $_field = $_config['field'];
+        $_code = $_method->getCode();
+		?>
+		<?php if ($html = $this->getPaymentMethodFormHtml($_method)): ?>
+			<div class="pay_met_text">
+				<?php echo $html; ?>
+			</div>
+		<?php endif; ?>
+	<?php endforeach; ?>
+	</div>
+</div>
+
+<?php endif; ?>
+
+<?php echo $this->getChildChildHtml('additional'); ?>
+<script type="text/javascript">
+    //<![CDATA[
+    <?php echo $this->getChildChildHtml('scripts'); ?>
+    payment.init();
+    <?php if (is_string($oneMethod)): ?>
+    payment.switchMethod('<?php echo $oneMethod ?>');
+        <?php endif; ?>
+            
+    <?php if ($hlr->reloadPaymentShippingMethodChanged()) {?>
+        $$("#co-payment-form input[type=radio]").each(function(input){
+            input.observe("click", function(){
+                updateCheckout();
+            })
+        })
+    <?php }?>
+	
+	jQuery(document).ready(function(){
+		jQuery('.payment_wrapper .pay_met_one_wrap label ').click(function(){
+			jQuery('.active_tab_pay').removeClass('active_tab_pay');
+			jQuery(this).addClass('active_tab_pay');
+		});
+		
+		if (jQuery('.tab-success .privat_per').hasClass('active')) {
+			jQuery('#payment_form_cashondelivery').css('display', 'none');
+			jQuery('#payment_form_checkmo').css('display', 'block');
+			jQuery('.active_tab_pay').removeClass('active_tab_pay');
+			jQuery('#p_method_label_checkmo').addClass('active_tab_pay');
+			jQuery('#p_method_label_checkmo input').prop('checked', true);
+		} else {
+			jQuery('#payment_form_checkmo').css('display', 'none');
+			jQuery('#payment_form_cashondelivery').css('display', 'block');
+			jQuery('.active_tab_pay').removeClass('active_tab_pay');
+			jQuery('#p_method_label_cashondelivery').addClass('active_tab_pay');
+			jQuery('#p_method_label_cashondelivery input').prop('checked', true);
+		}
+
+		jQuery('#p_method_label_checkmo').click(function(){
+			jQuery('#payment_form_cashondelivery').css('display', 'none');
+			jQuery('#payment_form_checkmo').css('display', 'block');
+			jQuery('.active_tab_pay').removeClass('active_tab_pay');
+			jQuery('#p_method_label_checkmo').addClass('active_tab_pay');
+			jQuery('#p_method_label_checkmo input').prop('checked', true);
+		});
+		jQuery('#p_method_label_cashondelivery').click(function(){
+			jQuery('#payment_form_checkmo').css('display', 'none');
+			jQuery('#payment_form_cashondelivery').css('display', 'block');
+			jQuery('.active_tab_pay').removeClass('active_tab_pay');
+			jQuery('#p_method_label_cashondelivery').addClass('active_tab_pay');
+			jQuery('#p_method_label_cashondelivery input').prop('checked', true);
+		});
+		
+		
+		
+	});
+    //]]>
+</script>
+<style>
+#payment-tool-tip {
+	display: none !important;
+}
+</style>

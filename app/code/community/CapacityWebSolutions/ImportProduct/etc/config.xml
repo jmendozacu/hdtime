@@ -1,0 +1,209 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <CapacityWebSolutions_ImportProduct>
+            <version>2.2.0</version>
+        </CapacityWebSolutions_ImportProduct>
+    </modules>
+	<global>
+        <models>
+
+			<importproduct>
+				<class>CapacityWebSolutions_ImportProduct_Model</class>
+				<resourceModel>importproduct_resource</resourceModel>
+			</importproduct>
+	
+			<importproduct_resource>
+			<class>CapacityWebSolutions_ImportProduct_Model_Resource</class>
+				<entities>
+					<validationlog>
+						<table>cws_product_validation_log</table>
+					</validationlog>
+					<importlog>
+						<table>cws_product_import_log</table>
+					</importlog>					
+					<profiler>
+						<table>cws_product_import_profiler</table>
+					</profiler>		
+					<exportedfile>
+						<table>cws_product_exported_file</table>
+					</exportedfile>					
+				</entities>		
+			</importproduct_resource>
+		  
+        </models>
+
+		<blocks>
+		    <importproduct>
+                <class>CapacityWebSolutions_ImportProduct_Block</class>
+            </importproduct>        
+		</blocks>
+        <helpers>
+            <importproduct>
+                <class>CapacityWebSolutions_ImportProduct_Helper</class>
+            </importproduct>
+        </helpers>
+		
+		<resources>
+			<importproduct_setup>
+				<setup>
+ 				   <module>CapacityWebSolutions_ImportProduct</module>
+				</setup>
+				<connection>
+				    <use>core_setup</use>
+				</connection>
+			</importproduct_setup>
+			<importproduct_write>
+				<connection>
+				    <use>core_write</use>
+				</connection>
+			</importproduct_write>
+			<importproduct_read>
+				<connection>
+				    <use>core_read</use>
+				</connection>
+			</importproduct_read>
+		</resources>
+		
+    </global>
+    <frontend>
+        <routers>
+            <importproduct>
+                <use>standard</use>
+                <args>
+                    <module>CapacityWebSolutions_ImportProduct</module>
+                    <frontName>importproduct</frontName>
+                </args>
+            </importproduct>
+        </routers>
+		<layout>
+            <updates>
+                <importproduct>
+                    <file>ImportProduct.xml</file>
+                </importproduct>
+            </updates>			
+        </layout>
+    </frontend>
+    <admin>
+        <routers>
+			<importproduct>
+				<use>admin</use>
+				<args>
+					<module>CapacityWebSolutions_ImportProduct</module>
+					<frontName>importproduct</frontName>
+				</args>
+			</importproduct>
+        </routers>
+    </admin>
+    <adminhtml>
+		<menu>
+		<cws module="importproduct">
+				<title>CWS Extensions</title>
+				<sort_order>70</sort_order> 
+			<children>
+			<importproduct module="importproduct">
+				<title>Import / Export Products</title>
+				<sort_order>71</sort_order>               
+			
+				<children>
+					<import module="importproduct">
+						<title>Import Products</title>
+						<sort_order>0</sort_order>
+						<action>importproduct/adminhtml_Importproducts</action>
+					</import>
+					
+					<export module="importproduct">
+						<title>Export Products</title>
+						<sort_order>1</sort_order>
+						<action>importproduct/adminhtml_Exportproducts</action>
+					</export>
+					
+				</children>
+				
+			</importproduct>
+			</children>
+			</cws>
+		</menu>
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+				<children>
+					<system>
+						<children>
+							<config>
+								<children>
+									<importproduct translate="title">
+										<title>Import / Export Products</title>
+										<sort_order>50</sort_order>
+									</importproduct>									
+								</children>
+							</config>
+						</children>
+					</system>
+					<importproduct module="importproduct">
+						<title>Import/Export Product</title>
+						<sort_order>71</sort_order>               
+						<children>
+							<import module="importproduct">
+								<title>Import Product</title>
+								<sort_order>0</sort_order>
+									<children>
+											<Uploadfile module="importproduct">
+												<title>Upload File</title>
+												<sort_order>10</sort_order>
+												<action>importproduct/adminhtml_Importproducts</action>
+											</Uploadfile>
+							
+											<runprofile module="importproduct">
+												<title>Run Profile</title>
+												<sort_order>20</sort_order>
+												<action>importproduct/adminhtml_RunProfile</action>
+											</runprofile>
+									</children>
+							</import>
+							<export module="importproduct">
+								<title>Export Product</title>
+								<sort_order>1</sort_order>
+								<action>importproduct/adminhtml_ExportProduct</action>
+							</export>
+						</children>
+					</importproduct>
+				</children>
+				</admin>
+			</resources>
+		</acl>
+		<layout>
+			<updates>
+				<importproduct>
+					<file>ImportProduct.xml</file>					
+				</importproduct>
+			</updates>
+		</layout>
+    </adminhtml>   
+  	<global>
+		   <models>
+            	<importproduct>
+                	<class>CapacityWebSolutions_ImportProduct_Model</class>
+                </importproduct>
+
+            </models>
+              <blocks>
+            	<importproduct>
+                	<class>CapacityWebSolutions_ImportProduct_Block</class>
+            	</importproduct>
+        	  </blocks>
+        	<helpers>
+            	<importproduct>
+                	<class>CapacityWebSolutions_ImportProduct_Helper</class>
+            	</importproduct>
+        	</helpers>
+			<models>
+				<CapacityWebSolutions_ImportProduct>
+					<class>CapacityWebSolutions_ImportProduct_Model</class>
+				</CapacityWebSolutions_ImportProduct>
+			</models>			
+	</global> 
+</config>

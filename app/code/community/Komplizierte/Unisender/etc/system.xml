@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <komplizierte translate="label">
+            <label><![CDATA[Komplizierte Extentions]]></label>
+            <sort_order>1000</sort_order>
+        </komplizierte>
+    </tabs>
+    <sections>
+        <komplizierte_unisender translate="label" module="komplizierte_unisender">
+            <label>Unisender</label>
+            <tab>komplizierte</tab>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label comment">
+                    <label>General Settings</label>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <api_key translate="label comment">
+                            <label>API key</label>
+                            <frontend_type>password</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </api_key>
+                    </fields>
+                </general>
+                <sms translate="label comment">
+                    <label>SMS Settings</label>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled translate="label comment">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled>
+                        <sender translate="label comment">
+                            <label>Sender Name</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <tooltip><![CDATA[This is the name of the sender from whom will come SMS users]]></tooltip>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                            <validate>required-entry</validate>
+                        </sender>
+                        <text_new_order translate="label">
+                            <label>Text New Order</label>
+                            <frontend_type>textarea</frontend_type>
+                            <comment>
+                                <![CDATA[You can use the following variables: {ORDER_NUMBER},{CUSTOMER},{ORDER_SUM}]]></comment>
+                            <sort_order>30</sort_order>
+                            <tooltip><![CDATA[This field is a template SMS message sent when updating an existing order]]></tooltip>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </text_new_order>
+                        <order_status_send_sms>
+                            <label>Order status at which to send sms</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>komplizierte_unisender/system_config_source_order_status</source_model>
+                            <comment>
+                                <![CDATA[List status, which sent sms mutations both on the order]]>
+                            </comment>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                        </order_status_send_sms>
+                        <text_update_order_status translate="label">
+                            <label>Text Update Order Status</label>
+                            <frontend_type>textarea</frontend_type>
+                            <comment><![CDATA[You can use the following variables: {ORDER_NUMBER},{CUSTOMER},{ORDER_SUM},{ORDER_STATUS}]]></comment>
+                            <sort_order>50</sort_order>
+                            <tooltip><![CDATA[This field is a template SMS message sent when a new order]]></tooltip>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><enabled>1</enabled></depends>
+                        </text_update_order_status>
+                    </fields>
+                </sms>
+                <email translate="label comment">
+                    <label>Email Settings</label>
+                    <sort_order>30</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled_send_create_user translate="label comment">
+                            <label>Enabled send create new user</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled_send_create_user>
+						<confirmation_of_subscription translate="label comment">
+							<label>Confirmation of subscription</label>
+							<frontend_type>select</frontend_type>
+							<source_model>komplizierte_unisender/system_config_source_subscribe_mode</source_model>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</confirmation_of_subscription>
+                    </fields>
+                </email>
+            </groups>
+        </komplizierte_unisender>
+    </sections>
+</config>

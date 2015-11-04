@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<layout>
+    <checkout_onepage_index>
+        <reference name="head">
+            <action method="addItem" ifconfig="amscheckout/shipping_date/enabled">
+                <type>js_css</type>
+                <name>calendar/calendar-win2k-1.css</name>
+                <params/>
+            </action>
+            <action method="addItem" ifconfig="amscheckout/shipping_date/enabled">
+                <type>js</type>
+                <name>calendar/calendar.js</name>
+            </action>
+            <action method="addItem" ifconfig="amscheckout/shipping_date/enabled">
+                <type>js</type>
+                <name>calendar/calendar-setup.js</name>
+            </action>
+            <block type="core/html_calendar" name="head.calendar" as="calendar">
+                <action method="setTemplate" ifconfig="amscheckout/shipping_date/enabled">
+                    <template>page/js/calendar.phtml</template>
+                </action>
+            </block>
+        </reference>
+        <reference name="checkout.onepage.shipping_method.additional">
+            <action method="setTemplate" ifconfig="amscheckout/shipping_date/enabled">
+                <template>amasty/shippingdate/checkout/onepage/shipping_method/additional.phtml</template>
+            </action>
+            <block type="shippingdate/shippingDate" name="shipping.date" template="amasty/shippingdate/date.phtml"/>
+        </reference>
+    </checkout_onepage_index>
+</layout>

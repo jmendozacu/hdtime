@@ -1,0 +1,63 @@
+.m-filter-slider {    
+  background-image: none;
+  background-color: #CCCCCC !important;
+  height: 1px;
+  position: relative;
+}
+.m-filter-slider {
+  margin: 5px 0 15px;
+}
+
+.m-filter-slider > .m-slider-span {
+  background-color: #4CA83B !important;
+  border-bottom: none;
+  height: 1px;
+  margin: 0;
+  position: absolute;
+}
+
+.m-filter-slider > .m-slider-from, 
+.m-filter-slider > .m-slider-to {
+  background-image: none;
+  position: relative;
+  cursor: pointer;
+}
+
+.m-filter-slider > .m-slider-from:before, 
+.m-filter-slider > .m-slider-to:before {
+  background-image: url("../images/icons.png");
+  background-repeat: no-repeat; 
+  content: "";
+  height: 12px;
+  position: absolute;
+  width: 16px;
+  cursor: pointer;
+  top: -4px;
+  left: 10px;
+}
+.m-filter-slider > .m-slider-to:before {  
+  background-position: -1px -57px;
+  top: -22px;
+  /*left: auto !important;*/
+  /*right: -7px !important;*/
+}
+.m-filter-slider > .m-slider-from:before {
+  background-position: -1px -57px;   
+  /*left: 9px !important;*/
+}
+
+.m-slider-values {
+  position: relative;
+  height: 1em;
+}
+.m-slider-values .slider-min,
+.m-slider-values .slider-max {
+  position: absolute;
+}
+
+.m-slider-values .slider-min {
+  left: 0;
+}
+.m-slider-values .slider-max {
+  right: 0;
+}

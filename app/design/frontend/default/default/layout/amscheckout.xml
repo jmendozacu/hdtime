@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<layout>
+    <amscheckout_onepage_static>
+        <reference name="head">
+            <action method="addJs"><file>amasty/amscheckout/onepage.js</file></action>
+            <action method="addJs"><file>calendar/calendar.js</file></action>
+            <action method="addCss"><stylesheet>css/amscheckout.css</stylesheet></action>
+            <action method="addItem"><type>js</type><name>prototype/window.js</name></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/alphacube.css</name></action>
+            
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+        </reference>
+        
+    </amscheckout_onepage_static>
+    
+    <amscheckout_onepage_content>
+        <reference name="content">
+            
+            
+            
+            <block type="amscheckout/onepage" name="amscheckout.onepage" after="-" template="amscheckout/onepage.phtml"> 
+                
+
+                <block type="checkout/onepage" name="checkout.onepage" template="checkout/onepage.phtml">
+                    <block type="checkout/onepage_login" name="checkout.onepage.login" as="login" template="checkout/onepage/login.phtml">
+                        <block type="page/html_wrapper" name="checkout.onepage.login.before" as="login_before" translate="label">
+                            <label>Login/Registration Before</label>
+                            <action method="setMayBeInvisible"><value>1</value></action>
+                        </block>
+                    </block>
+                                        <block type="checkout/onepage_billing" name="checkout.onepage.billing" as="billing" template="checkout/onepage/billing.phtml">
+                         <block type="core/text_list" name="form.additional.info">
+                            <block type="captcha/captcha" name="captcha.guest.checkout">
+                                <reference name="head">
+                                    <action method="addJs"><file>mage/captcha.js</file></action>
+                                </reference>
+                                <action method="setFormId"><formId>guest_checkout</formId></action>
+                                <action method="setImgWidth"><width>230</width></action>
+                                <action method="setImgHeight"><width>50</width></action>
+                            </block>
+                            <block type="captcha/captcha" name="captcha.register.during.checkout">
+                                <reference name="head">
+                                    <action method="addJs"><file>mage/captcha.js</file></action>
+                                </reference>
+                                <action method="setFormId"><formId>register_during_checkout</formId></action>
+                                <action method="setImgWidth"><width>230</width></action>
+                                <action method="setImgHeight"><width>50</width></action>
+                            </block>
+                        </block> 
+                    </block>
+                    
+                    <block type="checkout/onepage_shipping" name="checkout.onepage.shipping" as="shipping" template="checkout/onepage/shipping.phtml"/>
+                    <block type="checkout/onepage_shipping_method" name="checkout.onepage.shipping_method" as="shipping_method" template="checkout/onepage/shipping_method.phtml">
+                        <block type="checkout/onepage_shipping_method_available" name="checkout.onepage.shipping_method.available" as="available" template="checkout/onepage/shipping_method/available.phtml"/>
+                        <block type="checkout/onepage_shipping_method_additional" name="checkout.onepage.shipping_method.additional" as="additional" template="checkout/onepage/shipping_method/additional.phtml"/>
+                    </block>
+                    <block type="checkout/onepage_payment" name="checkout.onepage.payment" as="payment" template="checkout/onepage/payment.phtml">
+                        <block type="checkout/onepage_payment_methods" name="checkout.payment.methods" as="methods" template="checkout/onepage/payment/methods.phtml">
+                            <action method="setMethodFormTemplate"><method>purchaseorder</method><template>payment/form/purchaseorder.phtml</template></action>
+                        </block>
+                    </block>
+                    <block type="checkout/onepage_review" name="checkout.onepage.review" as="review" template="checkout/onepage/review.phtml"/>
+
+                </block>
+                <block type="checkout/onepage_login" name="checkout.onepage.login" as="login" template="persistent/checkout/onepage/login.phtml">
+                    <block type="page/html_wrapper" name="checkout.onepage.login.before" as="login_before" translate="label">
+                        <label>Login/Registration Before</label>
+                        <action method="setMayBeInvisible"><value>1</value></action>
+                    </block>
+                </block>
+            </block>
+        </reference>
+    </amscheckout_onepage_content>
+    
+    
+    <amscheckout_onepage_index>
+        
+        <reference name="root">
+           <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <update handle="amscheckout_onepage_static"/>
+        <reference name="content">
+            
+            
+            
+            <block type="core/messages" name="messages" as="messages" before="-" /> 
+            <block type="checkout/cart_coupon" name="checkout.cart.coupon" as="coupon" before="-" template="checkout/cart/coupon.phtml"/>
+            <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+        </reference>
+        <update handle="amscheckout_onepage_content"/>
+    </amscheckout_onepage_index>
+    
+</layout>

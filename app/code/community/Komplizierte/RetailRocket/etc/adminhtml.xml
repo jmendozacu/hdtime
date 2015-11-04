@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <komplizierte_retailrocket translate="title" module="komplizierte_retailrocket">
+            <title>Modules</title>
+            <sort_order>60</sort_order>
+            <children>
+                <retailrocket translate="title" module="komplizierte_retailrocket">
+                    <title>RetailRocket</title>
+                    <action>adminhtml/retailrocket</action>
+                </retailrocket>
+            </children>
+        </komplizierte_retailrocket>
+    </menu>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <komplizierte_retailrocket translate="title" module="komplizierte_retailrocket">
+                        <title>Modules</title>
+                        <sort_order>50</sort_order>
+                        <children>
+                            <smsmanager translate="title" module="komplizierte_retailrocket">
+                                <title>RetailRocket</title>
+                                <action>adminhtml/retailrocket</action>
+                            </smsmanager>
+                        </children>
+                    </komplizierte_retailrocket>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <retailrocket translate="title">
+                                        <title>RetailRocket</title>
+                                        <sort_order>101</sort_order>
+                                    </retailrocket>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

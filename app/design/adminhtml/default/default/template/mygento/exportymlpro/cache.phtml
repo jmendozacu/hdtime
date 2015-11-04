@@ -1,0 +1,10 @@
+<?php if ($this->canShowButton()) { ?>
+    <table class="form-list">
+        <tr>
+            <td class="scope-label">
+                <button type="button" class="scalable" onclick="setLocation('<?php echo $this->getCleanCacheUrl(); ?>')"><span><?php echo Mage::helper('exportymlpro')->__('Flush YML files') ?></span></button>
+            </td>
+            <td class="scope-label"><?php echo Mage::helper('exportymlpro')->__('Pregenerated Yandex Export YML files') ?></td>
+        </tr>
+    </table>
+<?php } ?>

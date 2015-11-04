@@ -1,0 +1,96 @@
+/* Extra small devices (phones, up to 480px) */
+/* No media query since this is the default in Bootstrap */
+
+/* Small devices (tablets, 768px and up) */
+@media (max-width: (@screen-sm - 1)) { 
+
+	.carousel-caption {
+		width: 70%;
+    left: 5%;
+	}
+	.promo-caption {
+		font-size: 20px;
+	}
+	.carousel-control.left:before, 
+	.carousel-control.right:before {
+		top: 12%;
+	}
+  .nav-vert {
+    border-right: none !important;
+  }
+
+  #header {
+    .logo {
+      text-align: center;   
+    }
+    .user-login, 
+    .basket, 
+    .block-search {
+      display: inline-block;
+      width: 100%;
+    }
+    .user-login { ul { display: inline-block; }}
+    .block-search { form { display: inline-block; min-width: 209px; }}
+  }
+  .center-xs { text-align: center; }
+
+  .main-menu .nav > li.dropdown > a, 
+  .main-menu .nav > li.dropdown.open > a {
+    border-bottom: none;
+    margin-right: 0 !important;   
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-bottom: 8px;
+    &:hover, &:focus, &.highlighted {
+      margin-right: 0 !important;   
+      margin-left: 0 !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+    &:after {
+      right: 0;
+    }
+  }
+  .main-menu .dropdown .dropdown-menu { font-size: 16px; line-height: 24px; }
+  .main-menu .sm-nowrap {
+    background-color: #F7F7F7;
+  }
+
+.main-menu {
+  .nav {
+    > li {
+      &.dropdown, &.dropdown.open {          
+        .dropdown-menu.sm-nowrap {
+          min-height: 10px;
+        }
+      }
+    }
+  }
+}
+
+  .navbar-header {
+    margin: 0;
+  }
+  .navbar-nav {
+    margin: 0;
+  }
+
+.map-content { left: -65%;} 
+  #slider-main {
+    img { max-width: 190% !important;  }
+  }
+  .carousel-control.left:before, .carousel-control.right:before {
+      top: 30% !important;
+  }
+  .slider .container { padding: 0; }
+
+  .total {
+    font-size: @font-size-base + 6;
+  }
+  .text404 {
+    font-size: 300%;
+  }
+
+} //end of media
+

@@ -1,0 +1,51 @@
+<?php
+/**
+ * @category    Fishpig
+ * @package     Fishpig_Wordpress
+ * @license     http://fishpig.co.uk/license.txt
+ * @author      Ben Tideswell <help@fishpig.co.uk>
+ */
+?>
+<?php $posts = $this->getPosts() ?>
+<?php if (count($posts) > 0): ?>
+	<div class="block block-muted">
+	<h3 class="pane-header"><a href="<?php echo $this->getUrl('') . 'blog/news/'?>" title="Новости">Новости</a></h3>
+	
+		<div class="row">
+		
+			<?php $i = 0; foreach($posts as $post): ?>
+			
+				<?php if ($i < 3) : ?>
+					<div class="col-sm-4">
+						<div class="list-item">
+							<div class="text-muted"><?php echo $post->getPostDate(); ?></div>
+							<h4 class="title">
+								<a href="<?php echo $post->getPermalink() ?>" title="<?php echo $this->escapeHtml($post->getPostTitle()) ?>"><?php echo $this->escapeHtml($post->getPostTitle()) ?></a>
+							</h4>
+							<p>
+								<?php if ($post->getPostExcerpt()): ?>
+									<?php echo $post->getPostExcerpt() ?>
+								<?php else: ?>
+									<?php echo $post->getPostContent() ?>
+								<?php endif; ?>
+							</p>
+						</div>
+					</div>
+				<?php endif; ?>
+			<?php $i++; endforeach; ?>
+			
+		</div>
+	</div>
+	<!--div class="row">
+		<div class="block-content">
+			<ul id="<?php echo $this->getListId() ?>">
+			<?php foreach($posts as $post): ?>
+				<li class="item">
+					<a href="<?php echo $post->getPermalink() ?>" title="<?php echo $this->htmlEscape($post->getPostTitle()) ?>"><?php echo $this->htmlEscape($post->getPostTitle()) ?></a>
+				</li>
+			<?php endforeach; ?>
+			</ul>
+			<script type="text/javascript">decorateList('<?php echo $this->getListId() ?>')</script>
+		</div>
+	</div-->
+<?php endif; ?>

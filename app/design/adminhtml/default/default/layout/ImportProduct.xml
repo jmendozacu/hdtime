@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <importproduct_adminhtml_importproducts_validate>
+	        <block type="importexport/adminhtml_import_frame_result" template="importexport/import/frame/result.phtml" name="import.frame.result" alias="import_frame_result" output="toHtml"/>
+    </importproduct_adminhtml_importproducts_validate>
+	
+	<importproduct_adminhtml_importproducts_validate>
+        <block type="importproduct/adminhtml_import_frame_result" template="importexport/import/frame/result.phtml" name="import.frame.result" alias="import_frame_result" output="toHtml"/>
+    </importproduct_adminhtml_importproducts_validate>
+	
+	 <importproduct_adminhtml_importproducts_index_log>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="importproduct/adminhtml_importproducts_edit_tab_log" name="inchoo.tab.customers"/>
+        </block>
+    </importproduct_adminhtml_importproducts_index_log>
+	<importproduct_adminhtml_runprofile_run>
+    <remove name="root"/>
+	        <block type="adminhtml/page" name="convert_root" output="toHtml" template="page.phtml">
+            <block type="adminhtml/page_head" name="convert_root_head" as="head" template="page/head.phtml">
+                <action method="addJs"><script>prototype/prototype.js</script></action>
+                <action method="addJs"><script>prototype/validation.js</script></action>
+                <action method="addJs"><script>varien/js.js</script></action>
+                <action method="addJs"><script>mage/translate.js</script></action>
+                <action method="addJs"><script>mage/adminhtml/tools.js</script></action>
+				<action method="addJs"><script>prototype/window.js</script></action>
+            </block>
+
+			 <block type="importproduct/system_convert_run" name="system_convert_run" template="importproduct/process.phtml" output="toHtml" />
+		    
+			</block>	
+	</importproduct_adminhtml_runprofile_run>
+	
+	
+	<importproduct_adminhtml_runprofile_validate>
+    <remove name="root"/>
+	        <block type="adminhtml/page" name="convert_root" output="toHtml" template="page.phtml">
+            <block type="adminhtml/page_head" name="convert_root_head" as="head" template="page/head.phtml">
+                <action method="addJs"><script>prototype/prototype.js</script></action>
+                <action method="addJs"><script>prototype/validation.js</script></action>
+                <action method="addJs"><script>varien/js.js</script></action>
+                <action method="addJs"><script>mage/translate.js</script></action>
+                <action method="addJs"><script>mage/adminhtml/tools.js</script></action>
+				<action method="addJs"><script>prototype/window.js</script></action>
+            </block>
+
+			 <block type="importproduct/system_convert_runvalidation" name="importproduct_run_validation" template="importproduct/validateprocess.phtml" output="toHtml" />
+		    
+			</block>	
+	</importproduct_adminhtml_runprofile_validate>
+
+	<importproduct_adminhtml_licensemanager_index>
+		<reference name="content">
+            <block type="importproduct/export" name="export" template="importproduct/licensedetails.phtml"/>
+		</reference>
+	</importproduct_adminhtml_licensemanager_index>
+	
+
+</layout>
+

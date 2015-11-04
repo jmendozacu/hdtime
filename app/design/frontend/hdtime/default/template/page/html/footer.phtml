@@ -1,0 +1,163 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<!--
+<div class="container">
+    <footer role="contentinfo">
+        <?php //echo $this->getChildHtml() ?>
+        <address><?php //echo $this->getCopyright() ?></address>
+    </footer>
+</div>
+-->
+
+<footer id="footer">
+    <div class="container">
+        <div class="row footer-contacts">
+            <div class="col-sm-3 col-md-2">
+                © 2007—2014 HDtime
+            </div>
+            <div class="col-sm-3 col-md-2">
+                <div class="text-muted">Контакты</div>
+                <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('footer_contacts')->toHtml() ;?>
+            </div>
+            <div class="col-sm-6 col-md-8">
+                <div class="text-muted">Наш адрес</div>
+                <div class="address">
+					<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('footer_adress')->toHtml() ;?>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="map">
+        <div class="map-content"></div>
+        <?php if(Mage::getBlockSingleton('page/html_header')->getIsHomePage()): ?>
+            <!-- Map plugin -->
+            <script type="text/javascript" charset="utf-8" src="//api-maps.yandex.ru/services/constructor/1.0/js/?sid=YktqQceiruwwRxhE82zIrAMudBIpMfLW&height=290"></script>
+        <?php endif; ?>
+    </div>
+
+    <nav id="footer-menu" class="navbar navbar-fixed-bottom footer-menu">
+        <div class="container">
+                    <div class="basket">
+                        <ul class="list-inline list-unstyled">
+							
+                            <li>
+                                <?php $compareCollection = $this->getLayout()->createBlock('catalog/product_compare_list')->getItems(); ?>
+                                <a href="<?php echo Mage::getUrl('catalog/product_compare/index') ?>" class="link-list">
+                                    <span class="link-kol compare_count"><?php echo $compareCollection->count() ?></span>
+                                    <span class="text-dashed hidden-xs">Сравнение</span>
+                                </a>
+                            </li>
+                            <!--li class="cart_icon">
+                                <a href="<?php echo Mage::getUrl('checkout/onepage') ?>" class="link-bin">
+                                    <span class="link-kol"><?php echo Mage::helper('checkout/cart')->getItemsCount() ?></span>
+                                </a>
+                            </li-->
+                            <!--li class="price-link"-->
+                                <?php //echo $this->getChildHtml('totalPrice') ?>
+                                <!--
+                                <a class="bin-summ">1 546 780 <span class="rub">i</span></a>
+                                -->
+                            <!--/li-->
+							<li  class="middle minicart">
+								<?php echo $this->getChildHtml('totalPrice') ?>
+							</li>
+                            <li class="cart-link">
+                                <a class="bin-go hidden-xs" href="<?php echo Mage::getUrl('checkout/onepage') ?>"><span class="text-dashed hidden-xs">Корзина</span></a>
+                            </li>
+                            <li>
+                                <span class="bin-corp"></span>
+                                <a class="text-solid" href="<?php echo Mage::getUrl('customer/account/login') ?>">Корпоративным клиентам</a>
+                            </li>
+                            <!--li>
+                                <?php //echo $this->getChildHtml('callback_form'); ?>
+                            </li-->
+							<li id="product_shot_but"></li>
+                        </ul>
+                    </div>
+        </div>
+    </nav>
+	
+	
+</footer>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-2908373-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter120363 = new Ya.Metrika({
+                    id:120363,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true,
+                    trackHash:true,
+                    ut:"noindex"
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<!-- /Yandex.Metrika counter -->
+
+<!-- Traffic tracking code -->
+<script type="text/javascript">
+    (function(w, p) {
+        var a, s;
+        (w[p] = w[p] || []).push({
+            counter_id: 423454077
+        });
+        a = document.createElement('script'); a.type = 'text/javascript'; a.async = true;
+        a.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'autocontext.begun.ru/analytics.js';
+        s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(a, s);
+    })(window, 'begun_analytics_params');
+</script>

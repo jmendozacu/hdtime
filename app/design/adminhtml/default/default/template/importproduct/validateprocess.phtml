@@ -1,0 +1,155 @@
+<?php
+
+$var = Mage::registry('license_msg');
+if($var==null){
+
+
+$count=count(Mage::getModel('importproduct/profiler')->getCollection());
+
+$direction=$this->getRequest()->getParam('direction');
+if(empty($direction))
+{
+$direction='Validated';
+}
+ 
+$config= array(
+			'styles' => array(
+				'error' => array(
+					'icon' => Mage::getDesign()->getSkinUrl('images/error_msg_icon.gif'),
+					'bg'   => '#FDD'
+				),
+				'message' => array(
+					'icon' => Mage::getDesign()->getSkinUrl('images/fam_bullet_success.gif'),
+					'bg'   => '#DDF'
+				),
+				'loader'  => Mage::getDesign()->getSkinUrl('images/ajax-loader.gif')
+			),
+			'template' => '<li style="#{style}" id="#{id}">'
+						. '<img id="#{id}_img" src="#{image}" class="v-middle" style="margin-right:5px"/>'
+						. '<span id="#{id}_status" class="text">#{text}</span>'
+						. '</li>',
+			'text'     => $this->__('Processed <strong>%s%% %s/%d</strong> products', '#{percent}', '#{updated}', $count),
+			'successText'  => $this->__($direction.' <strong>%s</strong> products', '#{updated}')
+		);
+					
+					
+?>
+<style type="text/css" >
+    #profileRows.ul { list-style-type:none; padding:0; margin:0; }
+    #profileRows li { margin-left:0; border:1px solid #ccc; margin:2px; padding:2px 2px 2px 2px; font:normal 12px sans-serif; }
+    #profileRows img { margin-right:5px; }
+</style>
+
+    <ul id="profileRows">
+
+            <li id="liFinished" style="background-color:#FFD; display:none;">
+            <img src="<?php echo $this->getSkinUrl('images/note_msg_icon.gif');?>" class="v-middle" style="margin-right:5px"/>
+            <?php echo $this->__("Finished profile execution.");?>
+            </li>
+
+	</ul>
+
+<script type="text/javascript">
+	var countOfStartedProfiles = 0;
+	var countOfUpdated = 0;
+	var countOfError = 0;
+	var redirect_to_import_log_url='';
+	var totalRecords = <?php echo $count; ?>;
+	var config= <?php echo Mage::helper('core')->jsonEncode($config);?>;
+	var timestamp=<?php echo time();?>;
+	function importCall(){	
+		
+		new Ajax.Request("<?php echo $this->getUrl('*/adminhtml_RunProfile/validateRecord', array('importfiletype' => $this->getRequest()->getParam('importfiletype'),'files'=>$this->getRequest()->getParam('files'),'direction'=>$direction,'behavior'=>$this->getRequest()->getParam('behavior'),'direction'=>$direction,'validationBehavior'=>$this->getRequest()->getParam('validationBehavior')));?>", {
+				method: "post",
+				parameters: {form_key: FORM_KEY,timestamp:timestamp},
+				onComplete: function(transport) {
+					try{
+						var response = transport.responseText.evalJSON();
+						countOfUpdated=countOfUpdated+response.imported;
+						countOfError=countOfError+response.error;					
+						$("updatedRows_status").update(config.tplTxt.evaluate({updated:countOfUpdated, percent:getPercent()}));
+
+						if(response.next==false)
+						{
+							  $("updatedRows_img").src = config.styles.message.icon;
+								$("updatedRows").style.backgroundColor = config.styles.message.bg;
+								Element.insert($("liFinished"), {before: config.tpl.evaluate({
+									style: "background-color:"+config.styles.message.bg,
+									image: config.styles.message.icon,
+									text: config.tplSccTxt.evaluate({updated:(countOfUpdated-countOfError)}),
+									id: "updatedFinish"
+								})});
+
+								if ($("liBeforeFinish")) {
+									Element.insert($("liFinished"), {before: $("liBeforeFinish")});
+									$("liBeforeFinish").show();
+								}
+
+								if ($("before-finish-wait-img")) {
+									$("before-finish-wait-img").hide();
+								}
+								$('liFinished').show();
+								 
+								 //setTimeout(function () {
+									//window.location=response.url+'countOfError/'+countOfError+'/totalRecords/'+totalRecords;
+								//}, 1000);
+								redirect_to_import_log_url=response.url+'countOfError/'+countOfError+'/totalRecords/'+totalRecords;
+								
+								<?php if (strcasecmp($direction, "'Validated'") == 0) {?>
+								doIndexing();
+								<?php }else{ ?>
+									 setTimeout(function () {
+										window.location=redirect_to_import_log_url;
+									}, 1000);									
+								<?php } ?>
+						}else{
+								importCall();	
+						}
+					}catch(e){
+						deleteImportFlagOnError();
+                        Element.insert($("updatedRows"), {before: config.tpl.evaluate({
+                                    style: "background-color:"+config.styles.error.bg,
+                                    image: config.styles.error.icon,
+                                    text: transport.responseText.escapeHTML(),
+                                    id: "error-" + countOfStartedProfiles
+                                })});
+						 setTimeout(function () {
+							//importCall();
+						}, 1000);
+								
+					}	
+				}
+		});
+
+	}
+	
+	function getPercent() {
+		return Math.ceil((countOfUpdated/totalRecords)*1000)/10;
+	}
+
+
+	
+	window.onload=function(){			
+		if(totalRecords>0){
+			config.tpl = new Template(config.template);
+			config.tplTxt = new Template(config.text);
+			config.tplSccTxt = new Template(config.successText);
+								
+			Element.insert($("liFinished"), {before: config.tpl.evaluate({
+				style: "background-color: #FFD;",
+				image: config.styles.loader,
+				text: config.tplTxt.evaluate({updated:countOfUpdated, percent:getPercent()}),
+				id: "updatedRows"
+			})});
+		
+			importCall();
+		}
+	}
+	
+
+	
+</script>
+				<?php 
+}else{
+}
+ //echo $this->getRunButtonHtml() ?><br/>

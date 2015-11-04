@@ -1,0 +1,100 @@
+<?php $row = $this->getShowmap();?>
+
+<h4><?php echo $this->__('Sitemap') ?></h4>
+
+<?php if($row['category'] == 'yes') {?>
+ <div class="block block-reviews">
+    <div class="block-title">
+        <strong><span>Categories</span></strong>
+    </div>
+    <div class="block-content">
+    <ul>
+    <?php foreach($this->getData('catIds') as $catId): ?>
+	<li>
+    	<?php $category = Mage::getModel('catalog/category')->load($catId);?>
+		<a href="<?php echo $category->getUrl();?>" style="font:bold;font-size:13px;"><?php echo $category->getName();?></a>
+        <?php
+			$subCats = Mage::getModel('catalog/category')->load($category->getId())->getChildren();
+			$subCatIds = explode(',',$subCats);
+		?>
+        <?php if(count($subCatIds) > 1):?>
+         <ul>
+             <?php foreach($subCatIds as $subCat) :?>
+               <li>
+                   <?php $subCategory = Mage::getModel('catalog/category')->load($subCat);?>
+                    <a href="<?php echo $subCategory->getUrl();?>" style="font:bold;font-size:11px;"><?php echo $subCategory->getName();?></a>
+               </li>
+             <?php endforeach;?>
+        </ul>
+       <?php endif; ?>
+    </li>
+<?php endforeach; ?>
+</ul>
+    </div>
+</div>
+<?php }?>
+
+
+
+
+<?php if($row['product'] == 'yes') {?>
+<div class="block block-reviews">
+    <div class="block-title">
+        <strong><span>Products</span></strong>
+    </div>
+    <div class="block-content"><ul>
+    <?php  $storeId    = Mage::app()->getStore()->getId();
+           $product    = Mage::getModel('catalog/product');
+           foreach ($this->getData('products') as $pro) //loop for getting products
+           {  
+		    $Stock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($pro['entity_id'])->getIsinStock();
+		    if($Stock)
+		    {                
+             $_product = $product->load($pro['entity_id']);?> 
+			 <?php if($_product->getStatus() != 2){?>      
+             <li><a href="<?php echo $_product->getUrlPath()?>" style="font:bold;font-size:13px;"><?php echo $_product->getName();}?></a></li>
+	  <?php }?>	
+	  <?php }?>
+	  </ul>	 
+    </div>
+</div>
+
+<?php }?>
+
+<?php if($row['cms'] == 'yes') {?>
+<div class="block block-reviews">
+    <div class="block-title">
+        <strong><span>CMS</span></strong>
+    </div>
+    <ul>
+    <?php foreach ($this->getData('collection') as $page): ?>
+      <?php $PageData = $page->getData();  ?>
+      <?php if($PageData['identifier']!='no-route' && $PageData['identifier']!='enable-cookies') { ?>
+      <li>
+        <a href="<?php echo $PageData['identifier']?>" style="font:bold;font-size:13px;"><?php echo $PageData['title'] ?></a>
+      </li>
+      <?php } ?>
+    <?php endforeach; ?>
+</div>
+<?php }?>
+
+
+<?php if($row['other'] == 'yes') {?>
+<div class="block block-reviews">
+    <div class="block-title">
+        <strong><span>Other</span></strong>
+    </div>
+    <ul>
+      
+        <li><a href="<?php echo Mage::getUrl(). "customer/account";?>" style="font:bold;font-size:13px;">My Account</a></li>
+		<li><a href="<?php echo Mage::getUrl(). "wishlist";?>" style="font:bold;font-size:13px;">My Wishlist</a></li>
+		<li><a href="<?php echo Mage::getUrl(). "checkout/cart";?>" style="font:bold;font-size:13px;">My Cart</a></li>
+		<li><a href="<?php echo Mage::getUrl(). "checkout/";?>" style="font:bold;font-size:13px;">Checkout</a></li>
+		<li><a href="<?php echo Mage::getUrl(). "catalogsearch/advanced";?>" style="font:bold;font-size:13px;">Advanced Search</a></li>
+		<li><a href="<?php echo Mage::getUrl(). "customer/account";?>" style="font:bold;font-size:13px;">Login</a></li>
+      
+</div>
+<?php }?>
+
+
+

@@ -1,0 +1,148 @@
+<div class="page-title title-buttons occheckout-title">
+    <h1>Checkout</h1>
+    <ul  class="checkout-types">
+        <li><button onclick="parent.location.href = '<?php echo $this->getUrl('checkout/onepage/index') ?>'"  class="button btn-proceed-checkout btn-checkout"><span><span>Standard Checkout</span></span></button></li>
+        <li><button onclick="parent.location.href = '<?php echo $this->getUrl() ?>'"  class="button btn-update"><span><span>Continue Shopping</span></span></button></li>
+    </ul>
+</div>
+<div class="occheckout-left">
+    <div class="billing-shipping-addresses">
+        <div class="billing-address" style="float: left">
+            <?php echo $this->getChildHtml('billing'); ?>
+        </div>
+        <div class="ajax-loader" style="display: none">
+            <img src="<?php echo $this->getSkinUrl('images/ajax-loader.gif'); ?>" alt="loader"/>
+        </div>
+        <div class="shipping-address" style="float: right">
+            <?php echo $this->getChildHtml('shipping'); ?>
+        </div>
+    </div>
+</div>
+<div class="occheckout-right">
+    <div class='cart-manual'>
+        <h2>Shopping Cart</h2>
+        <form action="<?php echo $this->getUrl('checkout/cart/updatePost') ?>" method="post" id="product_updatecart_form" enctype="multipart/form-data" >
+            <div class='cart-data'>
+                <?php echo $this->getChildHtml('updatecartajax'); ?>
+            </div>
+            <button type="button" onclick="productUpdateCartForm.submit(this)" name="update_cart_action" value="update_qty" title="<?php echo $this->__('Update Cart'); ?>" class="button btn-update"><span><span><?php echo $this->__('Update Cart'); ?></span></span></button>
+        </form>
+    </div>
+    <div class="shipping-payment-methods">
+        <div class="payment-methods">
+            <span><h3>Payment Methods</h3></span>
+            <?php echo $this->getChildHtml('payment'); ?>
+        </div>
+        <div class="shipping-method">
+            <span><h3>Shipping Methods</h3></span>
+            <?php echo $this->getChildHtml('shipping_method'); ?>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+    <!--<button type="submit" title="<?php echo $this->__('Place Order') ?>" class="button btn-checkout" onclick="review.save();"><span><span><?php echo $this->__('Place Order') ?></span></span></button>-->
+
+<?php // echo  $this->getLayout()->getBlock('checkout/onepage_review')->setTemplate('checkout/onepage/review.phtml')->toHtml(); ?>
+<!--</div>-->
+<?php // echo $this->getPaymentMethodFormHtml()  ?>
+
+
+
+<?php
+$billing = array();
+$address = $this->getCustomer()->getDefaultBillingAddress();
+if ($address) {
+    $address = $address->getData();
+}
+$tags = preg_split('/\\r\\n|\\r|\\n/', $address['street']);
+$strt = array();
+foreach ($tags as $v) {
+    $strt[] = $v;
+}
+?>
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        jQuery('.occheckout-index-occheckout').children('div.cart-items-details').remove();
+
+    });
+    jQuery(document).ajaxComplete(function() {
+        jQuery('#billing-new-address-form .fields:nth-child(2)').css('margin-bottom', 0);
+    });
+    // updating cart quantity using ajax
+    var productUpdateCartForm = new VarienForm('product_updatecart_form');
+    productUpdateCartForm.submit = function(button, url) {
+        if (this.validator.validate()) {
+            var form = this.form;
+            var oldUrl = form.action;
+
+            if (url) {
+                form.action = url;
+            }
+            var e = null;
+//Start of our new ajax code
+            if (!url) {
+                url = jQuery('#product_updatecart_form').attr('action');
+            }
+            var data = jQuery('#product_updatecart_form').serialize();
+            data += '&isAjax=1';
+            try {
+                jQuery('.grand-total-loader').show();
+                jQuery('#shopping-cart-totals-table').hide();
+                jQuery.ajax({
+                    url: url,
+                    dataType: 'json',
+                    type: 'post',
+                    data: data,
+                    complete: function() {
+                        reloadCartPage();
+                        reloadShippingMethod();
+                        updateGrandTotal();
+                    }
+                });
+            } catch (e) {
+            }
+//End of our new ajax code
+            this.form.action = oldUrl;
+            if (e) {
+                throw e;
+            }
+        }
+    }.bind(productUpdateCartForm);
+
+// function to refresh cart using ajax
+    function reloadCartPage() {
+
+        var data = 'isAjax=' + 1;
+        jQuery.ajax({
+            url: "<?php $this->getUrl('occheckout/index/updatecart') ?>",
+            type: 'post',
+            data: data,
+            success: function(data) {
+                var val = jQuery(data).find('.cart-items-details');
+                jQuery('.cart-data').html(val);
+                updateGrandTotal();
+            },
+        });
+    }
+    // function to refresh grand total using ajax
+    function updateGrandTotal() {
+        var data = 'isAjax=' + 1;
+        jQuery.ajax({
+            url: "<?php $this->getUrl('occheckout/index/updategrandtotal') ?>",
+            type: 'post',
+            data: data,
+            success: function(data) {
+                jQuery('.grand-total-loader').hide();
+                jQuery('#shopping-cart-totals-table').show();
+                var val = jQuery(data).find('#shopping-cart-totals-table');
+                jQuery('.grand-total-refresh').html(val);
+            },
+        });
+    }
+</script>

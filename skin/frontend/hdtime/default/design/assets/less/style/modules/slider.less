@@ -1,0 +1,70 @@
+.slider {
+    margin: 0 -99999px;
+    padding: 0 99999px;
+	display: block;
+	background-image: url(../images/bg-promo.jpg);
+	background-position: center top;
+	background-repeat: no-repeat;
+}
+
+.carousel-inner {
+	img {
+		margin: 0 auto;
+	}
+}
+.carousel-control {
+	opacity: 0.8;
+	&.left,&.right {
+		background-image: none;
+		
+		
+		&:before {
+			.ico-sprite;
+			height: 71px;
+			width: 12px;		
+			top: 33%;
+		}
+	}
+	&.left {
+		left: 2%;
+		&:before {
+			background-position: 0 -78px;
+		}
+	}
+	&.right {
+		right: 2%;
+		&:before {
+			background-position: -12px -78px;
+			right: 1%;
+		}
+	}
+}
+.carousel-caption {
+	background: url(../images/bg-promo-text.png);
+	padding: @pad-lg;
+	right: 5%;
+	left: auto;
+	text-align: left;
+	width: 36%;
+  z-index: 1;
+}
+
+.promo-caption {
+	color: @white;
+	font-size: 30px;
+	margin-top: 0;
+	text-align: left;
+	a { color: @white; }
+    font-family: @font-family-promo;
+}
+
+.carousel-indicators {
+  bottom: 0;
+  z-index: 2;
+	li {
+		border-color: @brand-info;
+	}
+	.active {
+		background-color: @brand-info;
+	}
+}

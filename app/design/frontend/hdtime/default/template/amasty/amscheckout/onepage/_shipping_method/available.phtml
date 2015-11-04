@@ -1,0 +1,189 @@
+<?php $hlr = $this->helper("amscheckout");?>
+<?php $_shippingRates = $hlr->getConfigShippingRates($this); ?>
+<?php if (!$_shippingRates): ?>
+    <p><?php echo $this->__('Sorry, no quotes are available for this order at this time.') ?></p>
+<?php else: ?>
+
+    <?php $shippingCodePrice = array(); ?>
+    <ul class="nav nav-tabs tab-success">
+        <?php $_sole = count($_shippingRates) == 1; foreach ($_shippingRates as $_config): ?>
+        <?php
+        $code = $_config['code'];
+        $_rate = $_config['rate'];
+        $_field = $_config['field'];
+
+        ?>
+        <li <?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' class="active"' ?> >
+            <a href="#<?php echo $_rate->getCode() ?>_block"  class="delivers" rel="s_method_<?php echo $_rate->getCode() ?>" data-toggle="tab">
+                <span><?php echo $this->escapeHtml($this->getCarrierName($code)) ?></span>
+            </a>
+        </li>
+        <?php endforeach; ?>
+
+    </ul>
+    <div class="tab-content">
+    <?php $_sole = count($_shippingRates) == 1; foreach ($_shippingRates as $_config): ?>
+        <?php
+            $code = $_config['code'];
+            $_rate = $_config['rate'];
+            $_field = $_config['field'];
+            
+        ?>
+        <div class="tab-pane <?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo 'active' ?>" id="<?php echo $_rate->getCode() ?>_block">
+            <?php if($_rate->getCode()=='flatrate_flatrate'):?>
+            <div id="billing-new-address" style="<?php if ($this->isCustomerLoggedIn()): ?>display: none;<?php endif; ?>">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <label>
+                                <?php echo $this->__('Область доставки') ?>
+                            </label>
+                        </div>
+                        <div class="input-box input-radio">
+                            <input type="radio" id="mkad" name="mkad"/>
+                        </div>
+                        <div class="input-group-addon">
+                            <label for="mkad" class="small-label"><?php echo $this->__('МКАД') ?></label>
+                        </div>
+                        <div class="input-box input-radio">
+                            <input type="radio" id="nomkad" name="mkad"/>
+                        </div>
+                        <div class="input-group-addon">
+                            <label for="nomkad" class="small-label"><?php echo $this->__('Не более 10км от МКАД') ?></label>
+                        </div>
+                        <p class="hint deliver-hint">Некая легенда по доставке с суказанием основных условий, например цена и прочее.</p>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <label for=""><?php echo $this->__('Город') ?></label>
+                        </div>
+                        <div class="input-box">
+                            <input type="text" id="billing-city" class="required-entry input-text input-text-wide" value="" title="Город"/>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <label for=""><?php echo $this->__('Улица') ?></label>
+                        </div>
+                        <div class="input-box">
+                            <input type="text" class="required-entry billings input-text input-text-wide" value="" title="Улица"/>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <label for=""><?php echo $this->__('Дом') ?></label>
+                        </div>
+                        <div class="input-box">
+                            <input type="text" id="billing_building" value="" class="required-entry billings input-text input-text-small" title="Дом"/>
+                        </div>
+                        <div class="input-group-addon">
+                            <label class="small-label"><?php echo $this->__('Корпус') ?></label>
+                        </div>
+                        <div class="input-box">
+                            <input type="text" value="" class="billings input-text input-text-small" title="Корпус"/>
+                        </div>
+                        <div class="input-group-addon">
+                            <label class="small-label"><?php echo $this->__('Строение') ?></label>
+                        </div>
+                        <div class="input-box">
+                            <input type="text" id="billing_porch" value="" class="billings input-text input-text-small" title="Строение"/>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <label for=""><?php echo $this->__('Квартира/офис') ?></label>
+                        </div>
+                        <div class="input-box">
+                            <input type="text" id="billing_apartment" value="" class="billings input-text input-text-small" title="квартира/офис"/>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <label><?php echo $this->__('Комментарий') ?></label>
+                        </div>
+                        <div class="input-box">
+                            <textarea title="комментарий" class="textarea textarea-wide"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php endif;?>
+            <ul>
+                <?php $shippingCodePrice[] = "'".$_rate->getCode()."':".(float)$_rate->getPrice(); ?>
+                <li>
+                   <?php if ($_rate->getErrorMessage()): ?>
+                    <ul class="messages"><li class="error-msg"><ul><li><?php echo $this->escapeHtml($_rate->getErrorMessage()) ?></li></ul></li></ul>
+                   <?php else: ?>
+                        <?php if ($_sole) : ?>
+                        <span class="no-display"><input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>" checked="checked" /></span>
+                        <?php else: ?>
+                        <input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?> class="radio" style="display: none"/>
+
+                        <?php if ($_rate->getCode() === $this->getAddressShippingMethod()): ?>
+                        <script type="text/javascript">
+                            //<![CDATA[
+                                lastPrice = <?php echo (float)$_rate->getPrice(); ?>;
+                            //]]>
+                        </script>
+                        <?php endif; ?>
+
+                        <?php endif; ?>
+                        <label for="s_method_<?php echo $_rate->getCode() ?>"><?php echo $this->escapeHtml($_field['field_label']) ?>
+                        <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
+                        <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
+                        <?php echo $_excl; ?>
+                        <?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                            (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                        <?php endif; ?>
+                        </label>
+                   <?php endif ?>
+                </li>
+            </ul>
+        </div>
+    <?php endforeach; ?>
+    </div>
+<script type="text/javascript">
+//<![CDATA[
+    <?php if (!empty($shippingCodePrice)): ?>
+        var shippingCodePrice = {<?php echo implode(',',$shippingCodePrice); ?>};
+    <?php endif; ?>
+
+    $$('input[type="radio"][name="shipping_method"]').each(function(el){
+        Event.observe(el, 'click', function(){
+            if (el.checked == true) {
+                var getShippingCode = el.getValue();
+                <?php if (!empty($shippingCodePrice)): ?>
+                    var newPrice = shippingCodePrice[getShippingCode];
+                    if (!lastPrice) {
+                        lastPrice = newPrice;
+                        quoteBaseGrandTotal += newPrice;
+                    }
+                    if (newPrice != lastPrice) {
+                        quoteBaseGrandTotal += (newPrice-lastPrice);
+                        lastPrice = newPrice;
+                    }
+                <?php endif; ?>
+                checkQuoteBaseGrandTotal = quoteBaseGrandTotal;
+                return false;
+            }
+       });
+    });
+    <?php if ($hlr->reloadAfterShippingMethodChanged()) {?>
+        $$('.delivers').each(function(el){
+            el.observe('click',function(){
+                $(el.readAttribute('rel')).click();
+            });
+        });
+        $$("#checkout-shipping-method-load input[type=radio]").each(function(input){
+            input.observe("click", function(){
+                updateCheckout();
+            })
+        });
+    <?php }?>
+//]]>
+</script>
+<?php endif; ?>
+

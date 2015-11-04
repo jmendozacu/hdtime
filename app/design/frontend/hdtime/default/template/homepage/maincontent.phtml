@@ -1,0 +1,100 @@
+<section id="main-content" class="container-fluid">
+<article class="container">
+<div class="prod-list list-caro">
+<ul class="nav nav-tabs tab-success">
+    <li class="active"><a id="tab-prod-new" href="#prod-new" data-toggle="tab"><span>Новинки</span></a></li>
+    <li><a id="tab-prod-sales" href="#prod-sales" data-toggle="tab"><span>Распродажа</span></a></li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane active" id="prod-new">
+        <?php echo $this->getChildHtml('product_new') ?>
+    </div>
+    <div class="tab-pane" id="prod-sales">
+        <?php echo $this->getChildHtml('product_sale') ?>
+    </div>
+</div>
+    <script>
+        Equals(jQuery('.list-inline li .cast:visible'));
+        jQuery('.nav-tabs > li').click(function(){
+            setTimeout(function(){
+                Equals(jQuery('.tab-content li .cast:visible'))}, 100);
+
+        })
+
+    </script>
+</div>
+
+<?php echo $this->getLayout()->createBlock('wordpress/sidebar_widget_posts')->setTemplate('wordpress/sidebar/widget/posts.phtml')->toHtml(); ?>
+
+<div class="row same-height home_bottom">
+    <div class="col-sm-4">
+        <div class="block-main rates">
+            <p class="text-center">
+                <!--a class="link-rate-ya" href="#"><img src="skin/frontend/hdtime/default/design/includes/ya-rate.jpg"></a-->
+				<a href="http://clck.yandex.ru/redir/dtype=stred/pid=47/cid=2508/*http://market.yandex.ru/shop/4547/reviews">
+					<img src="http://clck.yandex.ru/redir/dtype=stred/pid=47/cid=2505/*http://grade.market.yandex.ru/?id=4547&action=image&size=0" border="0" width="88" height="31" alt="Читайте отзывы покупателей и оценивайте качество магазина на Яндекс.Маркете" />
+				</a>
+            </p>
+            <div class="rates-btn">
+                <a target="_blank" href="http://clck.yandex.ru/redir/dtype=stred/pid=47/cid=2508/*http://market.yandex.ru/shop/4547/reviews" class="btn btn-success btn-max">Оставьте свой отзыв</a>
+            </div>
+            <hr>
+            <p class="block-main_rates_text">Также для отзывов и предложений <br>пишите нам на <a href="mailto:feedback@hdtime.ru">feedback@hdtime.ru</a></p>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="service">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab-serv" data-toggle="tab"><span>Сервис</span></a></li>
+                <li><a href="#tab-podbor" data-toggle="tab"><span>Подбор ламп</span></a></li>
+            </ul>
+            <div class="tab-content tab-border">
+                <div class="tab-pane active" id="tab-serv">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <ul class="nav nav-tabs nav-vert">
+                                <li class="active"><a href="#tab-delivery" data-toggle="tab">Доставка</a></li>
+                                <li><a href="#tab-consult" data-toggle="tab"><span>Консультация специалиста</span></a></li>
+                                <!--li><a href="#tab-callback" data-toggle="tab"><span>Обратный звонок</span></a></li-->
+                            </ul>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="tab-content">
+                                <div id="tab-delivery" class="tab-pane active">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <p>
+                                                <span class="text-bold">Доставка до Т/К</span> (с 10:00 до 19:00)
+                                                <br>В день заказа —  400р
+                                                <br>На следующий день  —  250р
+                                            </p>
+                                            <p><span class="text-bold">Доставка за МКАД</span>
+                                                Рассчитывается индивидульно</p>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <span class="text-bold">Доставка в регионы</span>
+                                            <p>Мы доставляем товары по всей России с помощью транспортных компаний, таких как: Грузовозофф; ПЭК; СПСР; либо любая Т/К на Ваш выбор.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="tab-consult"class="tab-pane">
+                                    Консультация специалиста
+                                </div>
+                                <!--div id="tab-callback" class="tab-pane">
+                                    Обратный звонок
+                                </div-->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="tab-pane" id="tab-podbor">
+                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('podbor_lamp')->toHtml();?>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</article>
+</section>

@@ -1,0 +1,325 @@
+.amonepage-column-left{
+    width: 30%;
+    float: left;
+    margin-right: 15px;
+    padding-top: 15px;
+}
+
+.amonepage-column-middle{
+    width: 25%;
+    float: left;
+    margin-right: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    padding-left: 15px;
+}
+
+.amonepage-column-right{
+    width: 36%;
+    float: left;
+    padding-top: 15px;
+}
+
+.amonepage-column-first{
+    width: 44%;
+    float: left;
+    margin-right: 15px;
+    padding-top: 15px;
+}
+
+.amonepage-column-second{
+    width: 50%;
+    float: left;
+    padding-top: 15px;
+    padding-left: 15px;
+}
+
+.amonepage-single-column{
+    width: 48%;
+    text-align: left;
+}
+
+.am_fields .am_field
+{
+    /*display: inline;*/
+    float: left;
+}
+
+.amonepage-container .am_field_multi_row input.input-text{
+    /*width: 90%;*/
+    margin-bottom: 5px;
+}
+
+.amonepage-container .am_field_row{
+    float:left;
+    /*padding-right: 10px;*/
+}
+
+.amonepage-container .am_header{
+    float:left;
+    width: 100%;
+    margin: 5px 0px;
+}
+
+.am_field label,
+.field-row label,
+.am_field_row label{
+    color: #666;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.am_field_row label.am_required em{
+    color: red;
+}
+
+.am_field_row input[type=checkbox],
+.am_field_row input[type=radio]{
+    /*float: left;*/
+    margin-right: 5px;
+    margin-top: 2px;
+}
+
+.am_field_row .form-list .month{
+   width: 100px;
+}
+
+.am_field_row .form-list .year{
+   margin-left: 10px;
+   width: 60px;
+}
+
+#am-please-wait{
+    width: 100%; 
+    text-align: right;
+}
+
+#checkout-review-table-wrapper{
+    display: block;
+    float: left;
+    width: 100%;
+}
+
+.amonepage-container{
+    background: #f9f3e3;
+    float: left;
+    padding: 10px 10px;
+    border: 1px solid #bbafa0;
+    min-height: 65px;
+    min-width: 65px;
+    /*display: none;*/
+}
+
+.amonepage-container form{
+    
+}
+
+.amonepage-container .step{
+    /*float: left;*/
+    overflow:hidden;
+    display: block;
+    height: 100%;
+    clear: both;
+    padding: 10px !important;
+    border: 1px solid #bbafa0 !important;
+    width: 100%;
+    background: #fbfaf6;
+    /*min-height: 65px;*/
+}
+
+.amonepage-container .step form{
+    display: block;
+}
+
+.am_field_row{
+    padding-bottom: 7px;
+}
+
+.am_loading{
+    position: absolute;
+}
+
+.amonepage-container .form-list .input-box{
+    width: auto;
+}
+
+.amonepage-container .form-list select,
+.amonepage-container .form-list input.input-text{
+    width: 100%;
+}
+
+.am_login_link{
+    width: 100%;
+    display: block;
+    padding-bottom: 10px;
+}
+
+#am_login{
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #bbafa0;
+    min-height: 300px;
+}
+
+.am_form-list h4,
+.am_form-list div,
+.amonepage-container .sp-methods,
+.amonepage-container .sp-methods dt
+{
+    padding: 0;
+    margin: 0;
+}
+
+.am_form-list div.validation-advice{
+    margin: 3px 0 0;
+    padding-left: 17px;
+}
+/*
+.amonepage-container .am_form-list{
+    display: none;
+}*/
+
+.amonepage-container #amorderattr{
+    display: none;
+}
+
+.am_carrier_label{
+    font-weight: bold;
+}
+
+.am_field_row .price{
+    padding-left: 5px;
+}
+
+.cart-collaterals{
+    display: none;
+}
+
+.am_cart{
+    float: left;
+    padding: 10px;
+    border: 1px solid #bbafa0;
+    width: 100%;
+    background: #fbfaf6;
+    min-height: 65px;
+}
+
+#shopping-cart-table{
+    margin-bottom: 20px;
+}
+
+.data-table td.shopping_cart_review{
+    margin: 0;
+    padding: 0;
+}
+
+.data-table td.shopping_cart_review #shopping-cart-table {
+    margin-bottom: 1px;
+    width: 100%;
+}
+
+.data-table td.shopping_cart_review #shopping-cart-table tfoot td{
+    padding: 10px;
+    text-align: center !important;
+}
+
+.data-table td.shopping_cart_review #shopping-cart-table tfoot td button{
+/*    line-height: 30px;*/
+    height: 25px;
+}
+
+.amonepage-container .data-table thead th
+{
+    padding: 2px 0px;
+    text-align: center;
+}
+
+#amOverlay{
+    /*background-color: #CAC1C1;*/
+    position: absolute;
+/*    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=30);  IE 5.5+
+    -moz-opacity: 0.3;  Mozilla 1.6 � ���� 
+    -khtml-opacity: 0.3;  Konqueror 3.1, Safari 1.1 
+    opacity: 0.3;  CSS3 - Mozilla 1.7b +, Firefox 0.9 +, Safari 1.2+, Opera 9 */
+
+}
+
+.amonepage-container #date_trig{
+    padding-left: 3px;
+}
+
+.discount{
+    display: none;
+}
+
+.amonepage-container .discount{
+    display: block;
+}
+
+.page-title,
+#checkoutSteps{
+    display: none;
+}
+
+.sp-methods span.required{
+    color: red;
+}
+
+.am_form-list .required em{
+    color: red;
+    float: right;
+    /*padding-left: 5px;*/
+}
+.am_form-list input{
+/*    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;*/
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.am_form-list label{
+    padding-top: 7px;
+}
+.am_form-list select,
+.am_form-list input
+{
+    width: 100%;
+}
+
+.am_form-list select.year{
+    margin-left: 3px;
+}
+
+.overlay_alphacube {
+    background-color: #000;
+}
+
+.am_form-list>li{
+    clear: both;
+    /*display: block;*/
+}
+.sp-methods .am_input-box{
+    clear: both;
+    width: auto !important;
+}
+
+.amonepage-container select,
+.amonepage-container .input-text{
+    padding: 4px 0px 4px 0px;
+}
+
+.dob-day label,
+.dob-month label,
+.dob-year label
+{
+    font-weight: normal;
+    padding-top: 0px;
+    font-size: 0.8em;
+}
+#am_area_review{
+    display: none;
+}
+.redirect-btn{
+    margin: 0px 20px 20px 20px;
+}

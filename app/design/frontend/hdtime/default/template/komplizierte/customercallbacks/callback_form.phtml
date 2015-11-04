@@ -1,0 +1,104 @@
+<div class="callbacks-popup" id="callbacks">
+	<div class="lightbox">
+		<div class="lightbox-holder">
+			<div class="lightbox-frame">
+				<div class="lightbox-content">
+					<span class="callbacks_loader" style="display: none"><?php echo $this->__('loading ...')?></span>
+					<form action="<?php echo $this->getUrl('customercallbacks/index/callback'); ?>" method="post" name="form_customercallbacks" id="form_customercallbacks" class="webforms-callback">
+						<span class="callbacks_message"></span>
+						<div class="field webforms-fields-username clearfix">
+							<label for="callbacks_name" class="required">Ваше имя</label>
+							<input type="text" name="name" id="callbacks_name" class="input-text required-entry" value="">
+						</div>
+						<div class="field webforms-fields-phonenumber clearfix">
+							<label for="callbacks_phone" class="required masked-telephone"><?php echo $this->__("Telephone"); ?> </label>
+							<input type="text" name="phone" id="callbacks_phone" class="input-text required-entry form-control" value="">
+						</div>
+						<div class="buttons-set">
+							<input type="text" name="ajax" id="ajax" value="true" class="no-display" />
+							<button type="submit" class="button button2" id="webform_2_submit_button" title="submit">
+								<span>
+									<span>Заказать</span>
+								</span>
+							</button>
+						</div>
+					</form>
+					<div class="loading-ajax-form" id="webform_2-ajax"></div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+<script type="text/javascript">
+	//<![CDATA[
+    Event.observe(document, 'dom:loaded', function(){
+        customerCallbacks.callbackInit();
+        customerCallbacks.submitForm();
+    });
+	//]]>
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+
+<a class="fancybox" href="#phone">Callback</a>
+<div class="lightbox lightbox2" id="phone" style="display: none">
+    <form action="<?php echo $this->getUrl('customercallbacks/index/callback'); ?>" method="post" name="callback_form" id="callback_form" class="webforms-callback">
+        <div class="note" style="display: none;"></div>
+        <div class="form_call">
+            <h2><?php echo $this->__("Callback"); ?></h2>
+
+            <p><?php echo $this->__('Leave your phone number and name. We will contact you shortly.') ?></p>
+
+            <div class="field webforms-fields-username clearfix">
+                <label for="field_11" class="required"><?php echo $this->__("Your Name"); ?> </label>
+                <input type="text" name="name" id="field[11]" class="input-text required-entry" style="" value="">
+            </div>
+            <div class="field webforms-fields-phonenumber clearfix">
+                <label for="field_12" class="required masked-telephone"><?php echo $this->__("Telephone"); ?> </label>
+                <input type="text" name="phone" id="field[12]" class="input-text required-entry mask-number" style="" value="">
+                <script type="text/javascript">
+                    jQuery(".input-text.required-entry.mask-number").mask("(999) 999-99-99");
+                </script>
+            </div>
+            <div class="buttons-set">
+                <input type="text" name="ajax" id="ajax" value="true" class="no-display"/>
+                <button type="submit" class="button yellow" id="submit" title="submit">
+				<span>
+					<span><?php echo $this->__("Call me"); ?></span>
+				</span>
+                </button>
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+        //<![CDATA[
+        var dataForm = new VarienForm('callback_form');
+        //]]>
+    </script>
+</div>
+-->

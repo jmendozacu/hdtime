@@ -1,0 +1,90 @@
+<?php
+/**
+ * Innoexts
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the InnoExts Commercial License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://innoexts.com/commercial-license-agreement
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@innoexts.com so we can send you a copy immediately.
+ * 
+ * @category    Innoexts
+ * @package     Innoexts_ProductBaseCurrency
+ * @copyright   Copyright (c) 2014 Innoexts (http://www.innoexts.com)
+ * @license     http://innoexts.com/commercial-license-agreement  InnoExts Commercial License
+ */
+?>
+<?php $helper                   = $this->helper('productbasecurrency') ?>
+<?php $element                  = $this->getElement() ?>
+<?php $this->checkFieldDisable() ?>
+<?php $elementHtmlId            = $element->getHtmlId() ?>
+<?php $elementReadonly          = $element->getReadonly() ?>
+<?php $elementToggleCode        = $element->getToggleCode() ? 
+    $element->getToggleCode() : 
+    'toggleValueElements(this, this.parentNode.parentNode)' ?>
+
+<?php $controlId                = $this->getControlHtmlId() ?>
+<?php $controlJsObject          = $this->getControlJsObjectName() ?>
+
+<tr>
+    <td class="label"><?php echo trim($this->getElementLabelHtml()) ?></td>
+    <td id="<?php echo $controlId ?>" class="value control">
+        <?php echo trim($this->getElementHtml()) ?>      
+        <?php if ($element->getNote()) : ?>
+        <p class="note"><?php echo $element->getNote() ?></p>
+        <?php endif; ?>
+
+<script type="text/javascript">
+//<![CDATA[
+
+var baseCurrencyControlData = {
+    elementId:                  '<?php echo $controlId ?>', 
+    websiteId:                  '<?php echo ((!$this->isGlobalPriceScope()) ? $this->getWebsiteId() : '') ?>', 
+    defaultBaseCurrencyCode:    '<?php echo $this->getDefaultBaseCurrencyCode() ?>', 
+    websiteBaseCurrencyCodes:   '<?php echo $this->getWebsiteBaseCurrencyCodesJSON() ?>'
+};
+
+<?php if ($this->hasPriceElement()) : ?>
+Object.extend(baseCurrencyControlData, {
+    priceElementId:             '<?php echo $this->getPriceElementId() ?>'
+});
+<?php endif; ?>
+
+<?php if ($this->hasSpecialPriceElement()) : ?>
+Object.extend(baseCurrencyControlData, {
+    specialPriceElementId:      '<?php echo $this->getSpecialPriceElementId() ?>'
+});
+<?php endif; ?>
+
+<?php if ($this->hasGroupPriceElement()) : ?>
+Object.extend(baseCurrencyControlData, {
+    groupPriceElementId:        '<?php echo $this->getGroupPriceElementId() ?>'
+});
+<?php endif; ?>
+
+<?php if ($this->hasTierPriceElement()) : ?>
+Object.extend(baseCurrencyControlData, {
+    tierPriceElementId:         '<?php echo $this->getTierPriceElementId() ?>'
+});
+<?php endif; ?>
+
+document.observe("dom:loaded", function () {
+    <?php echo $controlJsObject ?> = new BaseCurrencyControl(baseCurrencyControlData);
+});
+
+//]]>
+</script>
+
+    </td>
+    <td class="scope-label"><span class="nobr"><?php echo $this->getScopeLabel() ?></span></td>
+    <?php if ($this->canDisplayUseDefault()): ?>
+    <td class="value use-default">
+        <input <?php if ($elementReadonly) : ?> disabled="disabled"<?php endif; ?> type="checkbox" name="use_default[]" id="<?php echo $elementHtmlId ?>_default"<?php if ($this->usedDefault()): ?> checked="checked"<?php endif ?> onclick="<?php echo $elementToggleCode ?>" value="<?php echo $this->getAttributeCode() ?>" />
+        <label for="<?php echo $elementHtmlId ?>_default" class="normal"><?php echo $helper->__('Use Default Value') ?></label>
+    </td>
+    <?php endif; ?>
+</tr>

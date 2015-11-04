@@ -1,0 +1,36 @@
+<?php if(Mage::helper('shippingdate')->isEnable()) { ?>
+    <div class="delivery-date">
+        <p>
+            <label for=""><?php echo $this->__('From Date and Time')?></label>
+            <input type="text" id="date_from" name="delivery_date[from]" value="" readonly/>
+            <img style="" title="Select Date" id="date_select_trig_from" class="v-middle" alt="" src="<?php echo $this->getSkinUrl("images/calendar.gif");?> "/>
+        </p>
+        <p>
+            <label for=""><?php echo $this->__('To Date and Time')?></label>
+            <input type="text" id="date_to" name="delivery_date[to]" value="" readonly/>
+            <img style="" title="Select Date" id="date_select_trig_to" class="v-middle" alt="" src="<?php echo $this->getSkinUrl("images/calendar.gif");?> "/>
+        </p>
+        <p>
+            <?php echo nl2br(Mage::helper('shippingdate')->getShippingDateInfo()); ?>
+        </p>
+    </div>
+    <script type="text/javascript">// <![CDATA[
+        Calendar.setup({
+            inputField : 'date_from',
+            ifFormat : '%Y-%m-%e %H:%M:%S',
+            showsTime : true,
+            button : 'date_select_trig_from',
+            align : 'Bl',
+            singleClick : true
+        });
+
+        Calendar.setup({
+            inputField : 'date_to',
+            ifFormat : '%Y-%m-%e %H:%M:%S',
+            showsTime : true,
+            button : 'date_select_trig_to',
+            align : 'Bl',
+            singleClick : true
+        });
+    // ]]></script>
+<?php } ?>

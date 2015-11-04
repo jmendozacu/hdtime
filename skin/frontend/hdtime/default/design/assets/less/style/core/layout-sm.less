@@ -1,0 +1,70 @@
+/* Extra small devices (phones, up to 480px) */
+/* No media query since this is the default in Bootstrap */
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: @screen-sm) and (max-width: @screen-sm-max) { 
+
+  .main-menu {
+    margin-left: -8px;
+    .navbar-collapse{
+      padding: 0;
+      .nav {
+        > li{
+          > a {
+            font-size: 16px;
+            padding: 3px 6px;
+          }
+          &.dropdown{
+            >a{
+              margin-right: 10px;
+              margin-left: 0;
+              padding-right: 10px;
+              &.highlighted{
+                margin-right: 10px;
+                padding-left: 6px;
+              }
+              &:focus, &:hover{
+                margin-right: 10px;
+                padding-left: 6px;
+              }
+              &:after{
+                right: -5px;
+              }
+            }
+            .dropdown-menu.sm-nowrap{
+              min-width: 300px !important;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+    .carousel-caption {
+        width: 50%;
+        left: 5%;
+    }
+  .total {
+    font-size: @font-size-base + 8;
+  }
+  .catalog-product-view, .checkout-onepage-index{
+    article.col-sm-9{
+      width: 100%;
+    }
+  }
+  .user-nav li>a{
+    padding:6px 22px 5px 15px ;
+  }
+  .list-inline{
+    >li{
+      padding: 0 1px;
+    }
+  }
+  .exp-filtr{
+    .pagination{
+      left: 0;
+    }
+  }
+
+} // end of @media sm
+

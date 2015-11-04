@@ -1,0 +1,101 @@
+@media only screen and (max-width: 768px) {
+/* Force table to not be like tables anymore */
+table.table-adaptive {
+  display: block;
+}
+
+.table-adaptive {
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  tr { border: 1px solid #ccc; }
+
+  td {
+    /* Behave like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%;
+    white-space: normal;
+    text-align: left;
+
+    &:before {
+      /* Now like a table header */
+      position: absolute;
+      /* Top/left values mimic padding */
+      top: 6px;
+      left: 6px;
+      width: 45%;
+      padding-right: 10px;
+      white-space: nowrap;
+      text-align: left;
+      font-weight: bold;
+
+      //Label the data
+      content: attr(data-title);
+    }
+  }
+}
+
+}
+
+
+.table-total {
+  border-bottom: 3px solid #CCCCCC;
+
+  > thead {
+    > tr {
+      > th {
+        border-bottom: none;
+        padding-bottom: 0;
+        padding-left: 20px;
+        padding-top: 20px;
+      }
+    }
+  }
+  > tbody {
+    > tr {
+      > td {
+        border-top: none;
+        padding-top: 0;
+        padding-bottom: 20px;
+        padding-left: 20px;
+      }
+    }
+  }
+}
+
+
+.table {
+  > thead {
+
+  }
+  > tbody {
+    > tr {
+      &.compare-group {
+        td {
+          border-top: none;
+          padding: 0 8px 5px;
+          vertical-align: top;          
+        }
+      }
+    }
+  }
+  h4 {
+    color: @gray;
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
+}

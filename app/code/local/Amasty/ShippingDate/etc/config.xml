@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Amasty_ShippingDate extension
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the MIT License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/mit-license.php
+ * 
+ * @category   	Amasty
+ * @package		Amasty_ShippingDate
+ * @copyright  	Copyright (c) 2014
+ * @license		http://opensource.org/licenses/mit-license.php MIT License
+ */
+-->
+<config>
+	<modules>
+		<Amasty_ShippingDate>
+			<version>0.0.2</version>
+		</Amasty_ShippingDate>
+	</modules>
+	<global>
+		<resources>
+			<amasty_shippingdate_setup>
+				<setup>
+					<module>Amasty_ShippingDate</module>
+					<class>Amasty_ShippingDate_Model_Resource_Setup</class>
+				</setup>
+			</amasty_shippingdate_setup>
+		</resources>
+		<blocks>
+			<shippingdate>
+				<class>Amasty_ShippingDate_Block</class>
+			</shippingdate>
+            <adminhtml>
+                <rewrite>
+                    <sales_order_view_items>Amasty_ShippingDate_Block_Adminhtml_Sales_Order_View_ShippingDate</sales_order_view_items>
+                </rewrite>
+            </adminhtml>
+		</blocks>
+		<helpers>
+			<shippingdate>
+				<class>Amasty_ShippingDate_Helper</class>
+			</shippingdate>
+		</helpers>
+		<models>
+			<shippingdate>
+				<class>Amasty_ShippingDate_Model</class>
+				<resourceModel>shippingdate_resource</resourceModel>
+			</shippingdate>
+			<shippingdate_resource>
+				<class>Amasty_ShippingDate_Model_Resource</class>
+				<entities>
+					<weekend>
+						<table>shippingdate_weekend</table>
+					</weekend>
+					<weekend_store>
+						<table>shippingdate_weekend_store</table>
+					</weekend_store>
+				</entities>
+			</shippingdate_resource>
+		</models>
+        <events>
+            <checkout_type_onepage_save_order>
+                <observers>
+                    <delivery_dates_observer>
+                        <type>singleton</type>
+                        <class>shippingdate/observer</class>
+                        <method>saveCustomData</method>
+                    </delivery_dates_observer>
+                </observers>
+            </checkout_type_onepage_save_order>
+        </events>
+        <fieldsets>
+            <sales_convert_quote>
+                <delivery_date_from><to_order>*</to_order></delivery_date_from>
+                <delivery_date_to><to_order>*</to_order></delivery_date_to>
+            </sales_convert_quote>
+            <sales_convert_order>
+                <delivery_date_from><to_quote>*</to_quote></delivery_date_from>
+                <delivery_date_to><to_quote>*</to_quote></delivery_date_to>
+            </sales_convert_order>
+        </fieldsets>
+	</global>
+    <frontend>
+        <layout>
+            <updates>
+                <amasty_shippingdate>
+                    <file>amasty/shippingdate.xml</file>
+                </amasty_shippingdate>
+            </updates>
+        </layout>
+    </frontend>
+	<adminhtml>
+		<layout>
+			<updates>
+				<amasty_shippingdate>
+					<file>amasty_shippingdate.xml</file>
+				</amasty_shippingdate>
+			</updates>
+		</layout>
+		<translate>
+			<modules>
+				<Amasty_ShippingDate>
+					<files>
+						<default>Amasty_ShippingDate.csv</default>
+					</files>
+				</Amasty_ShippingDate>
+			</modules>
+		</translate>
+	</adminhtml>
+	<admin>
+		<routers>
+			<adminhtml>
+				<args>
+					<modules>
+						<Amasty_ShippingDate before="Mage_Adminhtml">Amasty_ShippingDate_Adminhtml</Amasty_ShippingDate>
+					</modules>
+				</args>
+			</adminhtml>
+		</routers>
+	</admin>
+	<default>
+		<shippingdate>
+		</shippingdate>
+	</default>
+</config>

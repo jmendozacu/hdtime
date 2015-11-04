@@ -1,0 +1,54 @@
+<?php
+$_productCollection = Mage::getModel('catalog/product')->getCollection();
+
+$dateToday = date('m/d/y');
+$tomorrow = mktime(0, 0, 0, date('m'), date('d')+1, date('y'));
+$dateTomorrow = date('m/d/y', $tomorrow);
+
+$_productCollection
+    ->addAttributeToSelect(array(
+        'image',
+        'name',
+        'short_description'
+    ))
+    ->addAttributeToFilter('special_from_date', array('date' => true, 'to' => $dateToday))
+    ->addAttributeToFilter('special_to_date', array('or'=> array(
+        0 => array('date' => true, 'from' => $dateTomorrow),
+        1 => array('is' => new Zend_Db_Expr('null')))
+    ), 'left');
+
+$_helper = $this->helper('catalog/output');
+?>
+
+<?php if($_productCollection->count() > 0): ?>
+    <div class="jcarousel-wrapper">
+        <div id="carousel-sales" class="jcaro">
+            <ul>
+                <?php foreach($_productCollection as $_prod): ?>
+                    <?php $_product = Mage::getModel('catalog/product')->load($_prod->getId()); ?>
+                <li>
+                    <div class="prod-item">
+                        <div class="item-pict">
+                            <a href="<?php echo $_product->getProductUrl() ?>">
+                                <img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(140) ?>" alt="<?php echo $_product->getName() ?>">
+                            </a>
+                        </div>
+                        <div class="discr">
+                            <div class="cast">
+                                <?php echo $this->getPriceHtml($_product, true) ?>
+                            </div>
+                            <div class="title">
+                                <a href="<?php echo Mage::helper('logicmind_currency')->productFullUrl($_product); ?>">
+                                    <?php echo $_product->getName() ?>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        <a href="#" class="sales-control-prev"></a>
+        <a href="#" class="sales-control-next"><span class="grad"></span></a>
+    </div>
+<?php endif; ?>
